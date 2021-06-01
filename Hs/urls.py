@@ -5,6 +5,6 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('1', views.index1, name='index1'),
-    re_path(r'^users/register', views.register, name='register'),
+    re_path(r'^Hs/register', views.register, name='register'),
 ]
 
