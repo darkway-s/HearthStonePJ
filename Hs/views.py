@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from .forms import RegisterForm
 from Hs import models
-
-
+from .models import SummonerClass
+from .models import Card
 # Create your views here.
 
 
@@ -19,9 +19,14 @@ def index1(request):
 
 
 def cards(request):
+    sc_list = SummonerClass.objects.all()
+    sc_sel = request.GET.get('sc_sel', default='')
+    cost_sel = request.GET.get('cost_sl')
     return render(request, 'Hs/cards.html', context={
-        'class': '选择职业',
-        'cost' : '6'
+        'class': '选择职业' if sc_sel == '' else sc_sel,
+        'sc_sel': sc_sel,
+        'sc_list': sc_list,
+        'cost_sel': cost_sel,
     })
 
 

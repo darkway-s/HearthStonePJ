@@ -12,41 +12,30 @@
 		<span class="dropdown">
 			<a href="#">{{ class }}</a>
 			<span class="dropdown-content">
-				<p><a href="#">恶魔猎手</a></p>
-				<p><a href="#">德鲁伊</a></p>
-				<p><a href="#">猎人</a></p>
-				<p><a href="#">法师</a></p>
-				<p><a href="#">圣骑士</a></p>
-				<p><a href="#">牧师</a></p>
-				<p><a href="#">潜行者</a></p>
-				<p><a href="#">萨满祭司</a></p>
-				<p><a href="#">术士</a></p>
-				<p><a href="#">战士</a></p>
-				<p><a href="#">中立</a></p>
+                {% for sc in sc_list %}
+                    <p><a href="?sc_sel={{ sc.name }}">{{ sc.name }}</a></p>
+                {% endfor %}
 		</span>
 		</span>
 		<span>
-			<a class="crys" href="#?cost={{ cost }}">0</a>
-			<a class="crys" href="#?cost=1">1</a>
-			<a class="crys" href="#">2</a>
-			<a class="crys" href="#">3</a>
-			<a class="crys" href="#">4</a>
-			<a class="crys" href="#">5</a>
-			<a class="crys" href="#">6</a>
-			<a class="crys" href="#">7</a>
-			<a class="crys" href="#">8</a>
-			<a class="crys" href="#">9</a>
-			<a class="crys" href="#">10+</a>
+			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=0">0</a>
+			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=1">1</a>
+			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=2">2</a>
+			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=3">3</a>
+			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=4">4</a>
+			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=5">5</a>
+			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=6">6</a>
+			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=7">7</a>
+			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=8">8</a>
+			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=9">9</a>
+			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=10">10+</a>
 		</span>
 	</div>
 	<div class="imglist">
-		<div class="imglist-title">
-			{ card_class }
-		</div>
 		<div class="imgllist-content">
 			<table>
-				{% for i in TutorialList %}
-    				<h1>{{ i }}</h1>
+				{% for SummonerClass in SummonerClass_list %}
+    				<h1>{{ SummonerClass.name }}</h1>
     			{% endfor %}
 			</table>
 		</div>
