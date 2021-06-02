@@ -1,0 +1,55 @@
+{% load static %}
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>浏览卡牌</title>
+    <link href="{% static 'CSS/cards.css' %}" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="nav">
+		<span class="dropdown">
+			<a href="#">选择职业</a>
+			<span class="dropdown-content">
+				<p><a href="#">恶魔猎手</a></p>
+				<p><a href="#">德鲁伊</a></p>
+				<p><a href="#">猎人</a></p>
+				<p><a href="#">法师</a></p>
+				<p><a href="#">圣骑士</a></p>
+				<p><a href="#">牧师</a></p>
+				<p><a href="#">潜行者</a></p>
+				<p><a href="#">萨满祭司</a></p>
+				<p><a href="#">术士</a></p>
+				<p><a href="#">战士</a></p>
+				<p><a href="#">中立</a></p>
+		</span>
+		</span>
+		<span>
+			<a class="crys" href="#">0</a>
+			<a class="crys" href="#">1</a>
+			<a class="crys" href="#">2</a>
+			<a class="crys" href="#">3</a>
+			<a class="crys" href="#">4</a>
+			<a class="crys" href="#">5</a>
+			<a class="crys" href="#">6</a>
+			<a class="crys" href="#">7</a>
+			<a class="crys" href="#">8</a>
+			<a class="crys" href="#">9</a>
+			<a class="crys" href="#">10+</a>
+		</span>
+	</div>
+	<div class="imglist">
+		<div class="imglist-title">
+			{card_class}
+		</div>
+		<div class="imgllist-content">
+			<table>
+				{% for i in TutorialList %}
+    				<h1>{{ i }}</h1>
+    			{% endfor %}
+			</table>
+		</div>
+	</div>
+</body>
+</html>

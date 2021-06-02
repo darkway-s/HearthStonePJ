@@ -18,6 +18,10 @@ def index1(request):
     })
 
 
+def cards(request):
+    return render(request, 'Hs/cards.html')
+
+
 def register(request):
     # 只有当请求为 POST 时，才表示用户提交了注册信息
     if request.method == 'POST':
