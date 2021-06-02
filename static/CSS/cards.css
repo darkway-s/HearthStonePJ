@@ -1,0 +1,72 @@
+/* CSS Document */
+
+.nav{
+	list-style-type: none;
+	background-image: url(../image/board.jpg);
+	background-position: center;
+	background-size:100%;
+	text-align: center;
+	border: 3px black solid;
+	height: 30px;
+	padding: 15px 10px;
+}
+
+.nav a{
+	text-decoration: none;
+}
+
+.crys{
+	font-family:Arial;
+	font-size:.8em;
+	text-align:center;
+	margin:3px;
+}
+
+.crys:link, .crys:visited{
+	color:white;
+	background-image: url(../image/bcryst.jpg);
+	background-size: 130%;
+	background-position: center;
+	padding:5px 5px 5px 5px;
+	width:10px;
+
+}
+
+.crys:hover{
+	color:red;
+}
+
+.dropdown{
+	position:relative;
+	display: inline-block;
+	background-image: url(../image/borad.webp);
+	background-position: center;
+	padding:3px;
+	color: wheat;
+}
+
+.dropdown p{
+	background-image: url(../image/borad.webp);
+	background-position: center;
+	padding:3px;
+	color:wheat;
+	margin: 0;
+	border: 2px black;
+}
+
+.dropdown a{
+	color: wheat;
+}
+
+.dropdown a:hover{
+	color:white;
+}
+
+.dropdown-content{
+	display: none;
+	position: absolute;
+}
+
+.dropdown:hover .dropdown-content{
+	display: block;
+}
