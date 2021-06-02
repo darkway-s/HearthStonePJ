@@ -13,7 +13,7 @@
 			<a href="#">{{ class }}</a>
 			<span class="dropdown-content">
                 {% for sc in sc_list %}
-                    <p><a href="?sc_sel={{ sc.name }}">{{ sc.name }}</a></p>
+                    <p><a href="?sc_sel={{ sc.name }}&cost_sl={{ cost_sel }}">{{ sc.name }}</a></p>
                 {% endfor %}
 		</span>
 		</span>
@@ -31,14 +31,22 @@
 			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=10">10+</a>
 		</span>
 	</div>
-	<div class="imglist">
-		<div class="imgllist-content">
-			<table>
-				{% for SummonerClass in SummonerClass_list %}
-    				<h1>{{ SummonerClass.name }}</h1>
-    			{% endfor %}
-			</table>
-		</div>
+	<div class="ShowCards">
+        {% for cd in cd_list %}
+            <table class="CardTable">
+            <tr>
+                <th>name</th><td>{{ cd.name }}</td>
+            </tr>
+            <tr>
+                <th>cost</th><td>{{ cd.cost }}</td>
+            </tr>
+            <tr>
+                <th>class</th><td>{{ cd.card_class.name }}</td>
+            </tr>
+            </table>
+        {% empty %}
+            no cards match
+        {% endfor %}
 	</div>
 </body>
 </html>
