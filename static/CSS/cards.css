@@ -39,23 +39,23 @@
 .dropdown{
 	position:relative;
 	display: inline-block;
-	background-image: url(../image/borad.webp);
+	background-image: url(../image/board.jpg);
 	background-position: center;
 	padding:3px;
-	color: wheat;
+	color: black;
 }
 
 .dropdown p{
-	background-image: url(../image/borad.webp);
+	background-image: url(../image/board.jpg);
 	background-position: center;
 	padding:3px;
-	color:wheat;
+	color:black;
 	margin: 0;
 	border: 2px black;
 }
 
 .dropdown a{
-	color: wheat;
+	color: black;
 }
 
 .dropdown a:hover{
