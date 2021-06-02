@@ -10,7 +10,7 @@
 <body>
 	<div class="nav">
 		<span class="dropdown">
-			<a href="#">选择职业</a>
+			<a href="#">{{ class }}</a>
 			<span class="dropdown-content">
 				<p><a href="#">恶魔猎手</a></p>
 				<p><a href="#">德鲁伊</a></p>
@@ -26,8 +26,8 @@
 		</span>
 		</span>
 		<span>
-			<a class="crys" href="#">0</a>
-			<a class="crys" href="#">1</a>
+			<a class="crys" href="#?cost={{ cost }}">0</a>
+			<a class="crys" href="#?cost=1">1</a>
 			<a class="crys" href="#">2</a>
 			<a class="crys" href="#">3</a>
 			<a class="crys" href="#">4</a>
@@ -41,7 +41,7 @@
 	</div>
 	<div class="imglist">
 		<div class="imglist-title">
-			{card_class}
+			{ card_class }
 		</div>
 		<div class="imgllist-content">
 			<table>
