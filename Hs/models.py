@@ -7,6 +7,7 @@ from django.contrib.auth.models import AbstractUser
 
 # 职业列表
 class SummonerClass(models.Model):
+    id = models.AutoField('职业id', primary_key=True)
     name = models.CharField('职业名称', max_length=10)
 
     class Meta:
@@ -19,6 +20,7 @@ class SummonerClass(models.Model):
 
 # 种族
 class RaceClass(models.Model):
+    id = models.AutoField('种族id', primary_key=True)
     name = models.CharField('种族名称', max_length=10)
 
     class Meta:
@@ -31,6 +33,7 @@ class RaceClass(models.Model):
 
 # 合集
 class SetClass(models.Model):
+    id = models.AutoField('合集id', primary_key=True)
     name = models.CharField('所属合集', max_length=64)
 
     class Meta:
@@ -43,6 +46,7 @@ class SetClass(models.Model):
 
 # 关键词及其效果
 class Keyword(models.Model):
+    id = models.AutoField('关键词id', primary_key=True)
     name = models.CharField('关键词名称', max_length=64)
     description = models.CharField('描述', max_length=64)
 
