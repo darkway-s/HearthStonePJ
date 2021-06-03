@@ -135,3 +135,5 @@ LOGIN_REDIRECT_URL = '/'
 # 图片存储位置
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
+# 模拟邮件发送
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
