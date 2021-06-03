@@ -9,11 +9,13 @@
 
 <body>
     <h1>修改关键词</h1>
-	<form method="post" enctype="multipart/form-data" action="{% url 'Hs:keyword_edit' %}">
+	<form method="post" enctype="multipart/form-data" action="/keyword_edit/?id={{ id }}">
         {% csrf_token %}
+        <a>传递过来的id为{{ rid }}</a>
         {{ form.as_p }}
         <input type="submit" value="OK"/>
-        <!--<input type="hidden" name="name" value="{{ name }}"/>-->
+        <input type = "hidd " value="{{ id }}">
+
     </form>
 </body>
 </html>

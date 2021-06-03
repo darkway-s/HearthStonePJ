@@ -24,11 +24,12 @@
                 <td>{{ keyword.name }}</td>
                 <td>{{ keyword.description }}</td>
                 <td class="text-center">
-                    <a class="btn btn-info btn-sm" href="/keyword_edit/?name={{ keyword.name }}"><i
+
+                    <a class="btn btn-info btn-sm" href="/keyword_edit/?id={{ keyword.id }}"><i
                             class="fa fa-pencil fa-fw"
                             aria-hidden="true"></i>编辑
                     </a>
-                    <a class="btn btn-danger btn-sm" href="/keyword_drop/?name={{ keyword.name }}"><i
+                    <a class="btn btn-danger btn-sm" href="/keyword_drop/?id={{ keyword.id }}"><i
                             class="fa fa-trash-o fa-fw"
                             aria-hidden="true"></i>删除
                     </a>

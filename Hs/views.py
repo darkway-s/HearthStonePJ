@@ -56,29 +56,44 @@ def keyword_add(request):
 
 
 def keyword_edit(request):
-    form = KeywordForm(request.POST)
     if request.method == 'POST':
-        edit_name = request.GET.get('name')
-        edit_obj = models.Keyword.objects.get(name=edit_name)
-        edit_description = edit_obj.description
-
-        form.name = edit_name
-        form.description = edit_description
-        edit_obj.save()
-        return redirect('/keyword_list')
+        form = KeywordForm(request.POST)
+        edit_id = request.GET.get('id')
+        try:
+            if form.is_valid():
+                edit_obj = models.Keyword.objects.get(id=edit_id)
+                edit_obj.name = form.cleaned_data['name']
+                edit_obj.description = form.cleaned_data['description']
+                edit_obj.save()
+                return redirect('/keyword_list')
+        except models.Keyword.DoesNotExist:
+            edit_obj = None
+            return redirect('/keyword_list')
 
     else:
 
-        edit_name = request.GET.get('name')
-        edit_obj = models.Keyword.objects.get(name=edit_name)
-        edit_description = edit_obj.description
+        edit_id = request.GET.get('id')
+        edit_obj = models.Keyword.objects.get(id=edit_id)
+
         form = KeywordForm(
             initial={
-                'name': edit_name,
-                'description': edit_description,
+                'name': edit_obj.name,
+                'description': edit_obj.description,
             })
 
-        return render(request, 'Hs/keyword_edit.html', context={"form": form})
+        return render(request, 'Hs/keyword_edit.html', context={
+            "form": form,
+            # debug用
+            "rid": edit_id,
+            "id": edit_id
+        })
+
+
+def keyword_drop(request):
+    drop_id = request.GET.get('id')
+    drop_obj = models.Keyword.objects.get(id=drop_id)
+    drop_obj.delete()
+    return redirect('/keyword_list')
 
 
 def register(request):
