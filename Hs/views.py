@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
-from .forms import RegisterForm
+from .forms import RegisterForm, AddKeywordForm
 from Hs import models
-from .models import SummonerClass
-from .models import Card
+from .models import SummonerClass, Keyword, Card
 
 
 # Create your views here.
@@ -41,6 +40,21 @@ def keyword_list(request):
     return render(request, 'Hs/keyword_list.html', {'keyword_list': keyword})
 
 
+def keyword_add(request):
+    if request.method == "POST":
+        form = AddKeywordForm(request.POST)
+        # 判断表单值是否和法
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            description = form.cleaned_data['description']
+            keyword = Keyword(name=name, description=description)
+            keyword.save()
+            return render(request, 'Hs/keyword_list.html', context={"keyword": keyword})
+    else:
+        form = AddKeywordForm()
+        return render(request, 'Hs/keyword_add.html', context={"form": form})
+
+
 def register(request):
     # 从 get 或者 post 请求中获取 next 参数值
     # get 请求中，next 通过 url 传递，即 /?next=value
@@ -64,7 +78,6 @@ def register(request):
             else:
                 # 注册成功，跳转回首页
                 return redirect('/')
-
 
     else:
         # 请求不是 POST，表明用户正在访问注册页面，展示一个空的注册表单给用户
