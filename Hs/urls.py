@@ -1,5 +1,6 @@
 from django.urls import path, re_path, include
 
+
 from . import views
 
 urlpatterns = [
@@ -9,4 +10,5 @@ urlpatterns = [
     path('keyword_list', views.keyword_list, name='keyword_list'),
     re_path(r'^register', views.register, name='register'),
 ]
+
 

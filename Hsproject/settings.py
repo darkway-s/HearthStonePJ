@@ -131,3 +131,7 @@ AUTH_USER_MODEL = 'Hs.User'
 # 登入登出后默认返回登入或登出之前的界面
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
+
+# 图片存储位置
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')

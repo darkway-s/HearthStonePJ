@@ -102,6 +102,9 @@ class Card(models.Model):
     background = models.CharField('背景故事', max_length=200, blank=True)
     # 种族
     race = models.ForeignKey(RaceClass, verbose_name='种族', on_delete=models.SET_NULL, null=True, blank=True)
+
+    # 图片
+    img = models.ImageField('图片', upload_to='card_img', null=True, default='default.jpg')
     """
     # 以下是可选拓展
     # cost_to_craft
