@@ -56,23 +56,28 @@ def keyword_add(request):
 
 
 def keyword_edit(request):
-    edit_name = request.GET.get('name')
-    edit_obj = models.Keyword.objects.get(name=edit_name)
-    edit_description = edit_obj.description
+    form = KeywordForm(request.POST)
     if request.method == 'POST':
+        edit_name = request.GET.get('name')
+        edit_obj = models.Keyword.objects.get(name=edit_name)
+        edit_description = edit_obj.description
 
-        form = KeywordForm(request.POST)
         form.name = edit_name
         form.description = edit_description
         edit_obj.save()
         return redirect('/keyword_list')
 
     else:
+
+        edit_name = request.GET.get('name')
+        edit_obj = models.Keyword.objects.get(name=edit_name)
+        edit_description = edit_obj.description
         form = KeywordForm(
             initial={
                 'name': edit_name,
                 'description': edit_description,
             })
+
         return render(request, 'Hs/keyword_edit.html', context={"form": form})
 
 
