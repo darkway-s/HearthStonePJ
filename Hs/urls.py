@@ -9,6 +9,7 @@ urlpatterns = [
     path('cards', views.cards, name='cards'),
     path('keyword_list', views.keyword_list, name='keyword_list'),
     path('keyword_add', views.keyword_add, name='keyword_add'),
+    re_path(r'^keyword_edit', views.keyword_edit, name='keyword_edit'),
     re_path(r'^register', views.register, name='register'),
 ]
 

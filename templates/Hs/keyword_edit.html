@@ -1,0 +1,19 @@
+{% load static %}
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>修改关键词</title>
+    <link href="{% static 'CSS/cards.css' %}" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+    <h1>修改关键词</h1>
+	<form method="post" enctype="multipart/form-data" action="{% url 'Hs:keyword_edit' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="OK"/>
+        <input type="hidden" name="name" value="{{ name }}"/>
+    </form>
+</body>
+</html>

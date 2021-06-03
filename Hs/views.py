@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
-from .forms import RegisterForm, AddKeywordForm
+from .forms import RegisterForm, KeywordForm
 from Hs import models
 from .models import SummonerClass, Keyword, Card
 
@@ -42,17 +42,38 @@ def keyword_list(request):
 
 def keyword_add(request):
     if request.method == "POST":
-        form = AddKeywordForm(request.POST)
+        form = KeywordForm(request.POST)
         # 判断表单值是否和法
         if form.is_valid():
             name = form.cleaned_data['name']
             description = form.cleaned_data['description']
             keyword = Keyword(name=name, description=description)
             keyword.save()
-            return render(request, 'Hs/keyword_list.html', context={"keyword": keyword})
+            return redirect('/keyword_list')
     else:
-        form = AddKeywordForm()
+        form = KeywordForm()
         return render(request, 'Hs/keyword_add.html', context={"form": form})
+
+
+def keyword_edit(request):
+    edit_name = request.GET.get('name')
+    edit_obj = models.Keyword.objects.get(name=edit_name)
+    edit_description = edit_obj.description
+    if request.method == 'POST':
+
+        form = KeywordForm(request.POST)
+        form.name = edit_name
+        form.description = edit_description
+        edit_obj.save()
+        return redirect('/keyword_list')
+
+    else:
+        form = KeywordForm(
+            initial={
+                'name': edit_name,
+                'description': edit_description,
+            })
+        return render(request, 'Hs/keyword_edit.html', context={"form": form})
 
 
 def register(request):
