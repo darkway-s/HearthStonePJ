@@ -23,16 +23,12 @@ def index1(request):
 def cards(request):
     sc_list = SummonerClass.objects.all()
     sc_sel = request.GET.get('sc_sel', default='')
-    cost_sel = request.GET.get('cost_sl', default=1)
-    cd_list = Card.objects.filter(cost=cost_sel)
-    if sc_sel != '':
-        cd_list = cd_list.filter(card_class=sc_sel)
+    cost_sel = request.GET.get('cost_sl')
     return render(request, 'Hs/cards.html', context={
         'class': '选择职业' if sc_sel == '' else sc_sel,
         'sc_sel': sc_sel,
         'sc_list': sc_list,
         'cost_sel': cost_sel,
-        'cd_list': cd_list,
     })
 
 

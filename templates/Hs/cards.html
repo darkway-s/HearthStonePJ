@@ -12,11 +12,6 @@
 		<span class="dropdown">
 			<a href="#">{{ class }}</a>
 			<span class="dropdown-content">
-
-                {% for sc in sc_list %}
-                    <p><a href="?sc_sel={{ sc.name }}&cost_sl={{ cost_sel }}">{{ sc.name }}</a></p>
-                {% endfor %}
-
 				<p><a href="#">恶魔猎手</a></p>
 				<p><a href="#">德鲁伊</a></p>
 				<p><a href="#">猎人</a></p>
@@ -28,25 +23,22 @@
 				<p><a href="#">术士</a></p>
 				<p><a href="#">战士</a></p>
 				<p><a href="#">中立</a></p>
-
-
-	<div class="ShowCards">
-        {% for cd in cd_list %}
-            <table class="CardTable">
-            <tr>
-                <th>name</th><td>{{ cd.name }}</td>
-            </tr>
-            <tr>
-                <th>cost</th><td>{{ cd.cost }}</td>
-            </tr>
-            <tr>
-                <th>class</th><td>{{ cd.card_class.name }}</td>
-            </tr>
-            </table>
-        {% empty %}
-            no cards match
-        {% endfor %}
-
+		</span>
+		</span>
+		<span>
+			<a class="crys" href="#?cost={{ cost }}">0</a>
+			<a class="crys" href="#?cost=1">1</a>
+			<a class="crys" href="#">2</a>
+			<a class="crys" href="#">3</a>
+			<a class="crys" href="#">4</a>
+			<a class="crys" href="#">5</a>
+			<a class="crys" href="#">6</a>
+			<a class="crys" href="#">7</a>
+			<a class="crys" href="#">8</a>
+			<a class="crys" href="#">9</a>
+			<a class="crys" href="#">10+</a>
+		</span>
+	</div>
 	<div class="imglist">
 		<div class="imglist-title">
 			{ card_class }
@@ -58,4 +50,6 @@
     			{% endfor %}
 			</table>
 		</div>
-
+	</div>
+</body>
+</html>
