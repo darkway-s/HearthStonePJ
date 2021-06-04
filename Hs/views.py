@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from .forms import RegisterForm, KeywordForm, SummonerClassForm
 from Hs import models
 from .models import SummonerClass, Keyword, Card
-
+from .process import add, select, update
 
 # Create your views here.
 
@@ -20,7 +20,7 @@ def index1(request):
 
 
 def cards(request):
-    sc_list = SummonerClass.objects.all()
+    sc_list = select.cards_strict()
     sc_sel = request.GET.get('sc_sel', default='')
     cost_sel = request.GET.get('cost_sl', default=1)
     cd_list = Card.objects.filter(cost=cost_sel)
@@ -36,7 +36,7 @@ def cards(request):
 
 
 def keyword_list(request):
-    keyword = models.Keyword.objects.all()
+    keyword = select.keyword()
     return render(request, 'Hs/keyword_list.html', {'keyword_list': keyword})
 
 
@@ -47,8 +47,7 @@ def keyword_add(request):
         if form.is_valid():
             name = form.cleaned_data['name']
             description = form.cleaned_data['description']
-            keyword = Keyword(name=name, description=description)
-            keyword.save()
+            add.keyword(name, description)
             return redirect('/keyword_list')
     else:
         form = KeywordForm()
@@ -61,17 +60,16 @@ def keyword_edit(request):
         edit_id = request.GET.get('id')
         try:
             if form.is_valid():
-                edit_obj = models.Keyword.objects.get(id=edit_id)
-                edit_obj.name = form.cleaned_data['name']
-                edit_obj.description = form.cleaned_data['description']
-                edit_obj.save()
+                sname = form.cleaned_data['name']
+                sdes = form.cleaned_data['description']
+                update.keyword(edit_id, sname, sdes)
                 return redirect('/keyword_list')
         except models.Keyword.DoesNotExist:
             return redirect('/keyword_list')
 
     else:
         edit_id = request.GET.get('id')
-        edit_obj = models.Keyword.objects.get(id=edit_id)
+        edit_obj = select.keyword_one(sid=edit_id)
 
         form = KeywordForm(
             initial={
@@ -87,7 +85,7 @@ def keyword_edit(request):
 
 def keyword_drop(request):
     drop_id = request.GET.get('id')
-    drop_obj = models.Keyword.objects.get(id=drop_id)
+    drop_obj = select.keyword_one(sid=drop_id)
     drop_obj.delete()
     return redirect('/keyword_list')
 
