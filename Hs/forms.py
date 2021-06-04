@@ -12,3 +12,6 @@ class KeywordForm(forms.Form):
     name = forms.CharField(label='名称')
     description = forms.CharField(label='描述', max_length=200)
 
+
+class SummonerClassForm(forms.Form):
+    name = forms.CharField(label='名称')

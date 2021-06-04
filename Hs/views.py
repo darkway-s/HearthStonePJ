@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
-from .forms import RegisterForm, KeywordForm
+from .forms import RegisterForm, KeywordForm, SummonerClassForm
 from Hs import models
 from .models import SummonerClass, Keyword, Card
 
@@ -43,7 +43,7 @@ def keyword_list(request):
 def keyword_add(request):
     if request.method == "POST":
         form = KeywordForm(request.POST)
-        # 判断表单值是否和法
+        # 判断表单值是否合法
         if form.is_valid():
             name = form.cleaned_data['name']
             description = form.cleaned_data['description']
@@ -67,11 +67,9 @@ def keyword_edit(request):
                 edit_obj.save()
                 return redirect('/keyword_list')
         except models.Keyword.DoesNotExist:
-            edit_obj = None
             return redirect('/keyword_list')
 
     else:
-
         edit_id = request.GET.get('id')
         edit_obj = models.Keyword.objects.get(id=edit_id)
 
@@ -83,8 +81,6 @@ def keyword_edit(request):
 
         return render(request, 'Hs/keyword_edit.html', context={
             "form": form,
-            # debug用
-            "rid": edit_id,
             "id": edit_id
         })
 
@@ -94,6 +90,61 @@ def keyword_drop(request):
     drop_obj = models.Keyword.objects.get(id=drop_id)
     drop_obj.delete()
     return redirect('/keyword_list')
+
+
+def summonerclass_list(request):
+    summonererclass = models.SummonerClass.objects.all()
+    return render(request, 'Hs/summonerclass_list.html', {'summonerclass_list': summonererclass})
+
+
+def summonerclass_add(request):
+    if request.method == "POST":
+        form = SummonerClassForm(request.POST)
+        # 判断表单值是否合法
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            summonerclass = SummonerClass(name=name)
+            summonerclass.save()
+            return redirect('/summonerclass_list')
+    else:
+        form = SummonerClassForm()
+        return render(request, 'Hs/summonerclass_add.html', context={"form": form})
+
+
+def summonerclass_edit(request):
+    if request.method == 'POST':
+        form = SummonerClassForm(request.POST)
+        edit_id = request.GET.get('id')
+        try:
+            if form.is_valid():
+                edit_obj = models.SummonerClass.objects.get(id=edit_id)
+                edit_obj.name = form.cleaned_data['name']
+                edit_obj.save()
+                return redirect('/summonerclass_list')
+        except models.Keyword.DoesNotExist:
+            edit_obj = None
+            return redirect('/summonerclass_list')
+
+    else:
+        edit_id = request.GET.get('id')
+        edit_obj = models.SummonerClass.objects.get(id=edit_id)
+
+        form = SummonerClassForm(
+            initial={
+                'name': edit_obj.name,
+            })
+
+        return render(request, 'Hs/summonerclass_edit.html', context={
+            "form": form,
+            "id": edit_id
+        })
+
+
+def summonerclass_drop(request):
+    drop_id = request.GET.get('id')
+    drop_obj = models.SummonerClass.objects.get(id=drop_id)
+    drop_obj.delete()
+    return redirect('/summonerclass_list')
 
 
 def register(request):

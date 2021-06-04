@@ -7,3 +7,12 @@ body{
 a{
 	color:antiquewhite;
 }
+
+.btn{
+	background-color: pink;
+}
+
+.btn a{
+	color: black;
+	text-decoration: none;
+}

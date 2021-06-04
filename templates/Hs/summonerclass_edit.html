@@ -3,17 +3,16 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>修改关键词</title>
+    <title>修改职业名称</title>
     <link href="{% static 'CSS/cards.css' %}" type="text/css" rel="stylesheet">
 </head>
 
 <body>
-    <h1>修改关键词</h1>
-	<form method="post" enctype="multipart/form-data" action="/keyword_edit/?id={{ id }}">
+    <h1>修改职业名称</h1>
+	<form method="post" enctype="multipart/form-data" action="/summonerclass_edit/?id={{ id }}">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="OK"/>
-
 
     </form>
 </body>
