@@ -13,12 +13,6 @@ def index(request):
     })
 
 
-def index1(request):
-    return render(request, 'Hs/index.html', context={
-        'welcome': 'test1'
-    })
-
-
 def cards(request):
     sc_list = select.cards_strict()
     sc_sel = request.GET.get('sc_sel', default='')

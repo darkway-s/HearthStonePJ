@@ -12,7 +12,7 @@
     <div class="container">
         <div class="flex-center">
             <div class="unit-1-2 unit-1-on-mobile">
-                <h1 class="logo"><a href="">炉石传说卡牌库数据系统</a></h1>
+                <h1 class="logo"><a href="{% url 'Hs:index' %}">炉石传说卡牌库数据系统</a></h1>
                     {% if user.is_authenticated %}
                       <p>你已登录，欢迎你：<a href="#">{{ user.username }}</a></p>
                       <button class="btn"><a href="{% url 'logout' %}?next={{ request.path }}">注销登录</a>

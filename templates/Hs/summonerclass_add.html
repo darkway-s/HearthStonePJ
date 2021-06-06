@@ -8,7 +8,8 @@
 </head>
 
 <body>
-    <h1>添加职业</h1>
+<h1 class="logo"><a href="{% url 'Hs:index' %}">炉石传说卡牌库数据系统</a></h1>
+    <h2>添加职业</h2>
 	<form method="post" enctype="multipart/form-data" action="{% url 'Hs:summonerclass_add' %}">
         {% csrf_token %}
         {{ form.as_p }}

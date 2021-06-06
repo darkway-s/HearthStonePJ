@@ -8,7 +8,8 @@
 </head>
 
 <body>
-    <h1>修改职业名称</h1>
+<h1 class="logo"><a href="{% url 'Hs:index' %}">炉石传说卡牌库数据系统</a></h1>
+    <h2>修改职业名称</h2>
 	<form method="post" enctype="multipart/form-data" action="/summonerclass_edit/?id={{ id }}">
         {% csrf_token %}
         {{ form.as_p }}
