@@ -27,7 +27,7 @@ def cards_strict(sname='', sid=-1, s_class='', s_cost=-1):
     if sid != -1:
         _card_list = _card_list.filter(id=sid)
 
-    if s_cost != -1 & s_cost < 10:
+    if s_cost != -1 and s_cost != 10:
         _card_list = _card_list.filter(cost=s_cost)
 
     elif s_cost == 10:
@@ -40,6 +40,6 @@ def cards_strict(sname='', sid=-1, s_class='', s_cost=-1):
 
 
 # 测试筛选
-def cards_cost(*s_cost):
+def cards_cost(s_cost):
     _card_list = Card.objects.filter(cost=s_cost)
     return _card_list

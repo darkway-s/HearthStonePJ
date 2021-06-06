@@ -23,7 +23,7 @@ def cards(request):
     sc_list = select.cards_strict()
     sc_sel = request.GET.get('sc_sel', default='')
     cost_sel = request.GET.get('cost_sl', default=1)
-    cd_list = Card.objects.filter(cost=cost_sel)
+    cd_list = select.cards_strict(s_cost=cost_sel)
     if sc_sel != '':
         cd_list = cd_list.filter(card_class=sc_sel)
     return render(request, 'Hs/cards.html', context={
