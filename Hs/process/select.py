@@ -3,11 +3,11 @@ from Hs.models import SummonerClass, Keyword, Card
 
 
 # 获得关键词列表， 返回这个列表
-def keyword(sname='', *, sid=-1):
+def keyword(s_name='', *, sid=-1):
     if sid == -1:
-        _keyword_list = Keyword.objects.filter(name__contains=sname)
+        _keyword_list = Keyword.objects.filter(name__contains=s_name)
     else:
-        _keyword_list = Keyword.objects.filter(id__exact=sid)
+        _keyword_list = Keyword.objects.filter(name__contains=s_name, id__exact=sid)
     return _keyword_list
 
 
@@ -21,11 +21,30 @@ def keyword_one(sname='', *, sid=-1):
 
 
 # 严格筛选: 职业， 法力水晶， 费用， 卡牌id
-def cards_strict(sname='', sid=-1, s_class='', s_cost=-1):
-    _card_list = Card.objects.filter(name__contains=sname)
+def card_strict_type(s_type):
+    _card_list = Card.objects.filter(type=s_type)
 
-    if sid != -1:
-        _card_list = _card_list.filter(id=sid)
+
+# 严格匹配一组关键词, 配合keyword使用
+def card_strict_keyword1(s_keyword):
+    _card = Card.objects.get(keyword=s_keyword)
+    return _card
+
+
+# 输入关键词（部分）名字，模糊匹配对应卡，返回一个card_list
+def card_strict_keyword2(s_name):
+    _keyword = keyword(s_name)
+    _card_list = card_strict_keyword1(s_name)
+    return _card_list
+
+
+def card_strict(s_name='', s_id=-1, s_class='', s_cost=-1):
+    _card_list = Card.objects.all()
+    if s_name != '':
+        _card_list = _card_list.filter(name=s_name)
+
+    if s_id != -1:
+        _card_list = _card_list.filter(id=s_id)
 
     if s_cost != -1 and s_cost != 10:
         _card_list = _card_list.filter(cost=s_cost)
@@ -40,6 +59,17 @@ def cards_strict(sname='', sid=-1, s_class='', s_cost=-1):
 
 
 # 测试筛选
-def cards_cost(s_cost):
+def card_cost(s_cost):
     _card_list = Card.objects.filter(cost=s_cost)
+    return _card_list
+
+
+# 模糊搜索卡牌
+def card_vague_name(s_name=''):
+    _card_list = Card.objects.filter(name__contains=s_name)
+    return _card_list
+
+
+def card_vague_description(s_description=''):
+    _card_list = Card.objects.filter(description__contains=s_description)
     return _card_list
