@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from .forms import RegisterForm, KeywordForm, SummonerClassForm
 from Hs import models
 from .models import SummonerClass, Keyword, Card
-from .process import add, select, update
+from .process import add, select, update, delete
 
 # Create your views here.
 
@@ -17,9 +17,8 @@ def cards(request):
     sc_list = select.card_strict()
     sc_sel = request.GET.get('sc_sel', default='')
     cost_sel = request.GET.get('cost_sl', default=1)
-    cd_list = select.card_strict(s_cost=cost_sel)
-    if sc_sel != '':
-        cd_list = cd_list.filter(card_class=sc_sel)
+    cd_list = select.card_strict(s_cost=cost_sel, s_class=sc_sel)
+
     return render(request, 'Hs/cards.html', context={
         'class': '选择职业' if sc_sel == '' else sc_sel,
         'sc_sel': sc_sel,
@@ -79,8 +78,7 @@ def keyword_edit(request):
 
 def keyword_drop(request):
     drop_id = request.GET.get('id')
-    drop_obj = select.keyword_one(sid=drop_id)
-    drop_obj.delete()
+    delete.keyword(sid=drop_id)
     return redirect('/keyword_list')
 
 
