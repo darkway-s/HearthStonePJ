@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)https://hearthstonejson.com/docs/cards.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<title>Cards (cards.json, cards.collectible.json) – HearthstoneJSON </title>
+	<link rel="stylesheet" href="./Cards (cards.json, cards.collectible.json) – HearthstoneJSON_files/style.css">
+	<link rel="shortcut icon" type="image/png" href="https://hearthstonejson.com/images/favicon.png">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+
+<body>
+	<div class="wrapper">
+		<section>
+			<div id="title">
+				<h1><a href="https://hearthstonejson.com/docs/cards.html">HearthstoneJSON</a></h1>
+				<p>Documentation</p>
+			</div>
+			<h2 id="cards-cardsjson-cardscollectiblejson">Cards (<a href="https://api.hearthstonejson.com/v1/latest/enUS/cards.json">cards.json</a>, <a href="https://api.hearthstonejson.com/v1/latest/enUS/cards.collectible.json">cards.collectible.json</a>)</h2>
+<p>The <code class="highlighter-rouge">cards.json</code> file contains a list of card objects and includes every single
+card in the game. Note that in Hearthstone, everything is a card, even Heroes,
+Hero Powers and buffs (Enchantments).</p>
+
+<p><code class="highlighter-rouge">cards.collectible.json</code> is a restricted set which contains only collectible
+cards (cards which will show up in your collection and the base heroes). Please
+use this set if you do not need non-collectible cards in your app.</p>
+
+<h3 id="example">Example</h3>
+
+<p><img src="./Cards (cards.json, cards.collectible.json) – HearthstoneJSON_files/EX1_116.png" style="float: right;" alt="Leeroy Jenkins"></p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+	</span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EX1_116"</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"dbfId"</span><span class="p">:</span><span class="w"> </span><span class="mi">559</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Leeroy Jenkins"</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;b&gt;Charge&lt;/b&gt;. &lt;b&gt;Battlecry:&lt;/b&gt; Summon two 1/1 Whelps for your opponent."</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"flavor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"At least he has Angry Chicken."</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"artist"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gabe from Penny Arcade"</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"attack"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"cardClass"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NEUTRAL"</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"collectible"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"cost"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"elite"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"faction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ALLIANCE"</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"health"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"mechanics"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+		</span><span class="s2">"BATTLECRY"</span><span class="p">,</span><span class="w">
+		</span><span class="s2">"CHARGE"</span><span class="w">
+	</span><span class="p">],</span><span class="w">
+	</span><span class="s2">"rarity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LEGENDARY"</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"set"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EXPERT1"</span><span class="p">,</span><span class="w">
+	</span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MINION"</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<h3 id="fields">Fields</h3>
+
+<p>A card is an array of attributes. With noted exceptions, fields are only shown
+if they do not evaluate to <code class="highlighter-rouge">0</code> or an empty string.</p>
+
+<p>The <code class="highlighter-rouge">id</code> (String) field identifies the card uniquely. Use it! For more info, see
+<a href="https://github.com/jleclanche/fireplace/wiki/Card-IDs">Card IDs</a>.</p>
+
+<p>The following attributes are available as non-localized string representations
+of enums (as described in the Enums section below):</p>
+
+<ul>
+  <li><code class="highlighter-rouge">rarity</code> (<code class="highlighter-rouge">Rarity</code> enum). Note that the <code class="highlighter-rouge">FREE</code> rarity does not determine the
+presence of a rarity gem. Cards without a rarity gem are those in the <code class="highlighter-rouge">CORE</code> set.</li>
+  <li><code class="highlighter-rouge">faction</code> (<code class="highlighter-rouge">Faction</code> enum). Although unused in Hearthstone, faction data for
+cards is (unreliably) stored. <code class="highlighter-rouge">NEUTRAL</code> cards do not display a faction attribute.</li>
+  <li><code class="highlighter-rouge">set</code> (<code class="highlighter-rouge">CardSet</code> enum). Also determines the card’s watermark. The collectible
+sets are <code class="highlighter-rouge">CORE</code> (basic, free cards), <code class="highlighter-rouge">EXPERT1</code> (expert cards), <code class="highlighter-rouge">NAXX</code>, <code class="highlighter-rouge">GVG</code>,
+<code class="highlighter-rouge">BRM</code>, <code class="highlighter-rouge">TGT</code>, <code class="highlighter-rouge">LOE</code>, <code class="highlighter-rouge">PROMO</code> and <code class="highlighter-rouge">REWARD</code>.</li>
+  <li><code class="highlighter-rouge">cardClass</code> (<code class="highlighter-rouge">CardClass</code> enum, previously named <code class="highlighter-rouge">playerClass</code>). <code class="highlighter-rouge">DEATHKNIGHT</code> is unused.</li>
+  <li><code class="highlighter-rouge">type</code> (<code class="highlighter-rouge">CardType</code> enum). The only used types are <code class="highlighter-rouge">HERO</code>, <code class="highlighter-rouge">MINION</code>, <code class="highlighter-rouge">SPELL</code>,
+<code class="highlighter-rouge">ENCHANTMENT</code> (buff), <code class="highlighter-rouge">WEAPON</code> and <code class="highlighter-rouge">HERO_POWER</code>.</li>
+  <li><code class="highlighter-rouge">race</code> (<code class="highlighter-rouge">Race</code> enum). <strong>Usually</strong> only available on minions.</li>
+</ul>
+
+<p>The following attributes are localized strings:</p>
+
+<p><code class="highlighter-rouge">name</code>, <code class="highlighter-rouge">text</code> (card text), <code class="highlighter-rouge">flavor</code> (flavor text), <code class="highlighter-rouge">howToEarn</code> (how to earn
+  the card; eg. reward, craft), <code class="highlighter-rouge">howToEarnGolden</code> (how to earn the golden
+  version of the card) and <code class="highlighter-rouge">targetingArrowText</code> (the text when targeting
+  something with the card)</p>
+
+<p>The following additional attributes are available:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">collectible</code> (bool) determines whether the card is collectible.</li>
+  <li><code class="highlighter-rouge">cost</code> (int) is the card’s mana cost. Always shown, even if 0, except on hero
+and buff cards.</li>
+  <li><code class="highlighter-rouge">attack</code> (int) is the card’s attack value. Always shown on minions and weapons.</li>
+  <li><code class="highlighter-rouge">health</code> (int) is the health value of the card. Always shown for minions and
+heroes.</li>
+  <li><code class="highlighter-rouge">durability</code> (int) is the durability value of weapons. Always shown for weapons.</li>
+  <li><code class="highlighter-rouge">armor</code> (int) is the armor value of heroes.</li>
+  <li><code class="highlighter-rouge">hideStats</code> (bool) determines whether the card’s stats (cost, atk, health) are
+supposed to be hidden.</li>
+</ul>
+
+<h3 id="enums">Enums</h3>
+
+<p>Most values in Hearthstone are integer-based. Some of those integers are
+available as enumerations. The full list of Hearthstone enums is available in
+<a href="https://github.com/HearthSim/python-hearthstone/blob/master/hearthstone/enums.py">python-hearthstone - enums.py</a>.</p>
+
+<h3 id="tags-and-referenced-tags">Tags and referenced tags</h3>
+
+<p>The <code class="highlighter-rouge">mechanics</code> attribute contains a sorted array of <code class="highlighter-rouge">GameTag</code> boolean enum
+string representations which are set on the card.</p>
+
+<p>The following game tags are used in this field:</p>
+
+<p><code class="highlighter-rouge">ADJACENT_BUFF</code>, <code class="highlighter-rouge">AI_MUST_PLAY</code>, <code class="highlighter-rouge">APPEAR_FUNCTIONALLY_DEAD</code>, <code class="highlighter-rouge">ADAPT</code>, <code class="highlighter-rouge">AURA</code>,
+  <code class="highlighter-rouge">BATTLECRY</code>, <code class="highlighter-rouge">CANT_ATTACK</code>, <code class="highlighter-rouge">CANT_BE_TARGETED_BY_ABILITIES</code>, <code class="highlighter-rouge">CANT_BE_TARGETED_BY_HERO_POWERS</code>,
+  <code class="highlighter-rouge">CHARGE</code>, <code class="highlighter-rouge">CHOOSE_ONE</code>, <code class="highlighter-rouge">COMBO</code>, <code class="highlighter-rouge">COUNTER</code>, <code class="highlighter-rouge">DEATHRATTLE</code>, <code class="highlighter-rouge">DISCOVER</code>,
+  <code class="highlighter-rouge">DIVINE_SHIELD</code>, <code class="highlighter-rouge">ENRAGED</code>, <code class="highlighter-rouge">EVIL_GLOW</code>, <code class="highlighter-rouge">FORGETFUL</code>, <code class="highlighter-rouge">FREEZE</code>, <code class="highlighter-rouge">IMMUNE</code>, <code class="highlighter-rouge">INSPIRE</code>,
+  <code class="highlighter-rouge">JADE_GOLEM</code>, <code class="highlighter-rouge">MORPH</code>, <code class="highlighter-rouge">POISONOUS</code>, <code class="highlighter-rouge">QUEST</code>, <code class="highlighter-rouge">RECEIVES_DOUBLE_SPELLDAMAGE_BONUS</code>,
+  <code class="highlighter-rouge">RITUAL</code>, <code class="highlighter-rouge">SECRET</code>, <code class="highlighter-rouge">SILENCE</code>, <code class="highlighter-rouge">STEALTH</code>, <code class="highlighter-rouge">TAG_ONE_TURN_EFFECT</code>, <code class="highlighter-rouge">TAUNT</code>, <code class="highlighter-rouge">TOPDECK</code>,
+  <code class="highlighter-rouge">UNTOUCHABLE</code>, <code class="highlighter-rouge">WINDFURY</code>, <code class="highlighter-rouge">ImmuneToSpellpower</code>, <code class="highlighter-rouge">InvisibleDeathrattle</code></p>
+
+<p>Notes:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">ImmuneToSpellpower</code> is set on cards which do not increase their damage
+with spell damage like other cards (such as Arcane Missiles).</li>
+  <li><code class="highlighter-rouge">InvisibleDeathrattle</code> is an internal tag, used mostly in boss cards.</li>
+  <li><code class="highlighter-rouge">AI_MUST_PLAY</code> is set on AI hero powers which are auto-cast.</li>
+  <li><code class="highlighter-rouge">AUTOATTACK</code> is a mechanic used in the Karazhan Chess scenario.</li>
+  <li><code class="highlighter-rouge">COUNTER</code> is… essentially just Counterspell.</li>
+  <li><code class="highlighter-rouge">EVIL_GLOW</code> is set on cards which glow red while in the hand.</li>
+  <li><code class="highlighter-rouge">FORGETFUL</code> corresponds to “50% chance to attack the wrong target”.</li>
+  <li><code class="highlighter-rouge">RITUAL</code> corresponds to cards which buff C’Thun.</li>
+  <li><code class="highlighter-rouge">UNTOUCHABLE</code> is used by minions which “do not count as minions”.</li>
+  <li><code class="highlighter-rouge">TOPDECK</code> is set on cards which are revealed to the opponent when drawn.</li>
+  <li>For overload and spellpower, look at <code class="highlighter-rouge">overload</code> and <code class="highlighter-rouge">spellDamage</code> properties.</li>
+</ul>
+
+<h3 id="play-requirements">Play Requirements</h3>
+
+<p>The <code class="highlighter-rouge">playRequirements</code> attribute contains an array of <code class="highlighter-rouge">key: param</code> values which
+determine various requirements which have to be met for the card to be played
+and what it can target. The key corresponds to a <code class="highlighter-rouge">PlayReq</code> enum string
+representation. Most play requirements ignore the parameter, which is thus <code class="highlighter-rouge">0</code>.</p>
+
+<p>Some (not all) play requirements are documented in the old
+<a href="https://github.com/HearthSim/hs-data/blob/master/PlayErrors.xml">PlayErrors.xml</a>.</p>
+
+<h3 id="entourage">Entourage</h3>
+
+<p>The <code class="highlighter-rouge">entourage</code> attributes contains a sorted array of card IDs which represent
+the card’s “entourage”. Entourage is often used for cards which can create new
+cards randomly from a specific pool, such as <strong>Animal Companion</strong> or <strong>Ysera</strong>.</p>
+
+
+		</section>
+		<footer class="footer">
+			<span class="copyright">
+	<a href="https://hearthstonejson.com/">HearthstoneJSON.com</a> is licensed
+	<a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a><br>
+
+	The JSON files contain data that is Copyright © Blizzard Entertainment - All Rights Reserved<br>
+
+	This website is not affiliated with Blizzard Entertainment.
+</span>
+
+		</footer>
+	</div>
+
+
+</body></html>
