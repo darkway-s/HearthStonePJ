@@ -25,7 +25,13 @@ def keyword_one(sname='', *, sid=-1):
         return None
 
 
-# 获得关键词列表， 返回这个列表
+# 获得整个职业列表
+def summonerclass_all():
+    _summonerclass_list = SummonerClass.objects.all()
+    return _summonerclass_list
+
+
+# 获得职业列表， 返回这个列表
 def summonerclass(s_name='', *, sid=-1):
     if sid == -1:
         _summonerclass_list = SummonerClass.objects.filter(name__contains=s_name)
