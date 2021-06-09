@@ -20,4 +20,7 @@ urlpatterns = [
 
     path('manage', views.manage, name='manage'),
     path('manage/card/add', views.card_create, name='card_create'),
+    path('test', views.test, name='test'),
+
+
 ]

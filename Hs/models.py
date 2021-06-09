@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models import Q
 
 
 # Create your models here.
@@ -8,7 +9,7 @@ from django.contrib.auth.models import AbstractUser
 # 职业列表
 class SummonerClass(models.Model):
     id = models.AutoField('职业id', primary_key=True)
-    name = models.CharField('职业名称', max_length=10)
+    name = models.CharField('职业名称', max_length=10, unique=True)
 
     class Meta:
         verbose_name = '职业列表'
@@ -21,7 +22,7 @@ class SummonerClass(models.Model):
 # 种族
 class RaceClass(models.Model):
     id = models.AutoField('种族id', primary_key=True)
-    name = models.CharField('种族名称', max_length=10)
+    name = models.CharField('种族名称', max_length=10, unique=True)
 
     class Meta:
         verbose_name = '种族列表'
@@ -34,7 +35,7 @@ class RaceClass(models.Model):
 # 合集
 class SetClass(models.Model):
     id = models.AutoField('合集id', primary_key=True)
-    name = models.CharField('所属合集', max_length=64)
+    name = models.CharField('所属合集', max_length=64, unique=True)
 
     class Meta:
         verbose_name = '合集列表'
@@ -47,7 +48,7 @@ class SetClass(models.Model):
 # 关键词及其效果
 class Keyword(models.Model):
     id = models.AutoField('关键词id', primary_key=True)
-    name = models.CharField('关键词名称', max_length=64)
+    name = models.CharField('关键词名称', max_length=64, unique=True)
     description = models.CharField('描述', max_length=64)
 
     class Meta:
@@ -108,7 +109,7 @@ class Card(models.Model):
     race = models.ForeignKey(RaceClass, verbose_name='种族', on_delete=models.SET_NULL, null=True, blank=True)
 
     # 图片
-    img = models.ImageField('图片', upload_to='card_img', null=True, default='default.jpg')
+    img = models.ImageField('图片', upload_to='card_img', null=True, default='default.png')
     """
     # 以下是可选拓展
     # cost_to_craft
@@ -117,15 +118,38 @@ class Card(models.Model):
     # golden
     """
 
+    def compose_price(self):
+        COMPOSE_PRICE = {
+            "basic": 0,
+            "common": 40,
+            "rare": 100,
+            "epic": 400,
+            "legend": 1600
+        }
+        return COMPOSE_PRICE[self.rarity]
+
+    def decompose_price(self):
+        DECOMPOSE_PRICE = {
+            "basic": 0,
+            "common": 5,
+            "rare": 20,
+            "epic": 100,
+            "legend": 400
+        }
+        return DECOMPOSE_PRICE[self.rarity]
+
     class Meta:
         verbose_name = '卡牌'
         verbose_name_plural = verbose_name
+        # 名字和图片的组合是唯一的
+        constraints = [
+            models.UniqueConstraint(fields=['name', 'img'], name='unique_card')
+        ]
 
     def __str__(self):
         return self.name
 
 
-# 账户
 class User(AbstractUser):
     # 覆写User，继承AbstractUser
     class Meta(AbstractUser.Meta):
@@ -135,11 +159,28 @@ class User(AbstractUser):
     # 【货币】金币，奥术之尘
     gold = models.BigIntegerField('金币', default=0)
     arc_dust = models.BigIntegerField('奥术之尘', default=0)
-    # 这里隐含一个关系表
-    # 每个玩家的账户都对应一组卡牌收藏
-    collection = models.ManyToManyField(Card, verbose_name='收藏', null=True, blank=True)
+    collections = models.ManyToManyField(Card, through='UserCard')
 
     # 默认is_superuser值为false
     def save(self, *args, **kwargs):
         self.is_superuser = False
         super().save(*args, **kwargs)
+
+
+class UserCard(models.Model):
+    user = models.ForeignKey(User, verbose_name='用户', on_delete=models.CASCADE)
+    card = models.ForeignKey(Card, verbose_name='卡牌', on_delete=models.CASCADE)
+    amount = models.IntegerField(default=1)
+
+    class Meta:
+        verbose_name = "卡牌收藏"
+        verbose_name_plural = verbose_name
+
+        # 卡牌收藏
+        constraints = [
+            models.CheckConstraint(check=models.Q(amount__gte=0), name='collection_minimum')
+        ]
+
+
+class Test(models.Model):
+    testword = models.CharField(max_length=10)
