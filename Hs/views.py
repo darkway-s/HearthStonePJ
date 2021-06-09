@@ -30,7 +30,7 @@ def cards(request):
 
 
 def keyword_list(request):
-    keyword = select.keyword()
+    keyword = select.keyword_all()
     return render(request, 'Hs/keyword_list.html', {'keyword_list': keyword})
 
 

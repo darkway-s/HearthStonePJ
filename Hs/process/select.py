@@ -2,56 +2,71 @@ from Hs import forms
 from Hs.models import SummonerClass, Keyword, Card, SetClass
 
 
+# select 基类
+def select_all(ObjectClass):
+    _object_list = ObjectClass.objects.all()
+    return _object_list
+
+
+# 对于name 和 id 的筛选
+def select1(ObjectClass, s_name='', *, sid=-1):
+    if sid == -1:
+        _object_list = ObjectClass.objects.filter(name__contains=s_name)
+    else:
+        _object_list = ObjectClass.objects.filter(name__contains=s_name, id__exact=sid)
+    return _object_list
+
+
+def select1_one(ObjectClass, s_name='', *, sid=-1):
+    _object = select1(ObjectClass, s_name, sid=sid)[0]
+    if _object:
+        return _object
+    else:
+        return None
+
+
+def match(ObjectClass, s_name):
+    _object = ObjectClass.objects.get(name=s_name)
+    return _object
+
+# 基类结束
+
+# 获得整个关键词列表
+def keyword_all():
+    return select_all(Keyword)
+
+
 # 获得关键词列表， 返回这个列表
 def keyword(s_name='', *, sid=-1):
-    if sid == -1:
-        _keyword_list = Keyword.objects.filter(name__contains=s_name)
-    else:
-        _keyword_list = Keyword.objects.filter(name__contains=s_name, id__exact=sid)
-    return _keyword_list
+    return select1(Keyword, s_name, sid=sid)
 
 
 def keyword_match(s_name):
-    _keyword = Keyword.objects.get(name=s_name)
-    return _keyword
+    return match(Keyword, s_name)
 
 
 # 仅获取第一个
-def keyword_one(sname='', *, sid=-1):
-    _keyword = keyword(sname, sid=sid)[0]
-    if _keyword:
-        return _keyword
-    else:
-        return None
+def keyword_one(s_name='', *, sid=-1):
+    return select1_one(Keyword, s_name, sid=sid)
 
 
 # 获得整个职业列表
 def summonerclass_all():
-    _summonerclass_list = SummonerClass.objects.all()
-    return _summonerclass_list
+    return select_all(SummonerClass)
 
 
 # 获得职业列表， 返回这个列表
 def summonerclass(s_name='', *, sid=-1):
-    if sid == -1:
-        _summonerclass_list = SummonerClass.objects.filter(name__contains=s_name)
-    else:
-        _summonerclass_list = SummonerClass.objects.filter(name__contains=s_name, id__exact=sid)
-    return _summonerclass_list
+    return select1(SummonerClass, s_name, sid=sid)
 
 
 def summonerclass_match(s_name):
-    _summonerclass = SummonerClass.objects.get(name=s_name)
-    return _summonerclass
+    return match(SummonerClass, s_name)
 
 
 # 仅获取第一个
-def summonerclass_one(sname='', *, sid=-1):
-    _summonerclass = summonerclass(sname, sid=sid)[0]
-    if _summonerclass:
-        return _summonerclass
-    else:
-        return None
+def summonerclass_one(s_name='', *, sid=-1):
+    return select1_one(SummonerClass, s_name, sid=sid)
 
 
 # 严格筛选: 职业， 法力水晶， 费用， 卡牌id
@@ -79,7 +94,7 @@ def card_all():
 
 
 # card_list 传入，在此基础上筛选
-def card_strict(_card_list=card_all(), s_name='', s_id=-1, s_class='', s_cost=-1):
+def card_strict(_card_list=card_all(), s_name='', s_id=-1, s_class_name='', s_cost=-1):
     if s_name != '':
         _card_list = _card_list.filter(name=s_name)
 
@@ -92,7 +107,8 @@ def card_strict(_card_list=card_all(), s_name='', s_id=-1, s_class='', s_cost=-1
     elif s_cost == 10:
         _card_list = _card_list.filter(cost__gte=s_cost)
 
-    if s_class != '':
+    if s_class_name != '':
+        s_class = summonerclass_match(s_class_name)
         _card_list = _card_list.filter(card_class=s_class)
 
     return _card_list
@@ -117,11 +133,9 @@ def card_vague_description(s_description=''):
 
 # 搜索是否有匹配的合集名
 def set_match(s_name):
-    _set = SetClass.objects.get(name=s_name)
-    return _set
+    return match(SetClass, s_name)
 
 
 # 搜索是否有匹配的职业名字
 def class_match(s_name):
-    _class = SummonerClass.get(name=s_name)
-    return _class
+    return match(SummonerClass, s_name)
