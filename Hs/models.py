@@ -61,7 +61,7 @@ class Keyword(models.Model):
 # 卡牌类
 class Card(models.Model):
     id = models.AutoField('卡牌id', primary_key=True)
-    name = models.CharField('卡牌名', max_length=64,)
+    name = models.CharField('卡牌名', max_length=64, blank=True, default='')
 
     # 类型三选一: spell, minion, weapon
     TYPE_CHOICES = (
@@ -116,6 +116,7 @@ class Card(models.Model):
     # artist
     # golden
     """
+
     class Meta:
         verbose_name = '卡牌'
         verbose_name_plural = verbose_name
@@ -130,6 +131,7 @@ class User(AbstractUser):
     class Meta(AbstractUser.Meta):
         verbose_name = '用户信息'
         verbose_name_plural = verbose_name
+
     # 【货币】金币，奥术之尘
     gold = models.BigIntegerField('金币', default=0)
     arc_dust = models.BigIntegerField('奥术之尘', default=0)
@@ -137,3 +139,7 @@ class User(AbstractUser):
     # 每个玩家的账户都对应一组卡牌收藏
     collection = models.ManyToManyField(Card, verbose_name='收藏', null=True, blank=True)
 
+    # 默认is_superuser值为false
+    def save(self, *args, **kwargs):
+        self.is_superuser = False
+        super().save(*args, **kwargs)

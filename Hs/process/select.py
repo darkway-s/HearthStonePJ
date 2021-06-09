@@ -1,5 +1,5 @@
 from Hs import forms
-from Hs.models import SummonerClass, Keyword, Card
+from Hs.models import SummonerClass, Keyword, Card, SetClass
 
 
 # 获得关键词列表， 返回这个列表
@@ -9,6 +9,11 @@ def keyword(s_name='', *, sid=-1):
     else:
         _keyword_list = Keyword.objects.filter(name__contains=s_name, id__exact=sid)
     return _keyword_list
+
+
+def keyword_match(s_name):
+    _keyword = Keyword.objects.get(name=s_name)
+    return _keyword
 
 
 # 仅获取第一个
@@ -79,3 +84,15 @@ def card_vague_name(s_name=''):
 def card_vague_description(s_description=''):
     _card_list = Card.objects.filter(description__contains=s_description)
     return _card_list
+
+
+# 搜索是否有匹配的合集名
+def set_match(s_name):
+    _set = SetClass.objects.get(name=s_name)
+    return _set
+
+
+# 搜索是否有匹配的职业名字
+def class_match(s_name):
+    _class = SummonerClass.get(name=s_name)
+    return _class
