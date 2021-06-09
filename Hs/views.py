@@ -179,5 +179,13 @@ def register(request):
 
 
 def manage(request):
+    cd_list = select.card_all()
     return render(request, 'Hs/manage.html', context={
+        'cd_list': cd_list,
     })
+
+
+def card_create(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
