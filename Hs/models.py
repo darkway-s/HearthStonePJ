@@ -182,24 +182,5 @@ class UserCard(models.Model):
         ]
 
 
-"""
-# 卡与用户的关系集
-# 每个玩家的账户都对应一组卡牌收藏
-class UserCard(models.Model):
-    user = models.OneToOneField(User, verbose_name='用户', on_delete=models.CASCADE)
-    card_list = models.ManyToManyField(Card, verbose_name='卡牌列表', null=True, blank=True)
-    amount = models.IntegerField(default=1)
-
-    class Meta:
-        verbose_name = "卡牌收藏"
-        verbose_name_plural = verbose_name
-
-        # 卡牌收藏
-        constraints = [
-            models.CheckConstraint(check=models.Q(amount__gte=0), name='collection_minimum')
-        ]
-"""
-
-
 class Test(models.Model):
     testword = models.CharField(max_length=10)

@@ -1,4 +1,4 @@
-from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass
+from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass, UserCard
 from . import select
 
 
@@ -8,7 +8,7 @@ def keyword(sid):
     _keyword.delete()
     return None
 
-"""
+
 # 删除卡牌
 # 给拥有该卡牌的角色全额返尘
 def card(sid):
@@ -19,7 +19,7 @@ def card(sid):
         collection_one(owner, _card)
     _card.delete()
     return None
-"""
+
 
 def summonerclass(sid):
     _summonerclass = SummonerClass.objects.get(id=sid)
@@ -38,8 +38,10 @@ def raceclass(sid):
     _raceclass.delete()
     return None
 
-"""
+
 # 分解卡牌, 输入user类，卡牌类
+# 无这张卡牌则直接退出，有这张卡牌才会分解
+# 分解后若已无这张卡牌，则会删除
 def collection_one(cur_user, s_card):
     def decompose(user_card_obj, obj_card, obj_user):
         price = obj_card.decompose_price
@@ -62,4 +64,3 @@ def collection_one(cur_user, s_card):
         # 一张也没，注意，实际运行中这种情况不应触发！前端不应该给没有这张卡的人显示分解按钮
         print("你没有这张卡牌")
         return False
-"""

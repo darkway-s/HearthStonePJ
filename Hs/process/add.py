@@ -1,5 +1,5 @@
 from Hs.process import select
-from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass
+from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass, UserCard
 
 
 # 增加卡牌, n_card_class和n_keyword为list, html中可以用form获取, views中可以用getlist方法获取
@@ -73,10 +73,13 @@ def raceclass(name):
         return _raceclass
 
 
-"""
 # 合成卡牌, 输入user类，卡牌类
+# 根据当前拥有的这张卡牌的数量（0,1,2）
+# 0张会进行合成，在UserCard关系里新增
+# 1张会在UserCard对应行增加一个amount
+# 2张以上则拒绝合成。
+# 然后再判断用户当前奥术之尘与卡牌合成价格相比是否足够，如果够才会合成并扣除相应的金币
 def collection_one(cur_user, s_card):
-
     def compose(obj_user, obj_card):
         obj_price = obj_card.compose_price
         if obj_user.arc_dust >= obj_price:
@@ -87,6 +90,7 @@ def collection_one(cur_user, s_card):
         else:
             print("%s没有足够的奥术之尘" % obj_user.name)
             return False
+
     # 开始
     try:
         _object = select.user_card_match(cur_user, s_card)
@@ -110,4 +114,3 @@ def collection_one(cur_user, s_card):
         # 一张也没
         compose(cur_user, s_card)
         print("合成第一张")
-"""

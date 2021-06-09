@@ -1,5 +1,5 @@
 from Hs import forms
-from Hs.models import SummonerClass, Keyword, Card, SetClass, User, RaceClass
+from Hs.models import SummonerClass, Keyword, Card, SetClass, User, RaceClass, UserCard
 
 
 # select 基类
@@ -154,9 +154,8 @@ def class_match(s_name):
 def race_match(s_name):
     return match(RaceClass, s_name)
 
-"""
+
 # 搜索对应的UserCard关系，给出一个list
 def user_card_match(user, card):
     _object = UserCard.objects.get(user=user, card=card)
     return _object
-"""
