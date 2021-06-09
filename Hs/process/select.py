@@ -1,5 +1,5 @@
 from Hs import forms
-from Hs.models import SummonerClass, Keyword, Card, SetClass, User, RaceClass, UserCard
+from Hs.models import SummonerClass, Keyword, Card, SetClass, User, RaceClass, UserCard, Deck, DeckCard
 
 
 # select 基类
@@ -157,7 +157,39 @@ def race_match(s_name):
     return match(RaceClass, s_name)
 
 
-# 搜索对应的UserCard关系，给出一个list
+# 搜索对应的UserCard关系，给出单个元素
 def user_card_match(user, card):
     _object = UserCard.objects.get(user=user, card=card)
     return _object
+
+
+# 搜索对应的DeckCard关系，给出单个元素
+def deck_card_match(deck, card):
+    _object = DeckCard.objects.get(deck=deck, card=card)
+    return _object
+
+
+# 返回一个deck
+def deck_match(s_id):
+    _deck = Deck.objects.get(id=s_id)
+    return _deck
+
+
+# 输入deck，返回这个deck中的卡牌列表，以二元元组的形式返回(card, amount)第一个元素是Card类，第二个元素是int型（表示这张卡的数量）
+def deck(s_deck):
+    cards_in_deck = DeckCard.objects.filter(deck=s_deck)
+    _card_list = []
+    for obj in cards_in_deck:
+        _tuple = (obj.card, obj.amount)
+        _card_list.append(_tuple)
+    return _card_list
+
+
+# 计算s_deck中有哪些卡牌
+def deck_count(s_deck):
+    _card_list = deck(s_deck)
+    cnt = 0
+    for obj in _card_list:
+        # 加上每个amount
+        cnt += obj[1]
+    return cnt

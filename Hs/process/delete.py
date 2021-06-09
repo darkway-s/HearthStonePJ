@@ -1,4 +1,4 @@
-from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass, UserCard
+from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass, UserCard, Deck, DeckCard
 from . import select
 
 
@@ -37,6 +37,33 @@ def raceclass(sid):
     _raceclass = RaceClass.objects.get(id=sid)
     _raceclass.delete()
     return None
+
+
+# 删除这个套牌中的一张卡（如果有两张，只会删除一张
+def deck_card_one(obj_deck, obj_card):
+    if select.deck_count(obj_deck) == 0:
+        print("空套牌")
+        return False
+    try:
+        _object = select.deck_card_match(obj_deck, obj_card)
+        # 只有一张
+        _object.amount -= 1
+        _object.save()
+        if _object.amount == 0:
+            _object.delete()
+            print("删除卡%s" % obj_card.name)
+        else:
+            print("删除一张%s" % _object.card.name)
+        return 1
+    except DeckCard.DoesNotExist:
+        # 一张也没
+        print("套牌中没有卡%s" % obj_card)
+        return False
+
+
+# 删除这个套牌，会自动级联删除对应的关系
+def deck(s_deck):
+    s_deck.delete()
 
 
 # 分解卡牌, 输入user类，卡牌类

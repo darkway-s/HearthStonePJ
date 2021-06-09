@@ -190,6 +190,8 @@ class Deck(models.Model):
     name = models.CharField('套牌名称', max_length=64)
     card_list = models.ManyToManyField(Card, through='DeckCard')
 
+    MAX_CARDS_IN_DECK = 5
+
 
 class DeckCard(models.Model):
     deck = models.ForeignKey(Deck, verbose_name='套牌', on_delete=models.CASCADE)

@@ -1,5 +1,5 @@
 from Hs.process import select
-from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass, UserCard
+from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass, UserCard, Deck, DeckCard
 
 
 # 增加卡牌, n_card_class和n_keyword为list, html中可以用form获取, views中可以用getlist方法获取
@@ -73,11 +73,34 @@ def raceclass(name):
         return _raceclass
 
 
-"""
 # 创建一个空的套牌, 输入为套牌名字
 def deck_null(name):
     new_deck = Deck.objects.create(name=name)
-"""
+    return new_deck
+
+
+# 在目标套牌中增加目标卡牌
+def deck_append(obj_deck, obj_card):
+    if select.deck_count(obj_deck) > Deck.MAX_CARDS_IN_DECK:
+        print("套牌中已经有太多卡了")
+        return False
+
+    try:
+        _object = select.deck_card_match(obj_deck, obj_card)
+        if _object.amount >= 2:
+            print("套牌中已有超过两张卡牌，无法继续添加！")
+            return 2
+        else:
+            # 只有一张
+            _object.amount += 1
+            _object.save()
+            print("添加第二张%s" % _object.card.name)
+            return 1
+    except DeckCard.DoesNotExist:
+        # 一张也没
+        new_obj = DeckCard.objects.create(deck=obj_deck, card=obj_card, amount=1)
+        print("添加第一张%s" % new_obj.card.name)
+        return new_obj
 
 
 # 合成卡牌, 输入user类，卡牌类
