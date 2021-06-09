@@ -1,4 +1,4 @@
-from Hs import forms
+from Hs.process import select
 from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass
 
 
@@ -18,24 +18,63 @@ def card(n_name, n_type, n_rarity, n_set, n_card_class, n_collectible, n_keyword
     return _card
 
 
-# 增加关键字， 返回增加的关键字本身
+# 增加某一张卡牌中的关键字, 输入Card类和Keyword类
+def card_keyword_append(s_card, s_keyword):
+    s_card.keyword.add(s_keyword)
+
+
+# 增加某一张卡牌中的关键字, 输入Card类和Keyword的名字
+def card_keyword_append2(s_card, s_keyword_name):
+    s_keyword = select.keyword_match(s_keyword_name)
+    card_keyword_append(s_card, s_keyword)
+
+
+# 增加关键字类， 返回增加的关键字本身
 def keyword(name, description):
-    _keyword = Keyword.objects.create(name=name, description=description)
-    return _keyword
+    try:
+        in_keyword = select.keyword_match(name)
+        print("重复关键词类%s " % in_keyword.name)
+        return in_keyword
+    except Keyword.DoesNotExist:
+        _keyword = Keyword.objects.create(name=name, description=description)
+        return _keyword
 
 
 # 增加职业， 返回本身
 def summonerclass(name):
-    _summonerclass = SummonerClass.objects.create(name=name)
-    return _summonerclass
+    try:
+        in_obj = select.summonerclass_match(name)
+        print("重复职业类%s " % in_obj.name)
+        return in_obj
+    except SummonerClass.DoesNotExist:
+        _summonerclass = SummonerClass.objects.create(name=name)
+        return _summonerclass
 
 
 # 增加合集
 def setclass(name):
-    _setclass = SetClass.objects.create(name=name)
-    return _setclass
+    try:
+        in_obj = select.set_match(name)
+        print("重复职业类%s " % in_obj.name)
+        return in_obj
+    except SetClass.DoesNotExist:
+        _setclass = SetClass.objects.create(name=name)
+        return _setclass
 
 
 # 增加种族
 def raceclass(name):
-    _raceclass = RaceClass.objects.create(name=name)
+    try:
+        in_obj = select.race_match(name)
+        print("重复种族类%s " % in_obj.name)
+        return in_obj
+    except RaceClass.DoesNotExist:
+        _raceclass = RaceClass.objects.create(name=name)
+        return _raceclass
+
+
+# 增加卡牌收藏, 输入user类，卡牌类
+def collection(cur_user, s_card):
+    cur_user.collection.add(s_card)
+    return
+    pass

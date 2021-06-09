@@ -1,5 +1,5 @@
 from Hs import forms
-from Hs.models import SummonerClass, Keyword, Card, SetClass
+from Hs.models import SummonerClass, Keyword, Card, SetClass, User, RaceClass
 
 
 # select 基类
@@ -28,6 +28,7 @@ def select1_one(ObjectClass, s_name='', *, sid=-1):
 def match(ObjectClass, s_name):
     _object = ObjectClass.objects.get(name=s_name)
     return _object
+
 
 # 基类结束
 
@@ -89,8 +90,7 @@ def card_strict_keyword2(s_name):
 
 
 def card_all():
-    _card_list = Card.objects.all()
-    return _card_list
+    return select_all(Card)
 
 
 # card_list 传入，在此基础上筛选
@@ -120,7 +120,12 @@ def card_cost(s_cost):
     return _card_list
 
 
-# 模糊搜索卡牌
+# 严格名称搜索卡牌
+def card_match(s_name):
+    return match(Card, s_name)
+
+
+# 模糊名称搜索卡牌
 def card_vague_name(s_name=''):
     _card_list = Card.objects.filter(name__contains=s_name)
     return _card_list
@@ -139,3 +144,8 @@ def set_match(s_name):
 # 搜索是否有匹配的职业名字
 def class_match(s_name):
     return match(SummonerClass, s_name)
+
+
+# 搜索是否有匹配的种族名字
+def race_match(s_name):
+    return match(RaceClass, s_name)
