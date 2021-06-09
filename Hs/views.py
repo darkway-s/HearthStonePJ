@@ -4,6 +4,7 @@ from Hs import models
 from .models import SummonerClass, Keyword, Card
 from .process import add, select, update
 
+
 # Create your views here.
 
 
@@ -14,12 +15,16 @@ def index(request):
 
 
 def cards(request):
-    sc_list = select.card_strict()
+    sc_list = select.summonerclass_all()
     sc_sel = request.GET.get('sc_sel', default='')
-    cost_sel = request.GET.get('cost_sl', default=1)
-    cd_list = select.card_strict(s_cost=cost_sel)
+    cost_sel = request.GET.get('cost_sl', default='-1')
+    cd_list = select.card_all()
+    print('cost_sel=' + cost_sel)
+    print('sc_sel=' + sc_sel)
+    if cost_sel != '-1':
+        cd_list = select.card_strict(_card_list=cd_list, s_cost=cost_sel)
     if sc_sel != '':
-        cd_list = cd_list.filter(card_class=sc_sel)
+        cd_list = select.card_strict(_card_list=cd_list, s_class_name=sc_sel)
     return render(request, 'Hs/cards.html', context={
         'class': '选择职业' if sc_sel == '' else sc_sel,
         'sc_sel': sc_sel,

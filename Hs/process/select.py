@@ -79,7 +79,7 @@ def card_all():
 
 
 # card_list 传入，在此基础上筛选
-def card_strict(_card_list=card_all(), s_name='', s_id=-1, s_class='', s_cost=-1):
+def card_strict(_card_list=card_all(), s_name='', s_id=-1, s_class_name='', s_cost=-1):
     if s_name != '':
         _card_list = _card_list.filter(name=s_name)
 
@@ -92,7 +92,8 @@ def card_strict(_card_list=card_all(), s_name='', s_id=-1, s_class='', s_cost=-1
     elif s_cost == 10:
         _card_list = _card_list.filter(cost__gte=s_cost)
 
-    if s_class != '':
+    if s_class_name != '':
+        s_class = summonerclass_match(s_class_name)
         _card_list = _card_list.filter(card_class=s_class)
 
     return _card_list
@@ -113,6 +114,7 @@ def card_vague_name(s_name=''):
 def card_vague_description(s_description=''):
     _card_list = Card.objects.filter(description__contains=s_description)
     return _card_list
+
 
 
 # 搜索是否有匹配的合集名

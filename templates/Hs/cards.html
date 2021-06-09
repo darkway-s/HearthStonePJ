@@ -16,7 +16,8 @@
                 {% for sc in sc_list %}
                     <p><a href="?sc_sel={{ sc.name }}&cost_sl={{ cost_sel }}">{{ sc.name }}</a></p>
                 {% endfor %}
-		</span>
+                <p><a href="?sc_sel=&cost_sl={{ cost_sel }}">所有职业</a></p>
+		    </span>
 		</span>
 		<span>
 			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=0">0</a>
@@ -30,6 +31,7 @@
 			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=8">8</a>
 			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=9">9</a>
 			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=10">10+</a>
+            <a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=-1">all</a>
 		</span>
 	</div>
 	<div class="ShowCards">
