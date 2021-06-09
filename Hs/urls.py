@@ -23,6 +23,6 @@ urlpatterns = [
     path('test', views.test, name='test'),
 
     path('test', views.test, name='test'),
-
+    path('manage/card/add_sub', views.add_sub, name='add_sub')
 
 ]

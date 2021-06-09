@@ -6,8 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="{% static 'CSS/manage.css' %}" type="text/css" rel="stylesheet">
-
-
+    <link href="{% static 'CSS/card_create.css' %}" type="text/css" rel="stylesheet">
 </head>
 <body>
 <ul class="nav_hor">
@@ -27,41 +26,84 @@
 <div class="row">
     <div class="column side">
         <ul class="nav_vert">
-            <li><a class="main" href="manage/card">卡牌</a><a class="add" href="manage/card/add"> 新建</a></li>
-            <li><a href="manage/summonerclass">职业</a><a class="add" href="manage/summonerclass/add"> 新建</a></li>
-            <li><a href="manage/raceclass">种族</a><a class="add" href="manage/raceclass/add"> 新建</a></li>
-            <li><a href="manage/deck">套牌</a><a class="add" href="manage/deck/add"> 新建</a></li>
-            <li><a href="manage/setclass">合集列表</a><a class="add" href="manage/setclass/add"> 新建</a></li>
-            <li><a href="manage/user">用户列表</a><a class="add" href="manage/user/add"> 新建</a></li>
+            <li><a class="main" href="{% url 'Hs:manage' %}">卡牌</a><a class="add active" href="{% url 'Hs:card_create' %}"> 新建</a></li>
+            <li><a class="main" href="manage/summonerclass">职业</a><a class="add" href="manage/summonerclass/add"> 新建</a></li>
+            <li><a class="main" href="manage/raceclass">种族</a><a class="add" href="manage/raceclass/add"> 新建</a></li>
+            <li><a class="main" href="manage/deck">套牌</a><a class="add" href="manage/deck/add"> 新建</a></li>
+            <li><a class="main" href="manage/setclass">合集列表</a><a class="add" href="manage/setclass/add"> 新建</a></li>
+            <li><a class="main" href="manage/user">用户列表</a><a class="add" href="manage/user/add"> 新建</a></li>
         </ul>
     </div>
 
     <div class="column body">
-        <form>
-            卡牌名：<input type="text">
-            类型：<select name="type">
-            {% for tp in tp_list %}
-            <option value="随从" selected="true">随从</option>
-            <option value="武器" selected="true">武器</option>
-            <option value="法术" selected="true">法术</option>
-            {% empty %}
-            {% endfor %}
-        </select>
-            稀有度：<select name="rarity">
-            <option value="基本" selected="true">基本</option>
-            <option value="普通" selected="true">普通</option>
-            <option value="稀有" selected="true">稀有</option>
-            <option value="史诗" selected="true">史诗</option>
-            <option value="传说" selected="true">传说</option>
-        </select>
-            系列：<select name="set">
-            <option value="基本" selected="true">基本</option>
-            <option value="普通" selected="true">普通</option>
-            <option value="稀有" selected="true">稀有</option>
-            <option value="史诗" selected="true">史诗</option>
-            <option value="传说" selected="true">传说</option>
-        </select>
+        <form action="add_sub" method="post">
+            {% csrf_token %}
+            <p>
+                卡牌名：<input type="text" name="n_name">
+            </p>
+            <p>
+                类型：<select name="n_type">
+                {% for tp in tp_list %}
+                    <option value="{{ tp }}" selected="true">{{ tp }}</option>
+                {% empty %}
+                {% endfor %}
+            </select></p>
+            <p>
+                稀有度：<select name="n_rarity">
+                {% for rt in rt_list %}
+                    <option value="{{ rt }}" selected="true">{{ rt }}</option>
+                {% empty %}
+                {% endfor %}
+            </select></p>
+            <p>
+                系列：<select name="n_set">
+                {% for st in st_list %}
+                    <option value="{{ st }}" selected="true">{{ st }}</option>
+                {% empty %}
+                {% endfor %}
+            </select></p>
+            <p>
+                种族：<select name="n_race">
+                {% for rc in rc_list %}
+                    <option value="{{ rc }}" selected="true">{{ rc }}</option>
+                {% empty %}
+                {% endfor %}
+            </select></p>
+            <p>
+                可用职业：
+                {% for sc in sc_list %}
+                    <input type="checkbox" name="n_card_class">{{ sc.name }}
+                {% empty %}
+                {% endfor %}
+            </p>
+            <p>
+                可合成？
+                <input type="checkbox" name="n_collectible">是
+                <input type="checkbox" name="n_collectible">否
+            </p>
+            <p>
+                关键词：
+                {% for kw in kw_list %}
+                    <input type="checkbox" name="n_keyword">{{ kw }}
+                {% empty %}
+                {% endfor %}
+            </p>
+            <p>
+                费用：<input name="n_cost" type="number" value="1">
+            <p>
+                攻击力：<input name="n_attack" type="number" value="1">
+            <p>
+                生命值：<input name="n_health" type="number" value="1">
+            <p>
+                描述：<input name="n_description" type="text">
+            <p>
+                背景故事：<input name="n_background" type="text">
+            <p>
+                文件 <input type="file" name="n_img">
+            <p>
+                <input type="submit" value="保存"></p>
         </form>
+        {{ message }}
     </div>
 </div>
 
