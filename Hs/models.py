@@ -1,12 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.db.models import Q
+from django.db.models.signals import m2m_changed
+from django.core.exceptions import ValidationError
 
 
 # Create your models here.
 
 
 # 职业列表
+
+
 class SummonerClass(models.Model):
     id = models.AutoField('职业id', primary_key=True)
     name = models.CharField('职业名称', max_length=10, unique=True)
@@ -181,6 +184,21 @@ class UserCard(models.Model):
             models.CheckConstraint(check=models.Q(amount__gte=0), name='collection_minimum')
         ]
 
+"""
+class Deck(models.Model):
+    id = models.AutoField('套牌id', primary_key=True)
+    name = models.CharField('套牌名称', max_length=64)
+    card_list = models.ManyToManyField(Card, verbose_name='卡牌列表', null=True)
+
+    # 返回当前已添加的卡牌数量
+    def check_number(self):
+        return self.card_list.count()
+
+    def append(self, s_card):
+
+
+    # 限制Deck中card_list的最大数量就交给前端的Form来完成
+"""
 
 class Test(models.Model):
     testword = models.CharField(max_length=10)
