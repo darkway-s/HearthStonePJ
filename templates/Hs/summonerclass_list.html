@@ -4,15 +4,20 @@
 <head>
     <meta charset="utf-8">
     <title>浏览职业列表</title>
-    <link href="{% static 'CSS/cards.css' %}" type="text/css" rel="stylesheet">
+    <link href="{% static 'CSS/summonerclass_list.css' %}" type="text/css" rel="stylesheet">
 </head>
 
 <body>
-<h1 class="logo"><a href="{% url 'Hs:index' %}">炉石传说卡牌库数据系统</a></h1>
-    <h2>浏览职业列表</h2>
+    <ul class="nav">
+        <li class="head"><a class ="logo" href="{% url 'Hs:index' %}"><b>炉石传说卡牌库数据系统</b></a></li>
+        <li class="head"><b>浏览职业列表</b></li>
+        <li class="head"><a href="{% url 'Hs:summonerclass_add' %}" target="_blank">添加职业</a></li>
+        <li><a href="news.asp">修改密码</a></li>
+        <li><a href="contact.asp">注销</a></li>
+        <li class="txt">欢迎，{{ username }}</li>
+    </ul>
 
-    <li><a href="{% url 'Hs:summonerclass_add' %}" target="_blank">添加职业</a></li>
-    <table class="table table-striped table-bordered">
+    <table>
         <thead>
         <tr>
             <th>职业名称</th>

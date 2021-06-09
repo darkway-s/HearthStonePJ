@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>管理界面</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'CSS/manage.css' %}" type="text/css" rel="stylesheet">
+
+
+</head>
+<body>
+<ul class="nav_hor">
+    <li class="head"><a class="logo" href="{% url 'Hs:index' %}"><b>炉石传说卡牌库数据系统</b></a></li>
+    <li class="head"><b>管理界面</b></li>
+    <li class="head"><a href="{% url 'Hs:summonerclass_add' %}" target="_blank">添加职业</a></li>
+    <li><a href="news.asp">修改密码</a></li>
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'logout' %}?next={{ request.path }}">注销</a></li>
+        <li class="txt">欢迎，{{ user.username }}</li>
+    {% else %}
+        <li><a href="{% url 'login' %}?next={{ request.path }}">登录</a></li>
+        <li><a href="{% url 'Hs:register' %}">注册</a></li>
+    {% endif %}
+</ul>
+
+<div class="row">
+    <div class="column side">
+        <ul class="nav_vert">
+            <li><a class="main" href="manage/card">卡牌</a><a class="add" href="manage/card/add"> 新建</a></li>
+            <li><a href="manage/summonerclass">职业</a><a class="add" href="manage/summonerclass/add"> 新建</a></li>
+            <li><a href="manage/raceclass">种族</a><a class="add" href="manage/raceclass/add"> 新建</a></li>
+            <li><a href="manage/deck">套牌</a><a class="add" href="manage/deck/add"> 新建</a></li>
+            <li><a href="manage/setclass">合集列表</a><a class="add" href="manage/setclass/add"> 新建</a></li>
+            <li><a href="manage/user">用户列表</a><a class="add" href="manage/user/add"> 新建</a></li>
+        </ul>
+    </div>
+
+    <div class="column body">
+        <form>
+            卡牌名：<input type="text">
+            类型：<select name="type">
+            {% for tp in tp_list %}
+            <option value="随从" selected="true">随从</option>
+            <option value="武器" selected="true">武器</option>
+            <option value="法术" selected="true">法术</option>
+            {% empty %}
+            {% endfor %}
+        </select>
+            稀有度：<select name="rarity">
+            <option value="基本" selected="true">基本</option>
+            <option value="普通" selected="true">普通</option>
+            <option value="稀有" selected="true">稀有</option>
+            <option value="史诗" selected="true">史诗</option>
+            <option value="传说" selected="true">传说</option>
+        </select>
+            系列：<select name="set">
+            <option value="基本" selected="true">基本</option>
+            <option value="普通" selected="true">普通</option>
+            <option value="稀有" selected="true">稀有</option>
+            <option value="史诗" selected="true">史诗</option>
+            <option value="传说" selected="true">传说</option>
+        </select>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

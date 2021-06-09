@@ -6,6 +6,7 @@ from .models import SummonerClass
 from .process import add, update, select
 
 
+
 # Create your views here.
 
 
@@ -16,12 +17,16 @@ def index(request):
 
 
 def cards(request):
-    sc_list = select.card_strict()
+    sc_list = select.summonerclass_all()
     sc_sel = request.GET.get('sc_sel', default='')
-    cost_sel = request.GET.get('cost_sl', default=1)
-    cd_list = select.card_strict(s_cost=cost_sel)
+    cost_sel = request.GET.get('cost_sl', default='-1')
+    cd_list = select.card_all()
+    print('cost_sel=' + cost_sel)
+    print('sc_sel=' + sc_sel)
+    if cost_sel != '-1':
+        cd_list = select.card_strict(_card_list=cd_list, s_cost=cost_sel)
     if sc_sel != '':
-        cd_list = cd_list.filter(card_class=sc_sel)
+        cd_list = select.card_strict(_card_list=cd_list, s_class_name=sc_sel)
     return render(request, 'Hs/cards.html', context={
         'class': '选择职业' if sc_sel == '' else sc_sel,
         'sc_sel': sc_sel,
@@ -173,6 +178,19 @@ def register(request):
     # 如果用户正在访问注册页面，则渲染的是一个空的注册表单
     # 如果用户通过表单提交注册信息，但是数据验证不合法，则渲染的是一个带有错误信息的表单
     return render(request, 'Hs/register.html', context={'form': form})
+
+
+def manage(request):
+    cd_list = select.card_all()
+    return render(request, 'Hs/manage.html', context={
+        'cd_list': cd_list,
+    })
+
+
+def card_create(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
 
 
 def test(request):

@@ -140,6 +140,7 @@ def card_vague_description(s_description=''):
     return _card_list
 
 
+
 # 搜索是否有匹配的合集名
 def set_match(s_name):
     return match(SetClass, s_name)
