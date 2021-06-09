@@ -23,6 +23,7 @@ def keyword_one(sname='', *, sid=-1):
 # 严格筛选: 职业， 法力水晶， 费用， 卡牌id
 def card_strict_type(s_type):
     _card_list = Card.objects.filter(type=s_type)
+    return _card_list
 
 
 # 严格匹配一组关键词, 配合keyword使用
@@ -38,8 +39,13 @@ def card_strict_keyword2(s_name):
     return _card_list
 
 
-def card_strict(s_name='', s_id=-1, s_class='', s_cost=-1):
+def card_all():
     _card_list = Card.objects.all()
+    return _card_list
+
+
+# card_list 传入，在此基础上筛选
+def card_strict(_card_list=card_all(), s_name='', s_id=-1, s_class='', s_cost=-1):
     if s_name != '':
         _card_list = _card_list.filter(name=s_name)
 

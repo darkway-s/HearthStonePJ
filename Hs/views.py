@@ -14,10 +14,12 @@ def index(request):
 
 
 def cards(request):
-    sc_list = select.card_strict()
+    sc_list = models.SummonerClass.objects.all()
     sc_sel = request.GET.get('sc_sel', default='')
-    cost_sel = request.GET.get('cost_sl', default=1)
-    cd_list = select.card_strict(s_cost=cost_sel)
+    cost_sel = request.GET.get('cost_sl', default=-1)
+    cd_list = models.Card.objects.all()
+    if cost_sel != -1:
+        cd_list = cd_list.filter(s_cost=cost_sel)
     if sc_sel != '':
         cd_list = cd_list.filter(card_class=sc_sel)
     return render(request, 'Hs/cards.html', context={
