@@ -159,6 +159,7 @@ class User(AbstractUser):
     # 【货币】金币，奥术之尘
     gold = models.BigIntegerField('金币', default=0)
     arc_dust = models.BigIntegerField('奥术之尘', default=0)
+    collections = models.ManyToManyField(Card, through='UserCard')
 
     # 默认is_superuser值为false
     def save(self, *args, **kwargs):
@@ -166,6 +167,22 @@ class User(AbstractUser):
         super().save(*args, **kwargs)
 
 
+class UserCard(models.Model):
+    user = models.ForeignKey(User, verbose_name='用户', on_delete=models.CASCADE)
+    card = models.ForeignKey(Card, verbose_name='卡牌', on_delete=models.CASCADE)
+    amount = models.IntegerField(default=1)
+
+    class Meta:
+        verbose_name = "卡牌收藏"
+        verbose_name_plural = verbose_name
+
+        # 卡牌收藏
+        constraints = [
+            models.CheckConstraint(check=models.Q(amount__gte=0), name='collection_minimum')
+        ]
+
+
+"""
 # 卡与用户的关系集
 # 每个玩家的账户都对应一组卡牌收藏
 class UserCard(models.Model):
@@ -181,6 +198,7 @@ class UserCard(models.Model):
         constraints = [
             models.CheckConstraint(check=models.Q(amount__gte=0), name='collection_minimum')
         ]
+"""
 
 
 class Test(models.Model):
