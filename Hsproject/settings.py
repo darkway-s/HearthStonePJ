@@ -63,6 +63,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -119,7 +120,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-
+    os.path.join(BASE_DIR, 'media'),
     os.path.join(BASE_DIR, 'static'),
 ]
 
@@ -134,6 +135,6 @@ LOGIN_REDIRECT_URL = '/'
 
 # 图片存储位置
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # 模拟邮件发送
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

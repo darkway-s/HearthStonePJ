@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<h1 class="logo"><a href="{% url 'Hs:index' %}">炉石传说卡牌库数据系统</a></h1>
+<h1 class="logo">浏览所有卡牌</h1>
 	<div class="nav">
 		<span class="dropdown">
 			<a href="#">{{ class }}</a>
@@ -34,20 +34,28 @@
 	</div>
 	<div class="ShowCards">
         {% for cd in cd_list %}
-            <table class="CardTable">
-            <tr>
-                <th>name</th><td>{{ cd.name }}</td>
-            </tr>
-            <tr>
-                <th>cost</th><td>{{ cd.cost }}</td>
-            </tr>
-            <tr>
-                <th>class</th><td>{{ cd.card_class.name }}</td>
-            </tr>
-            </table>
+            <div class="pic">
+                <a href="unsamples/1.jpg" class="tn"><img width="187" height="259" src="../../media/{{ cd.img }}"></a>
+                <ul>
+                    <li class="title">{{ cd.name }}</li>
+                    <!-- 身材三项 -->
+			        <li class="build"><b>法力消耗: </b>{{ cd.cost }}</li>
+                    <li class="build"><b>攻击力: </b>{{ cd.attack }}</li>
+                    <li class="build"><b>生命值: </b>{{ cd.health }}</li>
+                    <!-- 卡牌描述 -->
+                    <li class="desc"><b>描述: {{ cd.description }}</b></li>
+                    <li class="desc"><b>背景故事: {{ cd.background }}</b></li>
+                    <!-- 种族 -->
+                    <li class="race"><b>种族: </b>{{ cd.race }}</li>
+                </ul>
+            </div>
         {% empty %}
             no cards match
         {% endfor %}
 	</div>
+    <div class="foot">
+        <a href="{% url 'Hs:index' %}">回到主页</a>
+    </div>
+
 </body>
 </html>
