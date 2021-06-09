@@ -6,7 +6,6 @@ from .models import SummonerClass
 from .process import add, update, select
 
 
-
 # Create your views here.
 
 
@@ -180,12 +179,6 @@ def register(request):
     return render(request, 'Hs/register.html', context={'form': form})
 
 
-def test(request):
-    obj = select.card_all()[0]
-    print("该卡的稀有度为"+obj.rarity)
-    return HttpResponse("Hello. It's a page for test.")
-
-
 def manage(request):
     cd_list = select.card_all()
     return render(request, 'Hs/manage.html', context={
@@ -197,3 +190,8 @@ def card_create(request):
     return render(request, 'Hs/card_create.html', context={
     })
 
+
+def test(request):
+    obj = select.card_all()[0]
+    print("该卡的稀有度为" + obj.rarity)
+    return HttpResponse("Hello. It's a page for test.")

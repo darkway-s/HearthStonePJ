@@ -22,5 +22,7 @@ urlpatterns = [
     path('manage/card/add', views.card_create, name='card_create'),
     path('test', views.test, name='test'),
 
+    path('test', views.test, name='test'),
+
 
 ]
