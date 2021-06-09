@@ -1,5 +1,5 @@
 from Hs.process import select
-from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass, UserCard, Deck
+from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass, UserCard
 
 
 # 增加卡牌, n_card_class和n_keyword为list, html中可以用form获取, views中可以用getlist方法获取

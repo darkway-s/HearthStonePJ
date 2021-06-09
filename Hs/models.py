@@ -164,9 +164,9 @@ class User(AbstractUser):
     arc_dust = models.BigIntegerField('奥术之尘', default=0)
     collections = models.ManyToManyField(Card, through='UserCard')
 
-    # 默认is_superuser值为false
+    # 默认is_staff值为false
     def save(self, *args, **kwargs):
-        self.is_superuser = False
+        self.is_staff = False
         super().save(*args, **kwargs)
 
 
@@ -184,21 +184,30 @@ class UserCard(models.Model):
             models.CheckConstraint(check=models.Q(amount__gte=0), name='collection_minimum')
         ]
 
-"""
+
 class Deck(models.Model):
     id = models.AutoField('套牌id', primary_key=True)
     name = models.CharField('套牌名称', max_length=64)
-    card_list = models.ManyToManyField(Card, verbose_name='卡牌列表', null=True)
-
-    # 返回当前已添加的卡牌数量
-    def check_number(self):
-        return self.card_list.count()
-
-    def append(self, s_card):
+    card_list = models.ManyToManyField(Card, through='DeckCard')
 
 
-    # 限制Deck中card_list的最大数量就交给前端的Form来完成
-"""
+class DeckCard(models.Model):
+    deck = models.ForeignKey(Deck, verbose_name='套牌', on_delete=models.CASCADE)
+    card = models.ForeignKey(Card, verbose_name='卡牌', on_delete=models.CASCADE)
+    amount = models.IntegerField(default=1)
+
+    class Meta:
+        verbose_name = "套牌"
+        verbose_name_plural = verbose_name
+
+        # 卡牌收藏
+        constraints = [
+            models.CheckConstraint(check=models.Q(amount__gte=0), name='card_minimum')
+        ]
+
+
+# 限制Deck中card_list的最大数量就交给前端的Form来完成
+
 
 class Test(models.Model):
     testword = models.CharField(max_length=10)

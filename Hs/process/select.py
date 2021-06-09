@@ -140,15 +140,16 @@ def card_vague_description(s_description=''):
     return _card_list
 
 
+def set_all():
+    return select_all(SetClass)
 
-# 搜索是否有匹配的合集名
+
 def set_match(s_name):
     return match(SetClass, s_name)
 
 
-# 搜索是否有匹配的职业名字
-def class_match(s_name):
-    return match(SummonerClass, s_name)
+def race_all():
+    return select_all(RaceClass)
 
 
 # 搜索是否有匹配的种族名字
