@@ -1,5 +1,5 @@
 from django.urls import path, re_path, include
-
+from django.views.static import serve
 from . import views
 
 urlpatterns = [
@@ -17,4 +17,6 @@ urlpatterns = [
     re_path(r'^summonerclass_drop', views.summonerclass_drop, name='summonerclass_drop'),
 
     re_path(r'^register', views.register, name='register'),
+
+
 ]

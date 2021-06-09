@@ -70,3 +70,13 @@
 .dropdown:hover .dropdown-content{
 	display: block;
 }
+
+div.pic{
+	height: 518px;
+	width: 375px;
+	float: left;
+	margin: 5px;
+}
+div.pic img{
+	border: none;
+}
