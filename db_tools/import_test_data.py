@@ -12,10 +12,10 @@ import django
 django.setup()
 
 # 引入的位置必须在这里，不可提前
-from Hs.models import Set, Card, SummonerClass, Keyword, RaceClass, SetClass
+from Hs.models import Set, Card, SummonerClass, Keyword
 
 from db_tools.data.cards_test1 import row_data
-from Hs.process import add, select, update, delete
+from Hs.process import add, select
 
 for card_detail in row_data:
 

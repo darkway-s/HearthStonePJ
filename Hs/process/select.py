@@ -93,6 +93,10 @@ def card_all():
     return select_all(Card)
 
 
+def card_user(user):
+    return user.collection
+
+
 # card_list 传入，在此基础上筛选
 def card_strict(_card_list=card_all(), s_name='', s_id=-1, s_class_name='', s_cost=-1):
     if s_name != '':
@@ -149,3 +153,10 @@ def class_match(s_name):
 # 搜索是否有匹配的种族名字
 def race_match(s_name):
     return match(RaceClass, s_name)
+
+"""
+# 搜索对应的UserCard关系，给出一个list
+def user_card_match(user, card):
+    _object = UserCard.objects.get(user=user, card=card)
+    return _object
+"""

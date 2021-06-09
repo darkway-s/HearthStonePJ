@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from .forms import RegisterForm, KeywordForm, SummonerClassForm
 from Hs import models
-from .models import SummonerClass, Keyword, Card
-from .process import add, select, update
+from .models import SummonerClass
+from .process import add, update, select
+
 
 # Create your views here.
 
@@ -171,3 +173,9 @@ def register(request):
     # 如果用户正在访问注册页面，则渲染的是一个空的注册表单
     # 如果用户通过表单提交注册信息，但是数据验证不合法，则渲染的是一个带有错误信息的表单
     return render(request, 'Hs/register.html', context={'form': form})
+
+
+def test(request):
+    obj = select.card_all()[0]
+    print("该卡的稀有度为"+obj.rarity)
+    return HttpResponse("Hello. It's a page for test.")

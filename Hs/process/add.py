@@ -73,8 +73,41 @@ def raceclass(name):
         return _raceclass
 
 
-# 增加卡牌收藏, 输入user类，卡牌类
-def collection(cur_user, s_card):
-    cur_user.collection.add(s_card)
-    return
-    pass
+"""
+# 合成卡牌, 输入user类，卡牌类
+def collection_one(cur_user, s_card):
+
+    def compose(obj_user, obj_card):
+        obj_price = obj_card.compose_price
+        if obj_user.arc_dust >= obj_price:
+            obj_user.arc_dust -= obj_price
+            obj_user.save()
+            new_collect = UserCard.objects.create(user=obj_user, card=obj_card, amount=1)
+            return new_collect
+        else:
+            print("%s没有足够的奥术之尘" % obj_user.name)
+            return False
+    # 开始
+    try:
+        _object = select.user_card_match(cur_user, s_card)
+        if _object.amount >= 2:
+            print("已拥有超过两张卡牌，无法继续合成！")
+            return 2
+        else:
+            # 只有一张
+            price = s_card.compose_price
+            if cur_user.arc_dust >= price:
+                cur_user.arc_dust -= price
+                cur_user.save()
+                _object.amount += 1
+                _object.save()
+                return 1
+            else:
+                print("%s没有足够的奥术之尘" % cur_user.name)
+                return False
+
+    except UserCard.DoesNotExist:
+        # 一张也没
+        compose(cur_user, s_card)
+        print("合成第一张")
+"""
