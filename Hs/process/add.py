@@ -72,11 +72,13 @@ def raceclass(name):
         _raceclass = RaceClass.objects.create(name=name)
         return _raceclass
 
+
 """
 # 创建一个空的套牌, 输入为套牌名字
 def deck_null(name):
     new_deck = Deck.objects.create(name=name)
 """
+
 
 # 合成卡牌, 输入user类，卡牌类
 # 根据当前拥有的这张卡牌的数量（0,1,2）

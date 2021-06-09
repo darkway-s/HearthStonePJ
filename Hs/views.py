@@ -6,7 +6,6 @@ from .models import SummonerClass
 from .process import add, update, select
 
 
-
 # Create your views here.
 
 
@@ -192,8 +191,7 @@ def card_create(request):
     })
 
 
-
 def test(request):
     obj = select.card_all()[0]
-    print("该卡的稀有度为"+obj.rarity)
+    print("该卡的稀有度为" + obj.rarity)
     return HttpResponse("Hello. It's a page for test.")
