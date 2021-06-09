@@ -25,6 +25,29 @@ def keyword_one(sname='', *, sid=-1):
         return None
 
 
+# 获得关键词列表， 返回这个列表
+def summonerclass(s_name='', *, sid=-1):
+    if sid == -1:
+        _summonerclass_list = SummonerClass.objects.filter(name__contains=s_name)
+    else:
+        _summonerclass_list = SummonerClass.objects.filter(name__contains=s_name, id__exact=sid)
+    return _summonerclass_list
+
+
+def summonerclass_match(s_name):
+    _summonerclass = SummonerClass.objects.get(name=s_name)
+    return _summonerclass
+
+
+# 仅获取第一个
+def summonerclass_one(sname='', *, sid=-1):
+    _summonerclass = summonerclass(sname, sid=sid)[0]
+    if _summonerclass:
+        return _summonerclass
+    else:
+        return None
+
+
 # 严格筛选: 职业， 法力水晶， 费用， 卡牌id
 def card_strict_type(s_type):
     _card_list = Card.objects.filter(type=s_type)
