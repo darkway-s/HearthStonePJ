@@ -18,5 +18,5 @@ urlpatterns = [
 
     re_path(r'^register', views.register, name='register'),
 
-
+    path('manage', views.manage, name='manage')
 ]

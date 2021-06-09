@@ -1,0 +1,37 @@
+.nav{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+.nav li {
+  float: right;
+  display: block;
+  color: #fff877;
+  padding: 14px 16px;
+}
+.nav li.head {
+  float: left;
+}
+.nav .logo{
+  color: antiquewhite;
+}
+.nav li.txt{
+  text-align: center;
+}
+.nav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+}
+
+.nav li a:hover {
+  color: cornflowerblue;
+}
+
+table{
+  background: #a4a8a1;
+  text-align: center;
+}
