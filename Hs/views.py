@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import RegisterForm, KeywordForm, SummonerClassForm
 from Hs import models
-from .models import SummonerClass, Card
+from .models import SummonerClass, Card, UserCard
 from .process import add, update, select
 from django.views.decorators.csrf import csrf_exempt
 
@@ -37,10 +37,33 @@ def cards(request):
 
 
 def mycollection(request):
-    tp_list = select.user_card_all(request.user)
-    print("call user_card_all")
+    try:
+        tp_list = select.user_card_all(request.user)
+        return render(request, 'Hs/mycollection.html', context={
+            'tp_list': tp_list,
+        })
+    except:
+        return render(request, 'Hs/mycollection.html', context={
+        })
+
+
+def mycollection_comp(request):
+    cur_user = request.user
+    all_card_list = select.card_all()
+    # 每个_own_list 中的元素_own就是一个二元list，第一个元素是卡牌，第二个元素是数量
+    _own_list = []
+    for card in all_card_list:
+        # 查询得到这个amount
+        try:
+            obj = select.user_card_match(cur_user, card)
+            amount = obj.amount
+        except UserCard.DoesNotExist:
+            amount = 0
+        _own = [card, amount]
+        _own_list.append(_own)
+        print(_own)
     return render(request, 'Hs/mycollection.html', context={
-        'tp_list': tp_list,
+        'tp_list': _own_list,
     })
 
 
