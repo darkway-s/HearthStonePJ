@@ -36,6 +36,12 @@ def cards(request):
     })
 
 
+def mycollection(request):
+    return render(request, 'Hs/mycollection.html', context={
+
+    })
+
+
 def keyword_list(request):
     keyword = select.keyword_all()
     return render(request, 'Hs/keyword_list.html', {'keyword_list': keyword})
