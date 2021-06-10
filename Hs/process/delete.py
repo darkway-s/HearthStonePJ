@@ -1,4 +1,4 @@
-from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass, UserCard, Deck, DeckCard
+from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass, UserCard
 from . import select
 
 
@@ -39,6 +39,7 @@ def raceclass(sid):
     return None
 
 
+"""
 # 删除这个套牌中的一张卡（如果有两张，只会删除一张
 def deck_card_one(obj_deck, obj_card):
     if select.deck_count(obj_deck) == 0:
@@ -91,3 +92,4 @@ def collection_one(cur_user, s_card):
         # 一张也没，注意，实际运行中这种情况不应触发！前端不应该给没有这张卡的人显示分解按钮
         print("你没有这张卡牌")
         return False
+"""

@@ -1,5 +1,5 @@
 from Hs.process import select
-from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass, UserCard, Deck, DeckCard
+from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass, UserCard
 
 
 # 增加卡牌, n_card_class和n_keyword为list, html中可以用form获取, views中可以用getlist方法获取
@@ -73,6 +73,7 @@ def raceclass(name):
         return _raceclass
 
 
+"""
 # 创建一个空的套牌, 输入为套牌名字
 def deck_null(name, summoner_class):
     new_deck = Deck.objects.create(name=name, summoner_class=summoner_class)
@@ -109,18 +110,10 @@ def deck_append(obj_deck, obj_card):
 # 1张会在UserCard对应行增加一个amount
 # 2张以上则拒绝合成。
 # 然后再判断用户当前奥术之尘与卡牌合成价格相比是否足够，如果够才会合成并扣除相应的奥术之尘
-COMPOSE_PRICE = {
-    "basic": 0,
-    "common": 40,
-    "rare": 100,
-    "epic": 400,
-    "legend": 1600
-}
-
-
 def collection_one(cur_user, s_card):
     def compose(obj_user, obj_card):
         obj_price = obj_card.compose_price()
+        print("obj_price = " + str(obj_price))
 
         if obj_user.arc_dust >= obj_price:
             obj_user.arc_dust -= obj_price
@@ -154,3 +147,4 @@ def collection_one(cur_user, s_card):
         # 一张也没
         compose(cur_user, s_card)
         print("合成第一张")
+"""

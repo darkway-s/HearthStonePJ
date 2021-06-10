@@ -1,4 +1,4 @@
-from Hs.models import SummonerClass, Keyword, Card, SetClass, User, RaceClass, UserCard, Deck, DeckCard
+from Hs.models import SummonerClass, Keyword, Card, SetClass, User, RaceClass, UserCard
 
 
 # select 基类
@@ -207,6 +207,7 @@ def user_card_all(s_user):
     return _card_list
 
 
+"""
 # 搜索对应的DeckCard关系，给出单个元素
 def deck_card_match(s_deck, card):
     _object = DeckCard.objects.get(deck=s_deck, card=card)
@@ -247,3 +248,4 @@ def deck_count(s_deck):
         # 加上每个amount
         cnt += obj[1]
     return cnt
+"""

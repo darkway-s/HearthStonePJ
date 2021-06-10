@@ -177,7 +177,7 @@ class UserCard(models.Model):
     amount = models.IntegerField(default=1)
 
     class Meta:
-        verbose_name = "卡牌收藏"
+        verbose_name = "卡牌收藏关系"
         verbose_name_plural = verbose_name
 
         # 卡牌收藏
@@ -186,13 +186,22 @@ class UserCard(models.Model):
         ]
 
 
+"""
 class Deck(models.Model):
     id = models.AutoField('套牌id', primary_key=True)
     name = models.CharField('套牌名称', max_length=64)
-    summoner_class = models.ForeignKey(to=SummonerClass,on_delete=models.CASCADE, verbose_name="套牌职业")
+    summoner_class = models.ForeignKey(to=SummonerClass, on_delete=models.CASCADE, verbose_name="套牌职业")
+    owner = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name="拥有者")
     card_list = models.ManyToManyField(Card, through='DeckCard')
 
     MAX_CARDS_IN_DECK = 5
+
+    class Meta:
+        verbose_name = "套牌"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
 
 
 class DeckCard(models.Model):
@@ -201,7 +210,7 @@ class DeckCard(models.Model):
     amount = models.IntegerField(default=1)
 
     class Meta:
-        verbose_name = "套牌"
+        verbose_name = "套牌关系"
         verbose_name_plural = verbose_name
 
         # 卡牌收藏
@@ -215,3 +224,4 @@ class DeckCard(models.Model):
 
 class Test(models.Model):
     testword = models.CharField(max_length=10)
+"""
