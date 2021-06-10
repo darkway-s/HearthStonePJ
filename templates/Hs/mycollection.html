@@ -40,8 +40,8 @@
                 <div class="pic">
                     <img width="187" height="259" src="../../media/{{ tp.0.img }}">
                     <ul class="detail">
-                        <li class="btn_left"><a class="btn" href="{% url 'Hs:cd_comp' %}?c_id={{ tp.0.id }}">制作</a></li>
-                        <li class="btn_right"><a class="btn" href="{% url 'Hs:cd_decomp' %}?c_id={{ tp.0.id }}">分解</a></li>
+                        <li class="btn_left"><a class="btn" href="{% url 'Hs:cd_comp' %}?c_id={{ tp.0.id }}&pos={{ pos }}">制作</a></li>
+                        <li class="btn_right"><a class="btn" href="{% url 'Hs:cd_decomp' %}?c_id={{ tp.0.id }}&pos={{ pos }}">分解</a></li>
                         <li class="title">{{ tp.0.name }}</li>
                         <!-- 数量 -->
                         <li class="amount">{{ tp.1 }}张</li>

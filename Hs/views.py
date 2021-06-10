@@ -42,9 +42,11 @@ def mycollection(request):
         dk_list = select.deck_all()
         return render(request, 'Hs/mycollection.html', context={
             'tp_list': tp_list,
+            'pos': request.path,
         })
     except:
         return render(request, 'Hs/mycollection.html', context={
+            'pos': request.path,
         })
 
 
@@ -65,6 +67,7 @@ def mycollection_comp(request):
         print(_own)
     return render(request, 'Hs/mycollection.html', context={
         'tp_list': _own_list,
+        'pos': request.path,
     })
 
 
@@ -357,7 +360,7 @@ def cd_comp(request):
     s_card_id = request.GET.get('c_id')
     s_card = select.card_match_id(s_card_id)
     add.collection_one(cur_user, s_card)
-    return redirect('/mycollection')
+    return redirect(request.GET.get('pos'))
 
 
 # 卡牌分解
@@ -366,7 +369,7 @@ def cd_decomp(request):
     s_card_id = request.GET.get('c_id')
     s_card = select.card_match_id(s_card_id)
     delete.collection_one(cur_user, s_card)
-    return redirect('/mycollection')
+    return redirect(request.GET.get('pos'))
 
 
 def test(request):
