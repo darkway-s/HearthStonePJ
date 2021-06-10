@@ -245,8 +245,8 @@ def add_sub(request):
     n_race_id = request.POST.get('n_race')
     n_race = select.race_match_id(n_race_id)
 
-    message = request.POST.get('n_img')
-
+    n_img = request.FILES.get('n_img')
+    print(n_img)
     add.card(n_name,
              n_type,
              n_rarity,
@@ -260,9 +260,9 @@ def add_sub(request):
              n_description,
              n_background,
              n_race,
-             message,
+             n_img,
              )
-
+    message = 'a message'
     return render(request, 'Hs/card_create.html', context={
         'message': message,
     })

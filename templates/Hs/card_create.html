@@ -26,17 +26,28 @@
 <div class="row">
     <div class="column side">
         <ul class="nav_vert">
-            <li><a class="main active" href="{% url 'Hs:manage' %}">卡牌</a><a class="add" href="{% url 'Hs:card_create' %}"> 新建</a></li>
-            <li><a class="main" href="{% url 'Hs:summonerclass_list' %}">职业</a><a class="add" href="{% url 'Hs:summonerclass_add' %}"> 新建</a></li>
-            <li><a class="main" href="{% url 'Hs:raceclass_list' %}">种族</a><a class="add" href="{% url 'Hs:raceclass_add' %}"> 新建</a></li>
-            <li><a class="main" href="{% url 'Hs:keyword_list' %}">关键词列表</a><a class="add" href="{% url 'Hs:keyword_add' %}"> 新建</a></li>
-            <li><a class="main" href="{% url 'Hs:setclass_list' %}">合集列表</a><a class="add" href="{% url 'Hs:setclass_add' %}"> 新建</a></li>
-            <li><a class="main" href="{% url 'Hs:user_list' %}">用户列表</a><a class="add" href="{% url 'Hs:user_add' %}"> 新建</a></li>
+            <li><a class="main active" href="{% url 'Hs:manage' %}">卡牌</a><a class="add"
+                                                                             href="{% url 'Hs:card_create' %}"> 新建</a>
+            </li>
+            <li><a class="main" href="{% url 'Hs:summonerclass_list' %}">职业</a><a class="add"
+                                                                                  href="{% url 'Hs:summonerclass_add' %}">
+                新建</a></li>
+            <li><a class="main" href="{% url 'Hs:raceclass_list' %}">种族</a><a class="add"
+                                                                              href="{% url 'Hs:raceclass_add' %}">
+                新建</a></li>
+            <li><a class="main" href="{% url 'Hs:keyword_list' %}">关键词列表</a><a class="add"
+                                                                               href="{% url 'Hs:keyword_add' %}"> 新建</a>
+            </li>
+            <li><a class="main" href="{% url 'Hs:setclass_list' %}">合集列表</a><a class="add"
+                                                                               href="{% url 'Hs:setclass_add' %}">
+                新建</a></li>
+            <li><a class="main" href="{% url 'Hs:user_list' %}">用户列表</a><a class="add" href="{% url 'Hs:user_add' %}">
+                新建</a></li>
         </ul>
     </div>
 
     <div class="column body">
-        <form action="add_sub" method="post">
+        <form action="add_sub" enctype="multipart/form-data" method="post">
             {% csrf_token %}
             <p>
                 卡牌名：<input type="text" name="n_name">
@@ -91,18 +102,25 @@
             </p>
             <p>
                 费用：<input name="n_cost" type="number" value="1">
+            </p>
             <p>
                 攻击力：<input name="n_attack" type="number" value="1">
+            </p>
             <p>
                 生命值：<input name="n_health" type="number" value="1">
+            </p>
             <p>
                 描述：<input name="n_description" type="text">
+            </p>
             <p>
                 背景故事：<input name="n_background" type="text">
+            </p>
             <p>
                 文件 <input type="file" name="n_img">
+            </p>
             <p>
-                <input type="submit" value="保存"></p>
+                <input type="submit" value="保存">
+            </p>
         </form>
         {{ message }}
     </div>
