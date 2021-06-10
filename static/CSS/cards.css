@@ -2,11 +2,7 @@
 
 .nav{
 	list-style-type: none;
-	background-image: url(../image/board.jpg);
-	background-position: center;
-	background-size:100%;
 	text-align: center;
-	border: 3px black solid;
 	height: 30px;
 	padding: 15px 10px;
 }

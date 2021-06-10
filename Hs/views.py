@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import RegisterForm, KeywordForm, SummonerClassForm
 from Hs import models
-from .models import SummonerClass
+from .models import SummonerClass, Card
 from .process import add, update, select
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -96,6 +97,12 @@ def summonerclass_list(request):
 
 
 def summonerclass_add(request):
+    return render(request, 'Hs/summonerclass_add.html', context={
+
+    })
+
+
+def summonerclass_add_sub(request):
     if request.method == "POST":
         form = SummonerClassForm(request.POST)
         # 判断表单值是否合法
@@ -187,6 +194,92 @@ def manage(request):
 
 
 def card_create(request):
+    tp_list = Card.TYPE_CHOICES
+    rt_list = Card.RARITY_CHOICE
+    st_list = select.set_all()
+    sc_list = select.summonerclass_all()
+    kw_list = select.keyword_all()
+    rc_list = select.race_all()
+    return render(request, 'Hs/card_create.html', context={
+        'tp_list': tp_list,
+        'rt_list': rt_list,
+        'st_list': st_list,
+        'sc_list': sc_list,
+        'kw_list': kw_list,
+        'rc_list': rc_list,
+    })
+
+
+@csrf_exempt
+def add_sub(request):
+    request.encoding = 'utf-8'
+    add.card(request.POST.get('n_name'),
+             request.POST.get('n_type'),
+             request.POST.get('n_rarity'),
+             request.POST.get('n_set'),
+             request.POST.get('n_card_class'),
+             request.POST.get('n_collectible'),
+             request.POST.get('n_keyword'),
+             request.POST.get('n_cost'),
+             request.POST.get('n_attack'),
+             request.POST.get('n_health'),
+             request.POST.get('n_description'),
+             request.POST.get('n_background'),
+             request.POST.get('n_race'),
+             request.POST.get('n_img'),
+             )
+    message = request.POST.get('n_img')
+    return render(request, 'Hs/card_create.html', context={
+        'message': message,
+    })
+
+
+def raceclass_list(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
+def raceclass_add(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
+def raceclass_add_sub(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
+def setclass_list(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
+def setclass_add(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
+def setclass_add_sub(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
+def user_list(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
+def user_add(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
+def user_add_sub(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
+def keyword_add_sub(request):
     return render(request, 'Hs/card_create.html', context={
     })
 

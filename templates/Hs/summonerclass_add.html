@@ -10,7 +10,7 @@
 <body>
 <h1 class="logo"><a href="{% url 'Hs:index' %}">炉石传说卡牌库数据系统</a></h1>
     <h2>添加职业</h2>
-	<form method="post" enctype="multipart/form-data" action="{% url 'Hs:summonerclass_add' %}">
+	<form method="post" enctype="multipart/form-data" action="{% url 'Hs:summonerclass_add_sub' %}">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="OK"/>
