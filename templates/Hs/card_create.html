@@ -88,11 +88,11 @@
                 {% empty %}
                 {% endfor %}
             </p>
-            <!--<p>
+            <p>
                 可合成？
-                <input type="checkbox" name="n_collectible">是
-                <input type="checkbox" name="n_collectible">否
-            </p>-->
+                <input type="radio" name="n_collectible" value="true" checked="true">是
+                <input type="radio" name="n_collectible" value="false">否
+            </p>
             <p>
                 关键词：
                 {% for kw in kw_list %}

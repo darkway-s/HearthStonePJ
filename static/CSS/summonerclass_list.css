@@ -1,3 +1,6 @@
 .column.body a{
     text-decoration: none;
 }
+.column.body a:visited{
+    color:blue;
+}
