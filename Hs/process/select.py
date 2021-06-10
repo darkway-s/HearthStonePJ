@@ -212,6 +212,11 @@ def deck_all():
     return select_all(Deck)
 
 
+# 列出一个用户的所有套牌
+def deck_all_of_user(cur_user):
+    return cur_user.deck_owner.all()
+
+
 # 模糊搜索套牌名称并精确搜索id（如果有的话）
 def deck_vague_name(s_name='', *, sid):
     return select1(Deck, s_name, sid=sid)
