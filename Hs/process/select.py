@@ -183,7 +183,7 @@ def race_match_id(s_id):
 
 
 # 输入user，返回这个user中的卡牌列表，以二元元组的形式返回(card, amount)第一个元素是Card类，第二个元素是int型（表示这张卡的数量）
-def user_card_all(s_user):
+def user_card_all(s_user: User):
     cards_in_user = UserCard.objects.filter(user=s_user)
     _card_list = []
     for obj in cards_in_user:
@@ -235,6 +235,24 @@ def deck_card_list(s_deck):
     return _card_list
 
 
+# 输入deck，user，返回这个deck可用职业的，并且在user卡牌收藏里的所有tuple
+def deck_available_cards(obj_user: User, obj_deck):
+    _cards_list = user_card_all(obj_user)
+    obj_class = obj_deck.summoner_class
+    _available_cards_list = []
+    for _tuple in _cards_list:
+        available_class = _tuple[0].card_class.all()
+        neutral = summonerclass_match('中立')
+        # 卡牌所在职业中包含该套牌的职业，或者是中立卡牌
+        if obj_class in available_class or neutral in available_class:
+            _available_cards_list.append(_tuple)
+        else:
+            # 否则什么也不做
+            pass
+
+    return _available_cards_list
+
+
 # 计算s_deck中有哪些卡牌
 def deck_count(s_deck):
     _card_list = deck_card_list(s_deck)
@@ -243,6 +261,19 @@ def deck_count(s_deck):
         # 加上每个amount
         cnt += obj[1]
     return cnt
+
+
+# 得到user的所有deck中所用到的所有卡牌的列表，形式为tuple,[0]card [1]amount
+def deck_used_card_list(obj_user: User):
+    _deck_list = deck_all_of_user(obj_user)
+    # 用set去重
+    S = set()
+    for _deck in _deck_list:
+        _tuple = deck_card_list(_deck)
+        S.add(_tuple)
+
+    return S
+
 
 # 得到user的所有deck中所用到的所有卡牌的列表，形式为tuple,[0]card [1]amount
 def deck_used_card_list(obj_user: User):

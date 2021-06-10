@@ -75,17 +75,17 @@ def mycollection_comp(request):
 
 def mycollection_deck(request):
     try:
-        tp_list = select.user_card_all(request.user)
+        cur_user = request.user
     except:
         return render(request, 'Hs/mycollection_deck.html', context={
             'pos': request.get_full_path(),
         })
-    cur_user = request.user
     dk_list = select.deck_all_of_user(cur_user)
     dk_card_list = []
     dk_sel_id = request.GET.get('dk_id', default='')
     if dk_sel_id != '':
         dk_sel = select.deck_match_id(dk_sel_id)
+        tp_list = select.deck_available_cards(request.user, dk_sel)
         dk_card_list = select.deck_card_list(dk_sel)
         for dk_card in dk_card_list:
             print(dk_card[0].name)
@@ -386,7 +386,18 @@ def cd_comp(request):
     cur_user = request.user
     s_card_id = request.GET.get('c_id')
     s_card = select.card_match_id(s_card_id)
-    add.collection_one(cur_user, s_card)
+    # 返回值
+    ret = add.collection_one(cur_user, s_card)
+    if ret == -1:
+        # 奥术之尘不足
+        pass
+    elif ret == -2:
+        # 当前卡牌数大于等于2张，无法合成
+        pass
+    else:
+        # 正常合成
+        arc_cost = ret.card.compose_price()
+
     return redirect(request.GET.get('pos'))
 
 
