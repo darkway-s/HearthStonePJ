@@ -13,6 +13,7 @@ from django.core.exceptions import ValidationError
 class SummonerClass(models.Model):
     id = models.AutoField('职业id', primary_key=True)
     name = models.CharField('职业名称', max_length=10, unique=True)
+    img = models.ImageField('图片', upload_to='summonerclass_img', null=True, default='default.png')
 
     class Meta:
         verbose_name = '职业列表'
