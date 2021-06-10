@@ -69,27 +69,46 @@ def deck(s_deck):
 # 分解卡牌, 输入user类，卡牌类
 # 无这张卡牌则直接退出，有这张卡牌才会分解
 # 分解后若已无这张卡牌，则会删除,
-# 正常分解则返回分解所得的奥术之尘数量
+# 返回分解所得的奥术之尘数量
+# 若分解后会导致用户套牌库中卡牌数量不足,则返回-1
 def collection_one(cur_user, s_card):
     def decompose(user_card_obj, obj_card, obj_user):
         price = obj_card.decompose_price()
         user_card_obj.amount -= 1
         user_card_obj.save()
+        obj_user.arc_dust += price
+        obj_user.save()
         # 无卡牌收藏则删除
         if user_card_obj.amount == 0:
             user_card_obj.delete()
-
-        obj_user.arc_dust += price
-        obj_user.save()
         return price
 
-    try:
-        _object = select.user_card_match(cur_user, s_card)
-        appreciate = decompose(_object, s_card, cur_user)
-        print("正常分解")
-        return appreciate
+    _object = select.user_card_match(cur_user, s_card)
+    # TODO
+    """
+    
+    
+    used_list = select.deck_used_card_list(cur_user)
+    if _object in used_list or (_object[0], 1) in used_list:
+        # 可能存在危险
+        # 以下情况有危险:
+        # 1. 删除一张只有一张的卡牌，但是used_list中要用
+        # 2. 删除一张有两张的卡牌，但是used_list中要用两张
+        if _object[1] == 1:
+            print("删除该卡会导致部分套牌不可用!")
+            return -1
+        elif _object[1] == 2 and _object in used_list:
+            print("删除该卡会导致部分套牌不可用!")
+            return -1
+    """
+    # 放心地删除
+    appreciate = decompose(_object, s_card, cur_user)
+    print("正常分解")
+    return appreciate
 
+    """
     except UserCard.DoesNotExist:
         # 一张也没，注意，实际运行中这种情况不应触发！前端不应该给没有这张卡的人显示分解按钮
         print("你没有这张卡牌")
         return -1
+    """

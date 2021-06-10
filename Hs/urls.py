@@ -8,6 +8,7 @@ urlpatterns = [
 
     path('mycollection', views.mycollection, name='mycollection'),
     path('mycollection_comp', views.mycollection_comp, name='mycollection_comp'),
+    path('mycollection_deck', views.mycollection_deck, name='mycollection_deck'),
 
     path('keyword_list', views.keyword_list, name='keyword_list'),
     path('keyword_add', views.keyword_add, name='keyword_add'),
@@ -45,4 +46,7 @@ urlpatterns = [
 
     path('cd_comp', views.cd_comp, name='cd_comp'),
     path('cd_decomp', views.cd_decomp, name='cd_decomp'),
+
+    path('dk_card_rem', views.dk_card_rem, name='dk_card_rem'),
+    path('dk_card_add', views.dk_card_add, name='dk_card_add'),
 ]

@@ -198,15 +198,6 @@ def user_card_match(user, card):
     return _object
 
 
-def user_card_all(s_user):
-    cards_in_user = UserCard.objects.filter(user=s_user)
-    _card_list = []
-    for obj in cards_in_user:
-        _tuple = (obj.card, obj.amount)
-        _card_list.append(_tuple)
-    return _card_list
-
-
 # 列出所有套牌
 def deck_all():
     return select_all(Deck)
@@ -252,3 +243,14 @@ def deck_count(s_deck):
         # 加上每个amount
         cnt += obj[1]
     return cnt
+
+# 得到user的所有deck中所用到的所有卡牌的列表，形式为tuple,[0]card [1]amount
+def deck_used_card_list(obj_user: User):
+    _deck_list = deck_all_of_user(obj_user)
+    # 用set去重
+    S = set()
+    for _deck in _deck_list:
+        _tuple = deck_card_list(_deck)
+        S.add(_tuple)
+
+    return S

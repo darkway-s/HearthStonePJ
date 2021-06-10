@@ -39,15 +39,17 @@ def cards(request):
 def mycollection(request):
     try:
         tp_list = select.user_card_all(request.user)
-        dk_list = select.deck_all()
-        return render(request, 'Hs/mycollection.html', context={
-            'tp_list': tp_list,
-            'pos': request.path,
-        })
     except:
         return render(request, 'Hs/mycollection.html', context={
             'pos': request.path,
         })
+    cur_user = request.user
+    dk_list = select.deck_all_of_user(cur_user)
+    return render(request, 'Hs/mycollection.html', context={
+        'tp_list': tp_list,
+        'pos': request.path,
+        'dk_list': dk_list,
+    })
 
 
 def mycollection_comp(request):
@@ -68,6 +70,31 @@ def mycollection_comp(request):
     return render(request, 'Hs/mycollection.html', context={
         'tp_list': _own_list,
         'pos': request.path,
+    })
+
+
+def mycollection_deck(request):
+    try:
+        tp_list = select.user_card_all(request.user)
+    except:
+        return render(request, 'Hs/mycollection_deck.html', context={
+            'pos': request.get_full_path(),
+        })
+    cur_user = request.user
+    dk_list = select.deck_all_of_user(cur_user)
+    dk_card_list = []
+    dk_sel_id = request.GET.get('dk_id', default='')
+    if dk_sel_id != '':
+        dk_sel = select.deck_match_id(dk_sel_id)
+        dk_card_list = select.deck_card_list(dk_sel)
+        for dk_card in dk_card_list:
+            print(dk_card[0].name)
+    return render(request, 'Hs/mycollection_deck.html', context={
+        'tp_list': tp_list,
+        'pos': request.get_full_path(),
+        'dk_list': dk_list,
+        'dk_sel': select.deck_match_id(request.GET.get('dk_id')),
+        'dk_card_list': dk_card_list,
     })
 
 
@@ -370,6 +397,24 @@ def cd_decomp(request):
     s_card = select.card_match_id(s_card_id)
     delete.collection_one(cur_user, s_card)
     return redirect(request.GET.get('pos'))
+
+
+def dk_card_rem(request):
+    dk_sel_id = request.GET.get('dk_id')
+    cd_sel_id = request.GET.get('cd_id')
+    dk_sel = select.deck_match_id(dk_sel_id)
+    cd_sel = select.card_match_id(cd_sel_id)
+    delete.deck_card_one(dk_sel, cd_sel)
+    return redirect('/mycollection_deck?dk_id=' + request.GET.get('dk_id'))
+
+
+def dk_card_add(request):
+    dk_sel_id = request.GET.get('dk_id')
+    cd_sel_id = request.GET.get('c_id')
+    dk_sel = select.deck_match_id(dk_sel_id)
+    cd_sel = select.card_match_id(cd_sel_id)
+    message = add.deck_append(dk_sel, cd_sel)
+    return redirect('/mycollection_deck?dk_id=' + request.GET.get('dk_id'))
 
 
 def test(request):

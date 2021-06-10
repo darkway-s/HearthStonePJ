@@ -80,27 +80,36 @@ def deck_null(owner, name, summoner_class):
 
 
 # 在目标套牌中增加目标卡牌
-def deck_append(obj_deck, obj_card):
-    if select.deck_count(obj_deck) > Deck.MAX_CARDS_IN_DECK:
+# 对于这种情况进行讨论，用户只有一张卡A，但是套牌中已经添加一张卡A了，这时应该拒绝再放入卡A
+def deck_append(obj_deck: Deck, obj_card: Card):
+    if select.deck_count(obj_deck) >= Deck.MAX_CARDS_IN_DECK:
         print("套牌中已经有太多卡了")
-        return False
-
+        return "套牌中已经有太多卡了"
     try:
+        # 判断套牌中是否已经有了这张卡牌
         _object = select.deck_card_match(obj_deck, obj_card)
+        # 判断用户是否拥有足够的卡牌， 如果只有一张牌，并且套牌中已经有一张了，那就报错
+        obj_user = obj_deck.owner
+        obj_user_card = select.user_card_match(obj_user, obj_card)
+        own_amount = obj_user_card.amount
+        if own_amount == 1:
+            print("你只有一张%s" % obj_card)
+            return "你只有一张%s" % obj_card
+
         if _object.amount >= 2:
-            print("套牌中已有超过两张卡牌，无法继续添加！")
-            return 2
+            print("套牌中已有超过两张该卡牌，无法继续添加！")
+            return "套牌中已有超过两张该卡牌，无法继续添加！"
         else:
             # 只有一张
             _object.amount += 1
             _object.save()
-            print("添加第二张%s" % _object.card.name)
-            return 1
+            print("成功添加第二张%s" % _object.card.name)
+            return "成功添加第二张%s" % _object.card.name
     except DeckCard.DoesNotExist:
         # 一张也没
         new_obj = DeckCard.objects.create(deck=obj_deck, card=obj_card, amount=1)
-        print("添加第一张%s" % new_obj.card.name)
-        return new_obj
+        print("成功添加第一张%s" % new_obj.card.name)
+        return "成功添加第一张%s" % new_obj.card.name
 
 
 # 合成卡牌, 输入user类，卡牌类
@@ -109,7 +118,7 @@ def deck_append(obj_deck, obj_card):
 # 1张会在UserCard对应行增加一个amount
 # 2张以上则拒绝合成。
 # 然后再判断用户当前奥术之尘与卡牌合成价格相比是否足够，如果够才会合成并扣除相应的奥术之尘
-# 如果合成成功，则返回消耗的奥术之尘，如果因为奥术之尘不够而失败，则返回-1，如果因为当前卡牌拥有量已经大于等于2，则返回-2
+# 如果合成成功，则返回合成的UserCard，如果因为奥术之尘不够而失败，则返回-1，如果因为当前卡牌拥有量已经大于等于2，则返回-2
 def collection_one(cur_user, s_card):
     def compose(obj_user, obj_card):
         obj_price = obj_card.compose_price()
@@ -119,9 +128,9 @@ def collection_one(cur_user, s_card):
             obj_user.arc_dust -= obj_price
             obj_user.save()
             new_collect = UserCard.objects.create(user=obj_user, card=obj_card, amount=1)
-            return obj_price
+            return new_collect
         else:
-            print("%s没有足够的奥术之尘" % obj_user.name)
+            print("你没有足够的奥术之尘")
             return -1
 
     # 开始
@@ -138,7 +147,7 @@ def collection_one(cur_user, s_card):
                 cur_user.save()
                 _object.amount += 1
                 _object.save()
-                return price
+                return _object
             else:
                 print("%s没有足够的奥术之尘" % cur_user.name)
                 return -1
