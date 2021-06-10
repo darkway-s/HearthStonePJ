@@ -182,9 +182,14 @@ def race_match_id(s_id):
     return match_id(RaceClass, s_id)
 
 
-# 给出一个用户所有的卡牌
+# 输入user，返回这个user中的卡牌列表，以二元元组的形式返回(card, amount)第一个元素是Card类，第二个元素是int型（表示这张卡的数量）
 def user_card_all(s_user):
-    return s_user.collections.all()
+    cards_in_user = UserCard.objects.filter(user=s_user)
+    _card_list = []
+    for obj in cards_in_user:
+        _tuple = (obj.card, obj.amount)
+        _card_list.append(_tuple)
+    return _card_list
 
 
 # 搜索对应的UserCard关系，给出单个元素
