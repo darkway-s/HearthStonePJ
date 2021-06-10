@@ -41,15 +41,14 @@ def keyword(name, description):
 
 
 # 增加职业， 返回本身
-def summonerclass(name):
+def summonerclass(s_name, s_img):
     try:
-        in_obj = select.summonerclass_match(name)
+        in_obj = select.summonerclass_match(s_name)
         print("重复职业类%s " % in_obj.name)
         return in_obj
     except SummonerClass.DoesNotExist:
-        _summonerclass = SummonerClass.objects.create(name=name)
+        _summonerclass = SummonerClass.objects.create(name=s_name, img=s_img)
         return _summonerclass
-
 
 # 增加合集
 def setclass(name):

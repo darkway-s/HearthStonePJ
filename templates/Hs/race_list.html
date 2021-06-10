@@ -48,12 +48,26 @@
     </div>
 
     <div class="column body">
-        <h2>增加关键词</h2>
-        <form method="post" enctype="multipart/form-data" action="{% url 'Hs:keyword_add' %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="OK"/>
-        </form>
+        <h2>种族列表</h2>
+        <table>
+            <tbody>
+            {% for rc in rc_list %}
+                <tr>
+                    <td>{{ rc.name }}</td>
+                    <td class="text-center">
+                        <a class="btn btn-info btn-sm" href="/raceclass_edit/?id={{ rc.id }}"><i
+                                class="fa fa-pencil fa-fw"
+                                aria-hidden="true"></i>编辑
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="/raceclass_drop/?id={{ rc.id }}"><i
+                                class="fa fa-trash-o fa-fw"
+                                aria-hidden="true"></i>删除
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 

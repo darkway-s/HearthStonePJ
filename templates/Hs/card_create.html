@@ -47,6 +47,7 @@
     </div>
 
     <div class="column body">
+        <h2>添加卡牌</h2>
         <form action="add_sub" enctype="multipart/form-data" method="post">
             {% csrf_token %}
             <p>
@@ -122,7 +123,6 @@
                 <input type="submit" value="保存">
             </p>
         </form>
-        {{ message }}
     </div>
 </div>
 

@@ -48,10 +48,17 @@
 
     <div class="column body">
         <h2>添加职业</h2>
-        <form method="post" enctype="multipart/form-data" action="{% url 'Hs:summonerclass_add_sub' %}">
+        <form action="{% url 'Hs:summonerclass_add_sub' %}" enctype="multipart/form-data" method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="OK"/>
+            <p>
+                职业名：<input type="text" name="n_name">
+            </p>
+            <p>
+                上传职业图 <input type="file" name="n_img">
+            </p>
+            <p>
+                <input type="submit" value="保存">
+            </p>
         </form>
     </div>
 </div>
