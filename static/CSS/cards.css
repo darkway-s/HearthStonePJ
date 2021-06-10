@@ -1,78 +1,99 @@
 /* CSS Document */
 
-.nav{
-	list-style-type: none;
-	text-align: center;
-	height: 30px;
-	padding: 15px 10px;
+.nav {
+    list-style-type: none;
+    text-align: center;
+    height: 30px;
+    padding: 15px 10px;
 }
 
-.nav a{
-	text-decoration: none;
+.nav a {
+    text-decoration: none;
 }
 
-.crys{
-	font-family:Arial;
-	font-size:.8em;
-	text-align:center;
-	margin:3px;
+.crys {
+    font-family: Arial;
+    font-size: .8em;
+    text-align: center;
+    margin: 3px;
 }
 
-.crys:link, .crys:visited{
-	color:white;
-	background-image: url(../image/bcryst.jpg);
-	background-size: 130%;
-	background-position: center;
-	padding:5px 5px 5px 5px;
-	width:10px;
+.crys:link, .crys:visited {
+    color: white;
+    background-image: url(../image/bcryst.jpg);
+    background-size: 130%;
+    background-position: center;
+    padding: 5px 5px 5px 5px;
+    width: 10px;
 
 }
 
-.crys:hover{
-	color:red;
+.crys:hover {
+    color: red;
 }
 
-.dropdown{
-	position:relative;
-	display: inline-block;
-	background-image: url(../image/board.jpg);
-	background-position: center;
-	padding:3px;
-	color: black;
+.dropdown {
+    position: relative;
+    display: inline-block;
+    background-image: url(../image/board.jpg);
+    background-position: center;
+    padding: 3px;
+    color: black;
 }
 
-.dropdown p{
-	background-image: url(../image/board.jpg);
-	background-position: center;
-	padding:3px;
-	color:black;
-	margin: 0;
-	border: 2px black;
+.dropdown p {
+    background-image: url(../image/board.jpg);
+    background-position: center;
+    padding: 3px;
+    color: black;
+    margin: 0;
+    border: 2px black;
 }
 
-.dropdown a{
-	color: black;
+.dropdown a {
+    color: black;
 }
 
-.dropdown a:hover{
-	color:white;
+.dropdown a:hover {
+    color: white;
 }
 
-.dropdown-content{
-	display: none;
-	position: absolute;
+.dropdown-content {
+    display: none;
+    position: absolute;
 }
 
-.dropdown:hover .dropdown-content{
-	display: block;
+.dropdown:hover .dropdown-content {
+    display: block;
 }
 
-div.pic{
-	height: 518px;
-	width: 375px;
-	float: left;
-	margin: 5px;
+div.pic {
+    height: 318px;
+    width: 225px;
+    float: left;
+    margin: 5px;
 }
-div.pic img{
-	border: none;
+
+div.pic img {
+    border: none;
+}
+
+div.pic ul{
+    display:none;
+    position: absolute;
+    background: #dceeff;
+    border:2px solid #a7d5ff;
+    list-style: none;
+    padding: 0 0 0 0.5em;
+    margin: -5px 0 0 0;
+    width: inherit;
+}
+div.pic:hover ul {
+    display: block;
+    position: absolute;
+}
+li.title{
+    font-weight: bold;
+    text-align: center;
+    font-size: large;
 }

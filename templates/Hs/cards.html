@@ -47,7 +47,7 @@
 <div class="ShowCards">
     {% for cd in cd_list %}
         <div class="pic">
-            <a href="/media/{{ cd.img }}" class="tn"><img width="187" height="259" src="../../media/{{ cd.img }}"></a>
+            <img width="187" height="259" src="../../media/{{ cd.img }}">
             <ul>
                 <li class="title">{{ cd.name }}</li>
                 <!-- 身材三项 -->
@@ -55,8 +55,8 @@
                 <li class="build"><b>攻击力: </b>{{ cd.attack }}</li>
                 <li class="build"><b>生命值: </b>{{ cd.health }}</li>
                 <!-- 卡牌描述 -->
-                <li class="desc"><b>描述: {{ cd.description }}</b></li>
-                <li class="desc"><b>背景故事: {{ cd.background }}</b></li>
+                <li class="desc"><b>描述: </b>{{ cd.description }}</li>
+                <li class="desc"><b>背景故事: </b>{{ cd.background }}</li>
                 <!-- 种族 -->
                 <li class="race"><b>种族: </b>{{ cd.race }}</li>
             </ul>

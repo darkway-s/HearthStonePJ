@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from .forms import RegisterForm, KeywordForm, SummonerClassForm
 from Hs import models
 from .models import SummonerClass, Card, UserCard
-from .process import add, update, select
+from .process import add, update, select, delete
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -39,11 +39,14 @@ def cards(request):
 def mycollection(request):
     try:
         tp_list = select.user_card_all(request.user)
+        dk_list = select.deck_all()
         return render(request, 'Hs/mycollection.html', context={
             'tp_list': tp_list,
+            'pos': request.path,
         })
     except:
         return render(request, 'Hs/mycollection.html', context={
+            'pos': request.path,
         })
 
 
@@ -64,6 +67,7 @@ def mycollection_comp(request):
         print(_own)
     return render(request, 'Hs/mycollection.html', context={
         'tp_list': _own_list,
+        'pos': request.path,
     })
 
 
@@ -356,7 +360,16 @@ def cd_comp(request):
     s_card_id = request.GET.get('c_id')
     s_card = select.card_match_id(s_card_id)
     add.collection_one(cur_user, s_card)
-    return redirect('/mycollection')
+    return redirect(request.GET.get('pos'))
+
+
+# 卡牌分解
+def cd_decomp(request):
+    cur_user = request.user
+    s_card_id = request.GET.get('c_id')
+    s_card = select.card_match_id(s_card_id)
+    delete.collection_one(cur_user, s_card)
+    return redirect(request.GET.get('pos'))
 
 
 def test(request):
