@@ -29,9 +29,10 @@
             <ul>
                 <li><a href="cards" target="_blank">浏览卡牌</a></li>
                 <li><a href="#">我的账户</a></li>
-                <li><a href="keyword_list" target="_blank">浏览关键词</a></li>
+                {% if user.is_staff %}
                 <li><a href="manage">管理界面</a></li>
                 <li><a href="test" target="_blank">测试</a></li>
+                {% endif %}
             </ul>
             <p id="gitLink">
                 <a href="https://github.com/Swehominmind"><img src="{% static 'image/kevin.png' %}" width="100" height="100" alt="Github-kevin"/></a>
