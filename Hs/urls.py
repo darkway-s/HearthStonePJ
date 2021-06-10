@@ -40,4 +40,6 @@ urlpatterns = [
     path('manage/user_list', views.user_list, name='user_list'),
     path('manage/user_add', views.user_add, name='user_add'),
     path('manage/user_add_sub', views.user_add_sub, name='user_add_sub'),
+
+    path('cd_comp', views.cd_comp, name='cd_comp'),
 ]

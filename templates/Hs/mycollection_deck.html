@@ -13,7 +13,7 @@
     <li><a href="news.asp">修改密码</a></li>
     {% if user.is_authenticated %}
         <li><a href="{% url 'logout' %}?next={{ request.path }}">注销</a></li>
-        <li class="txt">欢迎，{{ user.username }}，奥术之尘：{{ user.arc_dust }}</li>
+        <li class="txt">欢迎，{{ user.username }}</li>
     {% else %}
         <li><a href="{% url 'login' %}?next={{ request.path }}">登录</a></li>
         <li><a href="{% url 'Hs:register' %}">注册</a></li>
@@ -32,32 +32,33 @@
             </ul>
         </div>
         <div class="column body">
-            {% for tp in tp_list %}
-                <a href="unsamples/1.jpg" class="tn"><img width="187" height="259" src="../../media/{{ tp.0.img }}"></a>
-                <ul class="but_list">
-                    <li><a href="/cd_comp?c_id={{ tp.0.id }}">制作</a></li>
-                    <li><a href="/cd_decomp?c_id={{ tp.0.id }}">分解</a></li>
-                </ul>
+            {% for cd in cd_list %}
+                <a href="unsamples/1.jpg" class="tn"><img width="187" height="259" src="../../media/{{ cd.img }}"></a>
                 <ul>
-                    <li class="title">{{ tp.0.name }}</li>
-                    <!-- 数量 -->
-                    <li class="amount">{{ tp.1 }}张</li>
+                    <li class="title">{{ cd.name }}</li>
                     <!-- 身材三项 -->
-                    <li class="build"><b>法力消耗: </b>{{ tp.0.cost }}</li>
-                    <li class="build"><b>攻击力: </b>{{ tp.0.attack }}</li>
-                    <li class="build"><b>生命值: </b>{{ tp.0.health }}</li>
+                    <li class="build"><b>法力消耗: </b>{{ cd.cost }}</li>
+                    <li class="build"><b>攻击力: </b>{{ cd.attack }}</li>
+                    <li class="build"><b>生命值: </b>{{ cd.health }}</li>
                     <!-- 卡牌描述 -->
-                    <li class="desc"><b>描述: {{ tp.0.description }}</b></li>
-                    <li class="desc"><b>背景故事: {{ tp.0.background }}</b></li>
+                    <li class="desc"><b>描述: {{ cd.description }}</b></li>
+                    <li class="desc"><b>背景故事: {{ cd.background }}</b></li>
                     <!-- 种族 -->
-                    <li class="race"><b>种族: </b>{{ tp.0.race }}</li>
+                    <li class="race"><b>种族: </b>{{ cd.race }}</li>
                 </ul>
             {% empty %}
                 no cards yet
             {% endfor %}
         </div>
         <div class="column right">
-
+            <ul class="nav_vert">
+                <li><a class="main active" href="{% url 'Hs:manage' %}">所有卡牌</a><a class="add"
+                                                                                   href="{% url 'Hs:card_create' %}">新建</a>
+                </li>
+                <li><a class="main" href="{% url 'Hs:summonerclass_list' %}">职业</a><a class="add"
+                                                                                      href="{% url 'Hs:summonerclass_add' %}">新建</a>
+                </li>
+            </ul>
         </div>
     </div>
 {% else %}

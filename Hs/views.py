@@ -37,8 +37,10 @@ def cards(request):
 
 
 def mycollection(request):
+    tp_list = select.user_card_all(request.user)
+    print("call user_card_all")
     return render(request, 'Hs/mycollection.html', context={
-
+        'tp_list': tp_list,
     })
 
 
@@ -323,6 +325,15 @@ def user_add_sub(request):
 def keyword_add_sub(request):
     return render(request, 'Hs/card_create.html', context={
     })
+
+
+# 卡牌制作
+def cd_comp(request):
+    cur_user = request.user
+    s_card_id = request.GET.get('c_id')
+    s_card = select.card_match_id(s_card_id)
+    add.collection_one(cur_user, s_card)
+    return redirect('/mycollection')
 
 
 def test(request):
