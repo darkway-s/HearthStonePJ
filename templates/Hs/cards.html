@@ -5,11 +5,21 @@
     <meta charset="utf-8">
     <title>浏览卡牌</title>
     <link href="{% static 'CSS/cards.css' %}" type="text/css" rel="stylesheet">
+    <link href="{% static 'CSS/manage.css' %}" type="text/css" rel="stylesheet">
 </head>
-
 <body>
-<h1 class="logo">浏览所有卡牌</h1>
-	<div class="nav">
+<ul class="nav_hor">
+    <li class="head"><a class="logo" href="{% url 'Hs:index' %}"><b>炉石传说卡牌库数据系统</b></a></li>
+    <li class="head"><b>浏览所有卡牌</b></li>
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'logout' %}?next={{ request.path }}">注销</a></li>
+        <li class="txt">欢迎，{{ user.username }}</li>
+    {% else %}
+        <li><a href="{% url 'login' %}?next={{ request.path }}">登录</a></li>
+        <li><a href="{% url 'Hs:register' %}">注册</a></li>
+    {% endif %}
+</ul>
+<div class="nav">
 		<span class="dropdown">
 			<a href="#">{{ class }}</a>
 			<span class="dropdown-content">
@@ -19,7 +29,7 @@
                 <p><a href="?sc_sel=&cost_sl={{ cost_sel }}">所有职业</a></p>
 		    </span>
 		</span>
-		<span>
+    <span>
 			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=0">0</a>
 			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=1">1</a>
 			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=2">2</a>
@@ -33,31 +43,28 @@
 			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=10">10+</a>
             <a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=-1">all</a>
 		</span>
-	</div>
-	<div class="ShowCards">
-        {% for cd in cd_list %}
-            <div class="pic">
-                <a href="unsamples/1.jpg" class="tn"><img width="187" height="259" src="../../media/{{ cd.img }}"></a>
-                <ul>
-                    <li class="title">{{ cd.name }}</li>
-                    <!-- 身材三项 -->
-			        <li class="build"><b>法力消耗: </b>{{ cd.cost }}</li>
-                    <li class="build"><b>攻击力: </b>{{ cd.attack }}</li>
-                    <li class="build"><b>生命值: </b>{{ cd.health }}</li>
-                    <!-- 卡牌描述 -->
-                    <li class="desc"><b>描述: {{ cd.description }}</b></li>
-                    <li class="desc"><b>背景故事: {{ cd.background }}</b></li>
-                    <!-- 种族 -->
-                    <li class="race"><b>种族: </b>{{ cd.race }}</li>
-                </ul>
-            </div>
-        {% empty %}
-            no cards match
-        {% endfor %}
-	</div>
-    <div class="foot">
-        <a href="{% url 'Hs:index' %}">回到主页</a>
-    </div>
+</div>
+<div class="ShowCards">
+    {% for cd in cd_list %}
+        <div class="pic">
+            <a href="unsamples/1.jpg" class="tn"><img width="187" height="259" src="../../media/{{ cd.img }}"></a>
+            <ul>
+                <li class="title">{{ cd.name }}</li>
+                <!-- 身材三项 -->
+                <li class="build"><b>法力消耗: </b>{{ cd.cost }}</li>
+                <li class="build"><b>攻击力: </b>{{ cd.attack }}</li>
+                <li class="build"><b>生命值: </b>{{ cd.health }}</li>
+                <!-- 卡牌描述 -->
+                <li class="desc"><b>描述: {{ cd.description }}</b></li>
+                <li class="desc"><b>背景故事: {{ cd.background }}</b></li>
+                <!-- 种族 -->
+                <li class="race"><b>种族: </b>{{ cd.race }}</li>
+            </ul>
+        </div>
+    {% empty %}
+        no cards match
+    {% endfor %}
+</div>
 
 </body>
 </html>
