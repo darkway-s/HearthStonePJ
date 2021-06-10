@@ -47,7 +47,7 @@ def summonerclass(s_name, s_img):
         print("重复职业类%s " % in_obj.name)
         return in_obj
     except SummonerClass.DoesNotExist:
-        _summonerclass = SummonerClass.objects.create(s_name, s_img)
+        _summonerclass = SummonerClass.objects.create(name=s_name, img=s_img)
         return _summonerclass
 
 
