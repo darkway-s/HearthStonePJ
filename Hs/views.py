@@ -125,10 +125,10 @@ def summonerclass_edit(request):
                 edit_obj = models.SummonerClass.objects.get(id=edit_id)
                 edit_obj.name = form.cleaned_data['name']
                 edit_obj.save()
-                return redirect('/summonerclass_list')
+                return redirect('/manage/summonerclass_list')
         except models.Keyword.DoesNotExist:
             edit_obj = None
-            return redirect('/summonerclass_list')
+            return redirect('/manage/summonerclass_list')
 
     else:
         edit_id = request.GET.get('id')
@@ -232,7 +232,11 @@ def add_sub(request):
     # 将checkbox的on/off值转换成True/False
     n_card_class = request.POST.getlist('n_card_class')
 
-    n_collectible = True
+    collectible_str = request.POST.get('n_collectible')
+    if collectible_str == "true":
+        n_collectible = True
+    else:
+        n_collectible = False
 
     n_keyword = request.POST.getlist('n_keyword')
 
@@ -262,10 +266,7 @@ def add_sub(request):
              n_race,
              n_img,
              )
-    message = 'a message'
-    return render(request, 'Hs/card_create.html', context={
-        'message': message,
-    })
+    return redirect('/manage')
 
 
 def raceclass_list(request):

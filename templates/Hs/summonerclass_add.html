@@ -1,19 +1,61 @@
 {% load static %}
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <title>管理界面</title>
     <meta charset="utf-8">
-    <title>添加职业</title>
-    <link href="{% static 'CSS/cards.css' %}" type="text/css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'CSS/manage.css' %}" type="text/css" rel="stylesheet">
+    <link href="{% static 'CSS/summonerclass_add.css' %}" type="text/css" rel="stylesheet">
 </head>
-
 <body>
-<h1 class="logo"><a href="{% url 'Hs:index' %}">炉石传说卡牌库数据系统</a></h1>
-    <h2>添加职业</h2>
-	<form method="post" enctype="multipart/form-data" action="{% url 'Hs:summonerclass_add_sub' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="OK"/>
-    </form>
+<ul class="nav_hor">
+    <li class="head"><a class="logo" href="{% url 'Hs:index' %}"><b>炉石传说卡牌库数据系统</b></a></li>
+    <li class="head"><b>管理界面</b></li>
+    <li class="head"><a href="{% url 'Hs:summonerclass_add' %}" target="_blank">添加职业</a></li>
+    <li><a href="news.asp">修改密码</a></li>
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'logout' %}?next={{ request.path }}">注销</a></li>
+        <li class="txt">欢迎，{{ user.username }}</li>
+    {% else %}
+        <li><a href="{% url 'login' %}?next={{ request.path }}">登录</a></li>
+        <li><a href="{% url 'Hs:register' %}">注册</a></li>
+    {% endif %}
+</ul>
+
+<div class="row">
+    <div class="column side">
+        <ul class="nav_vert">
+            <li><a class="main active" href="{% url 'Hs:manage' %}">卡牌</a><a class="add"
+                                                                             href="{% url 'Hs:card_create' %}"> 新建</a>
+            </li>
+            <li><a class="main" href="{% url 'Hs:summonerclass_list' %}">职业</a><a class="add"
+                                                                                  href="{% url 'Hs:summonerclass_add' %}">
+                新建</a></li>
+            <li><a class="main" href="{% url 'Hs:raceclass_list' %}">种族</a><a class="add"
+                                                                              href="{% url 'Hs:raceclass_add' %}">
+                新建</a></li>
+            <li><a class="main" href="{% url 'Hs:keyword_list' %}">关键词列表</a><a class="add"
+                                                                               href="{% url 'Hs:keyword_add' %}"> 新建</a>
+            </li>
+            <li><a class="main" href="{% url 'Hs:setclass_list' %}">合集列表</a><a class="add"
+                                                                               href="{% url 'Hs:setclass_add' %}">
+                新建</a></li>
+            <li><a class="main" href="{% url 'Hs:user_list' %}">用户列表</a><a class="add" href="{% url 'Hs:user_add' %}">
+                新建</a></li>
+        </ul>
+    </div>
+
+    <div class="column body">
+        <h2>添加职业</h2>
+        <form method="post" enctype="multipart/form-data" action="{% url 'Hs:summonerclass_add_sub' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="OK"/>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>
+
