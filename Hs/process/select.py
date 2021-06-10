@@ -182,6 +182,11 @@ def race_match_id(s_id):
     return match_id(RaceClass, s_id)
 
 
+# 给出一个用户所有的卡牌
+def user_card_all(s_user):
+    return s_user.collections.all()
+
+
 # 搜索对应的UserCard关系，给出单个元素
 def user_card_match(user, card):
     _object = UserCard.objects.get(user=user, card=card)
