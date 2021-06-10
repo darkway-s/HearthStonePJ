@@ -1,4 +1,4 @@
-from Hs.models import SummonerClass, Keyword, Card, SetClass, User, RaceClass, UserCard
+from Hs.models import SummonerClass, Keyword, Card, SetClass, User, RaceClass, UserCard, DeckCard, Deck
 
 
 # select 基类
@@ -207,7 +207,16 @@ def user_card_all(s_user):
     return _card_list
 
 
-"""
+# 列出所有套牌
+def deck_all():
+    return select_all(Deck)
+
+
+# 模糊搜索套牌名称并精确搜索id（如果有的话）
+def deck_vague_name(s_name='', *, sid):
+    return select1(Deck, s_name, sid=sid)
+
+
 # 搜索对应的DeckCard关系，给出单个元素
 def deck_card_match(s_deck, card):
     _object = DeckCard.objects.get(deck=s_deck, card=card)
@@ -215,19 +224,9 @@ def deck_card_match(s_deck, card):
 
 
 # 返回一个deck
-def deck_match(s_id):
+def deck_match_id(s_id):
     _deck = Deck.objects.get(id=s_id)
     return _deck
-
-
-# 列出所有套牌
-def deck_all():
-    return select_all(Deck)
-
-
-# 模糊搜索套牌名称并精确搜索id（如果有的话）
-def deck(s_name='', *, sid):
-    return select1(Deck, s_name, sid=sid)
 
 
 # 输入deck，返回这个deck中的卡牌列表，以二元元组的形式返回(card, amount)第一个元素是Card类，第二个元素是int型（表示这张卡的数量）
@@ -242,10 +241,9 @@ def deck_card_list(s_deck):
 
 # 计算s_deck中有哪些卡牌
 def deck_count(s_deck):
-    _card_list = deck(s_deck)
+    _card_list = deck_card_list(s_deck)
     cnt = 0
     for obj in _card_list:
         # 加上每个amount
         cnt += obj[1]
     return cnt
-"""

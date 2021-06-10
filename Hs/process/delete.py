@@ -1,4 +1,4 @@
-from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass, UserCard
+from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass, UserCard, Deck, DeckCard
 from . import select
 
 
@@ -39,7 +39,6 @@ def raceclass(sid):
     return None
 
 
-"""
 # 删除这个套牌中的一张卡（如果有两张，只会删除一张
 def deck_card_one(obj_deck, obj_card):
     if select.deck_count(obj_deck) == 0:
@@ -69,10 +68,11 @@ def deck(s_deck):
 
 # 分解卡牌, 输入user类，卡牌类
 # 无这张卡牌则直接退出，有这张卡牌才会分解
-# 分解后若已无这张卡牌，则会删除
+# 分解后若已无这张卡牌，则会删除,
+# 正常分解则返回分解所得的奥术之尘数量
 def collection_one(cur_user, s_card):
     def decompose(user_card_obj, obj_card, obj_user):
-        price = obj_card.decompose_price
+        price = obj_card.decompose_price()
         user_card_obj.amount -= 1
         user_card_obj.save()
         # 无卡牌收藏则删除
@@ -81,15 +81,15 @@ def collection_one(cur_user, s_card):
 
         obj_user.arc_dust += price
         obj_user.save()
+        return price
 
     try:
         _object = select.user_card_match(cur_user, s_card)
-        decompose(_object, s_card, cur_user)
+        appreciate = decompose(_object, s_card, cur_user)
         print("正常分解")
-        return True
+        return appreciate
 
     except UserCard.DoesNotExist:
         # 一张也没，注意，实际运行中这种情况不应触发！前端不应该给没有这张卡的人显示分解按钮
         print("你没有这张卡牌")
-        return False
-"""
+        return -1

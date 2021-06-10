@@ -1,5 +1,5 @@
 from Hs.process import select
-from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass, UserCard
+from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass, UserCard, Deck, DeckCard
 
 
 # 增加卡牌, n_card_class和n_keyword为list, html中可以用form获取, views中可以用getlist方法获取
@@ -73,10 +73,9 @@ def raceclass(name):
         return _raceclass
 
 
-"""
-# 创建一个空的套牌, 输入为套牌名字
-def deck_null(name, summoner_class):
-    new_deck = Deck.objects.create(name=name, summoner_class=summoner_class)
+# 创建一个空的套牌, 输入为用户, 套牌名字, 职业列表
+def deck_null(owner, name, summoner_class):
+    new_deck = Deck.objects.create(name=name, summoner_class=summoner_class, owner=owner)
     return new_deck
 
 
@@ -110,6 +109,7 @@ def deck_append(obj_deck, obj_card):
 # 1张会在UserCard对应行增加一个amount
 # 2张以上则拒绝合成。
 # 然后再判断用户当前奥术之尘与卡牌合成价格相比是否足够，如果够才会合成并扣除相应的奥术之尘
+# 如果合成成功，则返回消耗的奥术之尘，如果因为奥术之尘不够而失败，则返回-1，如果因为当前卡牌拥有量已经大于等于2，则返回-2
 def collection_one(cur_user, s_card):
     def compose(obj_user, obj_card):
         obj_price = obj_card.compose_price()
@@ -119,17 +119,17 @@ def collection_one(cur_user, s_card):
             obj_user.arc_dust -= obj_price
             obj_user.save()
             new_collect = UserCard.objects.create(user=obj_user, card=obj_card, amount=1)
-            return new_collect
+            return obj_price
         else:
             print("%s没有足够的奥术之尘" % obj_user.name)
-            return False
+            return -1
 
     # 开始
     try:
         _object = select.user_card_match(cur_user, s_card)
         if _object.amount >= 2:
             print("已拥有超过两张卡牌，无法继续合成！")
-            return 2
+            return -2
         else:
             # 只有一张
             price = s_card.compose_price()
@@ -138,13 +138,13 @@ def collection_one(cur_user, s_card):
                 cur_user.save()
                 _object.amount += 1
                 _object.save()
-                return 1
+                return price
             else:
                 print("%s没有足够的奥术之尘" % cur_user.name)
-                return False
+                return -1
 
     except UserCard.DoesNotExist:
         # 一张也没
-        compose(cur_user, s_card)
+        ret = compose(cur_user, s_card)
         print("合成第一张")
-"""
+        return ret

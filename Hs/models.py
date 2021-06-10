@@ -191,7 +191,7 @@ class Deck(models.Model):
     name = models.CharField('套牌名称', max_length=64)
     summoner_class = models.ForeignKey(to=SummonerClass, on_delete=models.CASCADE, verbose_name="套牌职业")
     owner = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name="拥有者")
-    card_list = models.ManyToManyField(Card, through='DeckCard')
+    card_list = models.ManyToManyField(Card, through='DeckCard', null=True)
 
     MAX_CARDS_IN_DECK = 5
 
