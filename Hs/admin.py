@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import SummonerClass, RaceClass, SetClass, Keyword, Card, User, UserCard
+from .models import SummonerClass, RaceClass, SetClass, Keyword, Card, User, UserCard, Deck, DeckCard
 
 
 class CardAdmin(admin.ModelAdmin):
@@ -25,7 +25,7 @@ admin.site.register(SetClass)
 admin.site.register(Keyword, KeywordAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.register(UserCard)
-"""
+
 admin.site.register(Deck)
 admin.site.register(DeckCard)
-"""
+

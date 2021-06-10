@@ -186,7 +186,6 @@ class UserCard(models.Model):
         ]
 
 
-"""
 class Deck(models.Model):
     id = models.AutoField('套牌id', primary_key=True)
     name = models.CharField('套牌名称', max_length=64)
@@ -224,4 +223,3 @@ class DeckCard(models.Model):
 
 class Test(models.Model):
     testword = models.CharField(max_length=10)
-"""
