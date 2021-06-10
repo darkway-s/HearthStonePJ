@@ -1,4 +1,3 @@
-from Hs import forms
 from Hs.models import SummonerClass, Keyword, Card, SetClass, User, RaceClass, UserCard, Deck, DeckCard
 
 
@@ -30,6 +29,11 @@ def match(ObjectClass, s_name):
     return _object
 
 
+def match_id(ObjectClass, s_id):
+    _object = ObjectClass.objects.get(id=s_id)
+    return _object
+
+
 # 基类结束
 
 # 获得整个关键词列表
@@ -44,6 +48,10 @@ def keyword(s_name='', *, sid=-1):
 
 def keyword_match(s_name):
     return match(Keyword, s_name)
+
+
+def keyword_match_id(s_id):
+    return match(Keyword, s_id)
 
 
 # 仅获取第一个
@@ -63,6 +71,10 @@ def summonerclass(s_name='', *, sid=-1):
 
 def summonerclass_match(s_name):
     return match(SummonerClass, s_name)
+
+
+def summonerclass_match_id(s_id):
+    return match(SummonerClass, s_id)
 
 
 # 仅获取第一个
@@ -129,6 +141,10 @@ def card_match(s_name):
     return match(Card, s_name)
 
 
+def card_match_id(s_id):
+    return match_id(Card, s_id)
+
+
 # 模糊名称搜索卡牌
 def card_vague_name(s_name=''):
     _card_list = Card.objects.filter(name__contains=s_name)
@@ -149,6 +165,10 @@ def set_match(s_name):
     return match(SetClass, s_name)
 
 
+def set_match_id(s_id):
+    return match_id(SetClass, s_id)
+
+
 def race_all():
     return select_all(RaceClass)
 
@@ -158,6 +178,10 @@ def race_match(s_name):
     return match(RaceClass, s_name)
 
 
+def race_match_id(s_id):
+    return match_id(RaceClass, s_id)
+
+
 # 搜索对应的UserCard关系，给出单个元素
 def user_card_match(user, card):
     _object = UserCard.objects.get(user=user, card=card)
@@ -165,8 +189,8 @@ def user_card_match(user, card):
 
 
 # 搜索对应的DeckCard关系，给出单个元素
-def deck_card_match(deck, card):
-    _object = DeckCard.objects.get(deck=deck, card=card)
+def deck_card_match(s_deck, card):
+    _object = DeckCard.objects.get(deck=s_deck, card=card)
     return _object
 
 
@@ -176,8 +200,18 @@ def deck_match(s_id):
     return _deck
 
 
+# 列出所有套牌
+def deck_all():
+    return select_all(Deck)
+
+
+# 模糊搜索套牌名称并精确搜索id（如果有的话）
+def deck(s_name='', *, sid):
+    return select1(Deck, s_name, sid=sid)
+
+
 # 输入deck，返回这个deck中的卡牌列表，以二元元组的形式返回(card, amount)第一个元素是Card类，第二个元素是int型（表示这张卡的数量）
-def deck(s_deck):
+def deck_card_list(s_deck):
     cards_in_deck = DeckCard.objects.filter(deck=s_deck)
     _card_list = []
     for obj in cards_in_deck:

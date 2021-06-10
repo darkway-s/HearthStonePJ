@@ -6,8 +6,8 @@ from Hs.models import SummonerClass, Keyword, Card, RaceClass, SetClass, UserCar
 def card(n_name, n_type, n_rarity, n_set, n_card_class, n_collectible, n_keyword, n_cost, n_attack, n_health,
          n_description, n_background, n_race, n_img):
     _card = Card.objects.create(name=n_name, type=n_type,
-                                rarity=n_rarity, set_id=n_set.id,
-                                collectible=n_collectible, race_id=n_race.id,
+                                rarity=n_rarity, set=n_set,
+                                collectible=n_collectible, race=n_race,
                                 cost=n_cost, attack=n_attack, health=n_health,
                                 description=n_description, background=n_background,
                                 img=n_img)

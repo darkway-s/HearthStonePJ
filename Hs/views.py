@@ -210,25 +210,59 @@ def card_create(request):
     })
 
 
+"""
+# 提供一个on/off值到True/False的转换
+def on2true(bool_value):
+    if bool_value == 'on':
+        return True
+    else:
+        return False
+"""
+
+
 @csrf_exempt
 def add_sub(request):
     request.encoding = 'utf-8'
-    add.card(request.POST.get('n_name'),
-             request.POST.get('n_type'),
-             request.POST.get('n_rarity'),
-             request.POST.get('n_set'),
-             request.POST.get('n_card_class'),
-             request.POST.get('n_collectible'),
-             request.POST.get('n_keyword'),
-             request.POST.get('n_cost'),
-             request.POST.get('n_attack'),
-             request.POST.get('n_health'),
-             request.POST.get('n_description'),
-             request.POST.get('n_background'),
-             request.POST.get('n_race'),
-             request.POST.get('n_img'),
-             )
+    n_name = request.POST.get('n_name')
+    n_type = request.POST.get('n_type')
+    n_rarity = request.POST.get('n_rarity')
+    # 处理SetClass类
+    n_set_id = request.POST.get('n_set')
+    n_set = select.set_match_id(n_set_id)
+    # 将checkbox的on/off值转换成True/False
+    n_card_class = request.POST.getlist('n_card_class')
+
+    n_collectible = True
+
+    n_keyword = request.POST.getlist('n_keyword')
+
+    n_cost = request.POST.get('n_cost')
+    n_attack = request.POST.get('n_attack')
+    n_health = request.POST.get('n_health')
+    n_description = request.POST.get('n_description')
+    n_background = request.POST.get('n_background')
+
+    n_race_id = request.POST.get('n_race')
+    n_race = select.race_match_id(n_race_id)
+
     message = request.POST.get('n_img')
+
+    add.card(n_name,
+             n_type,
+             n_rarity,
+             n_set,
+             n_card_class,
+             n_collectible,
+             n_keyword,
+             n_cost,
+             n_attack,
+             n_health,
+             n_description,
+             n_background,
+             n_race,
+             message,
+             )
+
     return render(request, 'Hs/card_create.html', context={
         'message': message,
     })

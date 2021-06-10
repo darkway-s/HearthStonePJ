@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('amount', models.IntegerField(default=1)),
                 ('card', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Hs.card', verbose_name='卡牌')),
-                ('deck', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Hs.deck', verbose_name='套牌')),
+                ('s_deck', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Hs.s_deck', verbose_name='套牌')),
             ],
             options={
                 'verbose_name': '套牌',
@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.AddField(
-            model_name='deck',
+            model_name='s_deck',
             name='card_list',
             field=models.ManyToManyField(through='Hs.DeckCard', to='Hs.Card'),
         ),

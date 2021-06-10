@@ -58,33 +58,34 @@
             <p>
                 系列：<select name="n_set">
                 {% for st in st_list %}
-                    <option value="{{ st }}" selected="true">{{ st }}</option>
+                    <option value="{{ st.id }}" selected="true">{{ st }}</option>
+                    print(st.name)
                 {% empty %}
                 {% endfor %}
             </select></p>
             <p>
                 种族：<select name="n_race">
                 {% for rc in rc_list %}
-                    <option value="{{ rc }}" selected="true">{{ rc }}</option>
+                    <option value="{{ rc.id }}" selected="true">{{ rc }}</option>
                 {% empty %}
                 {% endfor %}
             </select></p>
             <p>
                 可用职业：
                 {% for sc in sc_list %}
-                    <input type="checkbox" name="n_card_class">{{ sc.name }}
+                    <input type="checkbox" name="n_card_class" value="{{ sc.id }}">{{ sc }}
                 {% empty %}
                 {% endfor %}
             </p>
-            <p>
+            <!--<p>
                 可合成？
                 <input type="checkbox" name="n_collectible">是
                 <input type="checkbox" name="n_collectible">否
-            </p>
+            </p>-->
             <p>
                 关键词：
                 {% for kw in kw_list %}
-                    <input type="checkbox" name="n_keyword">{{ kw }}
+                    <input type="checkbox" name="n_keyword" value="{{ kw.id }}">{{ kw.name }}
                 {% empty %}
                 {% endfor %}
             </p>
