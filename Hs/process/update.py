@@ -55,9 +55,10 @@ def keyword(sid, sname, sdes):
 
 
 # 更新职业
-def summonerclass(sid, sname):
+def summonerclass(sid, sname, s_img):
     _summonerclass = SummonerClass.objects.get(id=sid)
     _summonerclass.name = sname
+    _summonerclass.img = s_img
     _summonerclass.save()
     return _summonerclass
 
