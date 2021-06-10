@@ -71,7 +71,7 @@ def deck(s_deck):
 # 分解后若已无这张卡牌，则会删除
 def collection_one(cur_user, s_card):
     def decompose(user_card_obj, obj_card, obj_user):
-        price = obj_card.decompose_price
+        price = obj_card.decompose_price()
         user_card_obj.amount -= 1
         user_card_obj.save()
         # 无卡牌收藏则删除

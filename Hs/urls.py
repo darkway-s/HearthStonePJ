@@ -44,4 +44,5 @@ urlpatterns = [
     path('manage/user_add_sub', views.user_add_sub, name='user_add_sub'),
 
     path('cd_comp', views.cd_comp, name='cd_comp'),
+    path('cd_decomp', views.cd_decomp, name='cd_decomp'),
 ]
