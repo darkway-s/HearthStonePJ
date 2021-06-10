@@ -11,8 +11,6 @@ urlpatterns = [
     re_path(r'^keyword_edit', views.keyword_edit, name='keyword_edit'),
     re_path(r'^keyword_drop', views.keyword_drop, name='keyword_drop'),
 
-    path('summonerclass_list', views.summonerclass_list, name='summonerclass_list'),
-    path('summonerclass_add', views.summonerclass_add, name='summonerclass_add'),
     re_path(r'^summonerclass_edit', views.summonerclass_edit, name='summonerclass_edit'),
     re_path(r'^summonerclass_drop', views.summonerclass_drop, name='summonerclass_drop'),
 
@@ -23,6 +21,17 @@ urlpatterns = [
     path('test', views.test, name='test'),
 
     path('test', views.test, name='test'),
-    path('manage/card/add_sub', views.add_sub, name='add_sub')
-
+    path('manage/card/add_sub', views.add_sub, name='add_sub'),
+    path('manage/summonerclass_list', views.summonerclass_list, name='summonerclass_list'),
+    path('manage/summonerclass_add', views.summonerclass_add, name='summonerclass_add'),
+    path('manage/summonerclass_add_sub', views.summonerclass_add_sub, name='summonerclass_add_sub'),
+    path('manage/raceclass_list', views.raceclass_list, name='raceclass_list'),
+    path('manage/raceclass_add', views.raceclass_add, name='raceclass_add'),
+    path('manage/raceclass_add_sub', views.raceclass_add_sub, name='raceclass_add_sub'),
+    path('manage/setclass_list', views.setclass_list, name='setclass_list'),
+    path('manage/setclass_add', views.setclass_list, name='setclass_add'),
+    path('manage/setclass_add_sub', views.setclass_list, name='setclass_add_sub'),
+    path('manage/user_list', views.user_list, name='user_list'),
+    path('manage/user_add', views.user_add, name='user_add'),
+    path('manage/user_add_sub', views.user_add_sub, name='user_add_sub'),
 ]

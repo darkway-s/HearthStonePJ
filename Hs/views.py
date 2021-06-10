@@ -97,6 +97,12 @@ def summonerclass_list(request):
 
 
 def summonerclass_add(request):
+    return render(request, 'Hs/summonerclass_add.html', context={
+
+    })
+
+
+def summonerclass_add_sub(request):
     if request.method == "POST":
         form = SummonerClassForm(request.POST)
         # 判断表单值是否合法
@@ -225,6 +231,51 @@ def add_sub(request):
     message = request.POST.get('n_img')
     return render(request, 'Hs/card_create.html', context={
         'message': message,
+    })
+
+
+def raceclass_list(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
+def raceclass_add(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
+def raceclass_add_sub(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
+def setclass_list(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
+def setclass_add(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
+def setclass_add_sub(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
+def user_list(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
+def user_add(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
+def user_add_sub(request):
+    return render(request, 'Hs/card_create.html', context={
     })
 
 

@@ -26,12 +26,12 @@
 <div class="row">
     <div class="column side">
         <ul class="nav_vert">
-            <li><a class="main" href="{% url 'Hs:manage' %}">卡牌</a><a class="add active" href="{% url 'Hs:card_create' %}"> 新建</a></li>
-            <li><a class="main" href="manage/summonerclass">职业</a><a class="add" href="manage/summonerclass/add"> 新建</a></li>
-            <li><a class="main" href="manage/raceclass">种族</a><a class="add" href="manage/raceclass/add"> 新建</a></li>
-            <li><a class="main" href="manage/deck">套牌</a><a class="add" href="manage/deck/add"> 新建</a></li>
-            <li><a class="main" href="manage/setclass">合集列表</a><a class="add" href="manage/setclass/add"> 新建</a></li>
-            <li><a class="main" href="manage/user">用户列表</a><a class="add" href="manage/user/add"> 新建</a></li>
+            <li><a class="main active" href="{% url 'Hs:manage' %}">卡牌</a><a class="add" href="{% url 'Hs:card_create' %}"> 新建</a></li>
+            <li><a class="main" href="{% url 'Hs:summonerclass_list' %}">职业</a><a class="add" href="{% url 'Hs:summonerclass_add' %}"> 新建</a></li>
+            <li><a class="main" href="{% url 'Hs:raceclass_list' %}">种族</a><a class="add" href="{% url 'Hs:raceclass_add' %}"> 新建</a></li>
+            <li><a class="main" href="{% url 'Hs:setclass_list' %}">套牌</a><a class="add" href="{% url 'Hs:setclass_add' %}"> 新建</a></li>
+            <li><a class="main" href="{% url 'Hs:setclass_list' %}">合集列表</a><a class="add" href="{% url 'Hs:setclass_add' %}"> 新建</a></li>
+            <li><a class="main" href="{% url 'Hs:user_list' %}">用户列表</a><a class="add" href="{% url 'Hs:user_add' %}"> 新建</a></li>
         </ul>
     </div>
 
