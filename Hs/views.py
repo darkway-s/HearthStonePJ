@@ -279,6 +279,11 @@ def user_add_sub(request):
     })
 
 
+def keyword_add_sub(request):
+    return render(request, 'Hs/card_create.html', context={
+    })
+
+
 def test(request):
     obj = select.card_all()[0]
     print("该卡的稀有度为" + obj.rarity)
