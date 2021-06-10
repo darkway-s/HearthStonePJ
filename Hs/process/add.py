@@ -107,10 +107,11 @@ def deck_append(obj_deck, obj_card):
 # 0张会进行合成，在UserCard关系里新增
 # 1张会在UserCard对应行增加一个amount
 # 2张以上则拒绝合成。
-# 然后再判断用户当前奥术之尘与卡牌合成价格相比是否足够，如果够才会合成并扣除相应的金币
+# 然后再判断用户当前奥术之尘与卡牌合成价格相比是否足够，如果够才会合成并扣除相应的奥术之尘
 def collection_one(cur_user, s_card):
     def compose(obj_user, obj_card):
-        obj_price = obj_card.compose_price
+        obj_price = obj_card.compose_price()
+        print("obj_price = " + obj_price)
         if obj_user.arc_dust >= obj_price:
             obj_user.arc_dust -= obj_price
             obj_user.save()

@@ -188,6 +188,15 @@ def user_card_match(user, card):
     return _object
 
 
+def user_card_all(s_user):
+    cards_in_user = UserCard.objects.filter(user=s_user)
+    _card_list = []
+    for obj in cards_in_user:
+        _tuple = (obj.card, obj.amount)
+        _card_list.append(_tuple)
+    return _card_list
+
+
 # 搜索对应的DeckCard关系，给出单个元素
 def deck_card_match(s_deck, card):
     _object = DeckCard.objects.get(deck=s_deck, card=card)

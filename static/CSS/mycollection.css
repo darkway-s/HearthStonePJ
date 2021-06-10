@@ -1,0 +1,121 @@
+.header {
+  background-color: #f1f1f1;
+  padding: 20px;
+  text-align: center;
+}
+.nav_hor {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+}
+
+.nav_hor li {
+    float: right;
+    display: block;
+    color: #fff877;
+    padding: 14px 16px;
+}
+
+.nav_hor li.head {
+    float: left;
+}
+
+.nav_hor .logo {
+    color: antiquewhite;
+}
+
+.nav_hor li.txt {
+    text-align: center;
+}
+
+.nav_hor li a {
+    display: block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+.nav_hor li a:hover {
+    color: cornflowerblue;
+}
+
+.column {
+    float: left;
+    width: 50%;
+    padding: 15px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+/* 创建并排的三个不相等的列 */
+.column {
+    float: left;
+    padding: 10px;
+}
+
+/* 左右列 */
+.column.side {
+    width: 15%;
+}
+.column.right{
+    width:15%
+}
+/* 中间列 */
+.column.body {
+    width: 70%;
+}
+
+/* 清除列之后的浮动 */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* 竖直导航栏样式设置 */
+.nav_vert li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.nav_vert {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #f1f1f1;
+    position: fixed;
+}
+
+.nav_vert li a.active {
+    background-color: #1F66AE;
+    color: white;
+}
+
+.nav_vert li a.main {
+    background-color: #555;
+    color: white;
+}
+
+.nav_vert li a:hover:not(.active) {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.nav_vert li a.active {
+    background-color: #1E83C4;
+    color: white;
+}
