@@ -73,8 +73,8 @@ def raceclass(name):
 
 
 # 创建一个空的套牌, 输入为套牌名字
-def deck_null(name):
-    new_deck = Deck.objects.create(name=name)
+def deck_null(name, summoner_class):
+    new_deck = Deck.objects.create(name=name, summoner_class=summoner_class)
     return new_deck
 
 
