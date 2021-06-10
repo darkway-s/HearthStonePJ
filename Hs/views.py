@@ -98,22 +98,16 @@ def summonerclass_list(request):
 
 def summonerclass_add(request):
     return render(request, 'Hs/summonerclass_add.html', context={
-
     })
 
 
+@csrf_exempt
 def summonerclass_add_sub(request):
-    if request.method == "POST":
-        form = SummonerClassForm(request.POST)
-        # 判断表单值是否合法
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            summonerclass = SummonerClass(name=name)
-            summonerclass.save()
-            return redirect('/summonerclass_list')
-    else:
-        form = SummonerClassForm()
-        return render(request, 'Hs/summonerclass_add.html', context={"form": form})
+    request.encoding = 'utf-8'
+    n_name = request.POST.get('n_name')
+    n_img = request.FILES.get('n_img')
+    add.summonerclass(n_name, n_img)
+    return redirect('/manage/summonerclass_list')
 
 
 def summonerclass_edit(request):
@@ -125,10 +119,10 @@ def summonerclass_edit(request):
                 edit_obj = models.SummonerClass.objects.get(id=edit_id)
                 edit_obj.name = form.cleaned_data['name']
                 edit_obj.save()
-                return redirect('/summonerclass_list')
+                return redirect('/manage/summonerclass_list')
         except models.Keyword.DoesNotExist:
             edit_obj = None
-            return redirect('/summonerclass_list')
+            return redirect('/manage/summonerclass_list')
 
     else:
         edit_id = request.GET.get('id')
@@ -232,7 +226,11 @@ def add_sub(request):
     # 将checkbox的on/off值转换成True/False
     n_card_class = request.POST.getlist('n_card_class')
 
-    n_collectible = True
+    collectible_str = request.POST.get('n_collectible')
+    if collectible_str == "true":
+        n_collectible = True
+    else:
+        n_collectible = False
 
     n_keyword = request.POST.getlist('n_keyword')
 
@@ -262,34 +260,37 @@ def add_sub(request):
              n_race,
              n_img,
              )
-    message = 'a message'
-    return render(request, 'Hs/card_create.html', context={
-        'message': message,
-    })
+    return redirect('/manage')
 
 
 def raceclass_list(request):
-    return render(request, 'Hs/card_create.html', context={
+    rc_list = select.race_all()
+    return render(request, 'Hs/race_list.html', {
+        'rc_list': rc_list
     })
 
 
 def raceclass_add(request):
-    return render(request, 'Hs/card_create.html', context={
+    return render(request, 'Hs/race_add.html', context={
     })
 
 
+@csrf_exempt
 def raceclass_add_sub(request):
-    return render(request, 'Hs/card_create.html', context={
-    })
+    n_name = request.POST.get('n_name')
+    add.raceclass(n_name)
+    return redirect('/manage/raceclass_list')
 
 
 def setclass_list(request):
-    return render(request, 'Hs/card_create.html', context={
+    st_list = select.set_all()
+    return render(request, 'Hs/setclass_list.html', context={
+        'st_list': st_list
     })
 
 
 def setclass_add(request):
-    return render(request, 'Hs/card_create.html', context={
+    return render(request, 'Hs/setclass_add.html', context={
     })
 
 

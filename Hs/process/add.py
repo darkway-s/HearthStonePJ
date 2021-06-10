@@ -50,7 +50,6 @@ def summonerclass(s_name, s_img):
         _summonerclass = SummonerClass.objects.create(name=s_name, img=s_img)
         return _summonerclass
 
-
 # 增加合集
 def setclass(name):
     try:

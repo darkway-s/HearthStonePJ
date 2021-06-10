@@ -49,9 +49,9 @@
 
     <div class="column body">
         <h2>增加关键词</h2>
-        <form method="post" enctype="multipart/form-data" action="{% url 'Hs:keyword_add' %}">
+        <form method="post" enctype="multipart/form-data" action="{% url 'Hs:raceclass_add_sub' %}">
             {% csrf_token %}
-            {{ form.as_p }}
+            种族名：<input type="text" name="n_name">
             <input type="submit" value="OK"/>
         </form>
     </div>
