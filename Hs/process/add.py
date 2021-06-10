@@ -50,6 +50,7 @@ def summonerclass(s_name, s_img):
         _summonerclass = SummonerClass.objects.create(name=s_name, img=s_img)
         return _summonerclass
 
+
 # 增加合集
 def setclass(name):
     try:
@@ -108,10 +109,19 @@ def deck_append(obj_deck, obj_card):
 # 1张会在UserCard对应行增加一个amount
 # 2张以上则拒绝合成。
 # 然后再判断用户当前奥术之尘与卡牌合成价格相比是否足够，如果够才会合成并扣除相应的奥术之尘
+COMPOSE_PRICE = {
+    "basic": 0,
+    "common": 40,
+    "rare": 100,
+    "epic": 400,
+    "legend": 1600
+}
+
+
 def collection_one(cur_user, s_card):
     def compose(obj_user, obj_card):
         obj_price = obj_card.compose_price()
-        print("obj_price = " + obj_price)
+
         if obj_user.arc_dust >= obj_price:
             obj_user.arc_dust -= obj_price
             obj_user.save()
@@ -129,7 +139,7 @@ def collection_one(cur_user, s_card):
             return 2
         else:
             # 只有一张
-            price = s_card.compose_price
+            price = s_card.compose_price()
             if cur_user.arc_dust >= price:
                 cur_user.arc_dust -= price
                 cur_user.save()

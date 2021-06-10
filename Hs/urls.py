@@ -5,7 +5,9 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('cards', views.cards, name='cards'),
+
     path('mycollection', views.mycollection, name='mycollection'),
+    path('mycollection_comp', views.mycollection_comp, name='mycollection_comp'),
 
     path('keyword_list', views.keyword_list, name='keyword_list'),
     path('keyword_add', views.keyword_add, name='keyword_add'),
