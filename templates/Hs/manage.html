@@ -13,7 +13,6 @@
 <ul class="nav_hor">
     <li class="head"><a class="logo" href="{% url 'Hs:index' %}"><b>炉石传说卡牌库数据系统</b></a></li>
     <li class="head"><b>管理界面</b></li>
-    <li class="head"><a href="{% url 'Hs:summonerclass_add' %}" target="_blank">添加职业</a></li>
     <li><a href="news.asp">修改密码</a></li>
     {% if user.is_authenticated %}
         <li><a href="{% url 'logout' %}?next={{ request.path }}">注销</a></li>
@@ -23,39 +22,67 @@
         <li><a href="{% url 'Hs:register' %}">注册</a></li>
     {% endif %}
 </ul>
-
-<div class="row">
-    <div class="column side">
-        <ul class="nav_vert">
-            <li><a class="main active" href="{% url 'Hs:manage' %}">卡牌</a><a class="add" href="{% url 'Hs:card_create' %}"> 新建</a></li>
-            <li><a class="main" href="{% url 'Hs:summonerclass_list' %}">职业</a><a class="add" href="{% url 'Hs:summonerclass_add' %}"> 新建</a></li>
-            <li><a class="main" href="{% url 'Hs:raceclass_list' %}">种族</a><a class="add" href="{% url 'Hs:raceclass_add' %}"> 新建</a></li>
-            <li><a class="main" href="{% url 'Hs:keyword_list' %}">关键词列表</a><a class="add" href="{% url 'Hs:keyword_add' %}"> 新建</a></li>
-            <li><a class="main" href="{% url 'Hs:setclass_list' %}">合集列表</a><a class="add" href="{% url 'Hs:setclass_add' %}"> 新建</a></li>
-            <li><a class="main" href="{% url 'Hs:user_list' %}">用户列表</a><a class="add" href="{% url 'Hs:user_add' %}"> 新建</a></li>
-        </ul>
-    </div>
-
-    <div class="column body">
-        {% for cd in cd_list %}
-            <a href="/media/{{ cd.img }}" class="tn"><img width="187" height="259" src="../../media/{{ cd.img }}"></a>
-            <ul>
-                <li class="title">{{ cd.name }}</li>
-                <!-- 身材三项 -->
-                <li class="build"><b>法力消耗: </b>{{ cd.cost }}</li>
-                <li class="build"><b>攻击力: </b>{{ cd.attack }}</li>
-                <li class="build"><b>生命值: </b>{{ cd.health }}</li>
-                <!-- 卡牌描述 -->
-                <li class="desc"><b>描述: {{ cd.description }}</b></li>
-                <li class="desc"><b>背景故事: {{ cd.background }}</b></li>
-                <!-- 种族 -->
-                <li class="race"><b>种族: </b>{{ cd.race }}</li>
+{% if user.is_staff %}
+    <div class="row">
+        <div class="column side">
+            <ul class="nav_vert">
+                <li><a class="main active" href="{% url 'Hs:manage' %}">卡牌</a><a class="add"
+                                                                                 href="{% url 'Hs:card_create' %}">
+                    新建</a></li>
+                <li><a class="main" href="{% url 'Hs:summonerclass_list' %}">职业</a><a class="add"
+                                                                                      href="{% url 'Hs:summonerclass_add' %}">
+                    新建</a></li>
+                <li><a class="main" href="{% url 'Hs:raceclass_list' %}">种族</a><a class="add"
+                                                                                  href="{% url 'Hs:raceclass_add' %}">
+                    新建</a></li>
+                <li><a class="main" href="{% url 'Hs:keyword_list' %}">关键词列表</a><a class="add"
+                                                                                   href="{% url 'Hs:keyword_add' %}">
+                    新建</a></li>
+                <li><a class="main" href="{% url 'Hs:setclass_list' %}">合集列表</a><a class="add"
+                                                                                   href="{% url 'Hs:setclass_add' %}">
+                    新建</a></li>
+                <li><a class="main" href="{% url 'Hs:user_list' %}">用户列表</a><a class="add"
+                                                                               href="{% url 'Hs:user_add' %}"> 新建</a>
+                </li>
             </ul>
-        {% empty %}
-            no cards yet
-        {% endfor %}
-    </div>
-</div>
+        </div>
 
+        <div class="column body">
+            {% for cd in cd_list %}
+                <div class="pic">
+                    <img width="187" height="259" src="../../media/{{ cd.img }}">
+                    <ul class="detail">
+                        <li class="btn_left"><a class="btn"
+                                                href="{% url 'Hs:card_edit' %}?id={{ cd.id }}">编辑</a>
+                        </li>
+                        <li class="btn_right"><a class="btn"
+                                                 href="{% url 'Hs:card_drop' %}?id={{ cd.id }}">删除</a>
+                        </li>
+                        <li class="title">{{ cd.name }}</li>
+                        <!-- 身材三项 -->
+                        <li class="build"><b>法力消耗: </b>{{ cd.cost }}</li>
+                        <li class="build"><b>攻击力: </b>{{ cd.attack }}</li>
+                        <li class="build"><b>生命值: </b>{{ cd.health }}</li>
+                        <!-- 卡牌描述 -->
+                        <li class="desc"><b>描述: {{ cd.description | safe }}</b></li>
+                        <li class="desc"><b>背景故事: {{ cd.background }}</b></li>
+                        <!-- 种族 -->
+                        <li class="race"><b>种族: </b>{{ cd.race }}</li>
+                        <li class="race"><b>职业: </b>
+                            {% for cls in cd.card_class.all %}
+                                {{ cls }},
+                            {% endfor %}
+                        </li>
+                    </ul>
+                </div>
+            {% empty %}
+                no cards yet
+            {% endfor %}
+
+        </div>
+    </div>
+{% else %}
+    <h2>您没有此界面的访问权限</h2>
+{% endif %}
 </body>
 </html>

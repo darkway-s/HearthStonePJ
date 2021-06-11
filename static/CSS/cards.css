@@ -1,4 +1,8 @@
 /* CSS Document */
+body {
+    background-image: url(../image/bodybg.png);
+    background-size: 100%;
+}
 
 .nav {
     list-style-type: none;
@@ -81,21 +85,23 @@ div.pic img {
     border: none;
 }
 
-div.pic ul{
-    display:none;
+div.pic ul {
+    display: none;
     position: absolute;
     background: #dceeff;
-    border:2px solid #a7d5ff;
+    border: 2px solid #a7d5ff;
     list-style: none;
     padding: 0 0 0 0.5em;
     margin: -5px 0 0 0;
     width: inherit;
 }
+
 div.pic:hover ul {
     display: block;
     position: absolute;
 }
-li.title{
+
+li.title {
     font-weight: bold;
     text-align: center;
     font-size: large;

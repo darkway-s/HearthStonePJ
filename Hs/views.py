@@ -222,7 +222,7 @@ def summonerclass_drop(request):
     drop_id = request.GET.get('id')
     drop_obj = models.SummonerClass.objects.get(id=drop_id)
     drop_obj.delete()
-    return redirect('/summonerclass_list')
+    return redirect('/manage/summonerclass_list')
 
 
 def register(request):
@@ -260,8 +260,12 @@ def register(request):
 
 
 def manage(request):
+    sc_list = select.summonerclass_all()
     cd_list = select.card_all()
     return render(request, 'Hs/manage.html', context={
+        'sc_sel': '所有职业',
+        'sc_list': sc_list,
+        'cost_sel': -1,
         'cd_list': cd_list,
     })
 
@@ -291,6 +295,83 @@ def on2true(bool_value):
     else:
         return False
 """
+
+
+def card_edit(request):
+    id = request.GET.get('id')
+    cd = select.card_match_id(id)
+    print(cd.name)
+    print(cd.type)
+    tp_list = Card.TYPE_CHOICES
+    rt_list = Card.RARITY_CHOICE
+    st_list = select.set_all()
+    sc_list = select.summonerclass_all()
+    kw_list = select.keyword_all()
+    rc_list = select.race_all()
+    return render(request, 'Hs/card_edit.html', context={
+        'cd': cd,
+        'tp_list': tp_list,
+        'rt_list': rt_list,
+        'st_list': st_list,
+        'sc_list': sc_list,
+        'kw_list': kw_list,
+        'rc_list': rc_list,
+    })
+
+
+@csrf_exempt
+def card_edit_sub(request):
+    request.encoding = 'utf-8'
+    n_name = request.POST.get('n_name')
+    n_type = request.POST.get('n_type')
+    n_rarity = request.POST.get('n_rarity')
+    # 处理SetClass类
+    n_set_id = request.POST.get('n_set')
+    n_set = select.set_match_id(n_set_id)
+    # 将checkbox的on/off值转换成True/False
+    n_card_class = request.POST.getlist('n_card_class')
+
+    collectible_str = request.POST.get('n_collectible')
+    if collectible_str == "true":
+        n_collectible = True
+    else:
+        n_collectible = False
+
+    n_keyword = request.POST.getlist('n_keyword')
+
+    n_cost = request.POST.get('n_cost')
+    n_attack = request.POST.get('n_attack')
+    n_health = request.POST.get('n_health')
+    n_description = request.POST.get('n_description')
+    n_background = request.POST.get('n_background')
+
+    n_race_id = request.POST.get('n_race')
+    n_race = select.race_match_id(n_race_id)
+
+    n_img = request.FILES.get('n_img')
+    update.card(request.GET.get('id'),
+             n_name,
+             n_type,
+             n_rarity,
+             n_set,
+             n_card_class,
+             n_collectible,
+             n_keyword,
+             n_cost,
+             n_attack,
+             n_health,
+             n_description,
+             n_background,
+             n_race,
+             n_img,
+             )
+    return redirect('/manage')
+
+
+def card_drop(request):
+    id = request.GET.get('id')
+    delete.card(id)
+    return redirect('/manage')
 
 
 @csrf_exempt
@@ -354,6 +435,28 @@ def raceclass_add(request):
     })
 
 
+def raceclass_edit(request):
+    race_id = request.GET.get('id')
+    rc = select.race_match_id(race_id)
+    return render(request, 'Hs/race_edit.html', context={
+        'rc': rc,
+    })
+
+
+@csrf_exempt
+def raceclass_edit_sub(request):
+    race_id = request.GET.get('id')
+    rc_name = request.POST.get('rc_name')
+    update.raceclass(race_id, rc_name)
+    return redirect('/manage/raceclass_list')
+
+
+def raceclass_drop(request):
+    race_id = request.GET.get('id')
+    delete.raceclass(race_id)
+    return redirect('/manage/raceclass_list')
+
+
 @csrf_exempt
 def raceclass_add_sub(request):
     n_name = request.POST.get('n_name')
@@ -368,14 +471,37 @@ def setclass_list(request):
     })
 
 
+def setclass_edit(request):
+    set_id = request.GET.get('id')
+    st = select.set_match_id(set_id)
+    return render(request, 'Hs/setclass_edit.html', context={
+        'st': st,
+    })
+
+
+def setclass_edit_sub(request):
+    id = request.GET.get('id')
+    n_name = request.POST.get('n_name')
+    update.setclass(id, n_name)
+    return redirect('/manage/setclass_list')
+
+
 def setclass_add(request):
     return render(request, 'Hs/setclass_add.html', context={
     })
 
 
+@csrf_exempt
 def setclass_add_sub(request):
-    return render(request, 'Hs/card_create.html', context={
-    })
+    n_name = request.POST.get('n_name')
+    add.setclass(n_name)
+    return redirect('/manage/setclass_list')
+
+
+def setclass_drop(request):
+    set_id = request.GET.get('id')
+    delete.setclass(set_id)
+    return redirect('/manage/setclass_list')
 
 
 def user_list(request):
@@ -473,6 +599,7 @@ def dk_del(request):
     dk = select.deck_match_id(dk_id)
     delete.deck(dk)
     return redirect(request.GET.get('pos'))
+
 
 def test(request):
     obj = select.card_all()[0]

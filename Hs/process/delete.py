@@ -14,7 +14,7 @@ def keyword(sid):
 def card(sid):
     _card = Card.objects.get(id=sid)
     # 拥有过这张卡的玩家
-    owner_list = _card.collection_set.all()
+    owner_list = _card.usercard_set.all()
     for owner in owner_list:
         collection_one(owner, _card)
     _card.delete()
