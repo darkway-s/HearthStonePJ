@@ -1,8 +1,14 @@
-.header {
-  background-color: #f1f1f1;
-  padding: 20px;
-  text-align: center;
+body {
+    background-image: url(../image/bodybg.png);
+    background-size: 100%;
 }
+
+.header {
+    background-color: #f1f1f1;
+    padding: 20px;
+    text-align: center;
+}
+
 .nav_hor {
     list-style-type: none;
     margin: 0;
@@ -116,4 +122,58 @@ body {
 .nav_vert li a.active {
     background-color: #1E83C4;
     color: white;
+}
+div.pic {
+    height: 318px;
+    width: 225px;
+    float: left;
+    margin: 5px;
+}
+
+div.pic img {
+    border: none;
+}
+
+div.pic ul.detail {
+    display: none;
+    position: absolute;
+    background: #dceeff;
+    border: 2px solid #a7d5ff;
+    list-style: none;
+    padding: 0 0 0 0.5em;
+    margin: -5px 0 0 0;
+    width: inherit;
+}
+
+div.pic:hover ul.detail {
+    display: block;
+    position: absolute;
+}
+
+li.title {
+    font-weight: bold;
+    text-align: center;
+    font-size: large;
+}
+
+li.btn_left {
+    float: left;
+}
+
+li.btn_right {
+    float: right;
+}
+
+a.btn {
+    background-color: #555;
+    display: block;
+    text-decoration: none;
+    color: white;
+    padding: 5px;
+    margin: 0;
+    height: inherit;
+}
+
+a.btn:hover {
+    color: cornflowerblue;
 }

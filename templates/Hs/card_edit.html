@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>管理界面</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'CSS/manage.css' %}" type="text/css" rel="stylesheet">
+    <link href="{% static 'CSS/card_create.css' %}" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<ul class="nav_hor">
+    <li class="head"><a class="logo" href="{% url 'Hs:index' %}"><b>炉石传说卡牌库数据系统</b></a></li>
+    <li class="head"><b>管理界面</b></li>
+    <li class="head"><a href="{% url 'Hs:summonerclass_add' %}" target="_blank">添加职业</a></li>
+    <li><a href="news.asp">修改密码</a></li>
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'logout' %}?next={{ request.path }}">注销</a></li>
+        <li class="txt">欢迎，{{ user.username }}</li>
+    {% else %}
+        <li><a href="{% url 'login' %}?next={{ request.path }}">登录</a></li>
+        <li><a href="{% url 'Hs:register' %}">注册</a></li>
+    {% endif %}
+</ul>
+{% if user.is_staff %}
+    <div class="row">
+        <div class="column side">
+            <ul class="nav_vert">
+                <li><a class="main active" href="{% url 'Hs:manage' %}">卡牌</a><a class="add"
+                                                                                 href="{% url 'Hs:card_create' %}">
+                    新建</a>
+                </li>
+                <li><a class="main" href="{% url 'Hs:summonerclass_list' %}">职业</a><a class="add"
+                                                                                      href="{% url 'Hs:summonerclass_add' %}">
+                    新建</a></li>
+                <li><a class="main" href="{% url 'Hs:raceclass_list' %}">种族</a><a class="add"
+                                                                                  href="{% url 'Hs:raceclass_add' %}">
+                    新建</a></li>
+                <li><a class="main" href="{% url 'Hs:keyword_list' %}">关键词列表</a><a class="add"
+                                                                                   href="{% url 'Hs:keyword_add' %}">
+                    新建</a>
+                </li>
+                <li><a class="main" href="{% url 'Hs:setclass_list' %}">合集列表</a><a class="add"
+                                                                                   href="{% url 'Hs:setclass_add' %}">
+                    新建</a></li>
+                <li><a class="main" href="{% url 'Hs:user_list' %}">用户列表</a><a class="add"
+                                                                               href="{% url 'Hs:user_add' %}">
+                    新建</a></li>
+            </ul>
+        </div>
+
+        <div class="column body">
+            <h2>编辑卡牌：{{ cd.name }}</h2>
+            <form method="post" enctype="multipart/form-data" action="{% url 'Hs:card_edit_sub' %}?id={{ cd.id }}">
+                {% csrf_token %}
+                <p>
+                    卡牌名：<input type="text" name="n_name" value="{{ cd.name }}">
+                </p>
+                <p>
+                    类型：<select name="n_type">
+                    {% for tp in tp_list %}
+                        <option value="{{ tp }}">{{ tp }}</option>
+                    {% empty %}
+                    {% endfor %}
+                </select></p>
+                <p>
+                    稀有度：<select name="n_rarity">
+                    {% for rt in rt_list %}
+                        <option value="{{ rt }}" selected="true">{{ rt }}</option>
+                    {% empty %}
+                    {% endfor %}
+                </select></p>
+                <p>
+                    系列：<select name="n_set">
+                    {% for st in st_list %}
+                        <option value="{{ st.id }}" selected="true">{{ st }}</option>
+                        print(st.name)
+                    {% empty %}
+                    {% endfor %}
+                </select></p>
+                <p>
+                    种族：<select name="n_race">
+                    {% for rc in rc_list %}
+                        <option value="{{ rc.id }}" selected="true">{{ rc }}</option>
+                    {% empty %}
+                    {% endfor %}
+                </select></p>
+                <p>
+                    可用职业：
+                    {% for sc in sc_list %}
+                        <input type="checkbox" name="n_card_class" value="{{ sc.id }}">{{ sc }}
+                    {% empty %}
+                    {% endfor %}
+                </p>
+                <p>
+                    可合成？
+                    <input type="radio" name="n_collectible" value="true" checked="true">是
+                    <input type="radio" name="n_collectible" value="false">否
+                </p>
+                <p>
+                    关键词：
+                    {% for kw in kw_list %}
+                        <input type="checkbox" name="n_keyword" value="{{ kw.id }}">{{ kw.name }}
+                    {% empty %}
+                    {% endfor %}
+                </p>
+                <p>
+                    费用：<input name="n_cost" type="number" value="{{ cd.cost }}">
+                </p>
+                <p>
+                    攻击力：<input name="n_attack" type="number" value="{{ cd.attack }}">
+                </p>
+                <p>
+                    生命值：<input name="n_health" type="number" value="{{ cd.health }}">
+                </p>
+                <p>
+                    描述：<input name="n_description" type="text" value="{{ cd.description }}">
+                </p>
+                <p>
+                    背景故事：<input name="n_background" type="text" value="{{ cd.background }}">
+                </p>
+                <p>
+                    图片：
+                </p>
+                <p>
+                    目前：{{ cd.img }}<br>
+                    修改 <input type="file" name="n_img">
+                </p>
+                <p>
+                    <input type="submit" value="保存">
+                </p>
+            </form>
+        </div>
+    </div>
+{% else %}
+    <h2>您没有此界面的访问权限</h2>
+{% endif %}
+</body>
+</html>

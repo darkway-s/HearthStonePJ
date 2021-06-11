@@ -22,7 +22,7 @@
         <li><a href="{% url 'Hs:register' %}">注册</a></li>
     {% endif %}
 </ul>
-
+{% if user.is_staff %}
 <div class="row">
     <div class="column side">
         <ul class="nav_vert">
@@ -62,7 +62,9 @@
         </form>
     </div>
 </div>
-
+{% else %}
+<h2>您没有此界面的访问权限</h2>
+{% endif %}
 </body>
 </html>
 

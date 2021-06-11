@@ -6,7 +6,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="{% static 'CSS/manage.css' %}" type="text/css" rel="stylesheet">
-    <link href="{% static 'CSS/summonerclass_list.css' %}" type="text/css" rel="stylesheet">
 
 
 </head>
@@ -49,27 +48,12 @@
     </div>
 
     <div class="column body">
-        <h2>职业名称</h2>
-        <table>
-            <tbody>
-            {% for summonerclass in summonerclass_list %}
-                <tr>
-                    <td><img width="48" height="37" src="../../media/{{ summonerclass.img }}"></a></td>
-                    <td>{{ summonerclass.name }}</td>
-                    <td class="text-center">
-                        <a class="btn btn-info btn-sm" href="/summonerclass_edit/?id={{ summonerclass.id }}"><i
-                                class="fa fa-pencil fa-fw"
-                                aria-hidden="true"></i>编辑
-                        </a>
-                        <a class="btn btn-danger btn-sm" href="/summonerclass_drop/?id={{ summonerclass.id }}"><i
-                                class="fa fa-trash-o fa-fw"
-                                aria-hidden="true"></i>删除
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+        <h2>修改合集名称</h2>
+        <form method="post" enctype="multipart/form-data" action="{% url 'Hs:setclass_edit_sub' %}?id={{ st.id }}">
+            {% csrf_token %}
+            合集名：<input type="text" value="{{ st.name }}" name="n_name">
+            <input type="submit" value="OK"/>
+        </form>
     </div>
 </div>
 {% else %}

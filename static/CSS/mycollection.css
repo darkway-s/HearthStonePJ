@@ -1,3 +1,8 @@
+body {
+    background-image: url(../image/bodybg.png);
+    background-size: 100%;
+}
+
 .header {
     background-color: #f1f1f1;
     padding: 20px;
@@ -174,7 +179,7 @@ a.btn {
     height: inherit;
 }
 
-a.btn:hover{
+a.btn:hover {
     color: cornflowerblue;
 }
 
