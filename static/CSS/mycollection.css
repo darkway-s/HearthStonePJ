@@ -72,7 +72,7 @@ body {
 
 /* 左右列 */
 .column.side {
-    width: 15%;
+    width: 13%;
 }
 
 .column.right {
@@ -81,7 +81,7 @@ body {
 
 /* 中间列 */
 .column.body {
-    width: 70%;
+    width: 72%;
 }
 
 /* 清除列之后的浮动 */
