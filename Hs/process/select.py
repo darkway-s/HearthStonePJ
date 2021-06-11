@@ -64,6 +64,7 @@ def keyword_one(s_name='', *, sid=-1):
     return select1_one(Keyword, s_name, sid=sid)
 
 
+
 # 获得整个职业列表
 def summonerclass_all():
     return select_all(SummonerClass)
@@ -79,7 +80,7 @@ def summonerclass_match(s_name):
 
 
 def summonerclass_match_id(s_id):
-    return match(SummonerClass, s_id)
+    return match_id(SummonerClass, s_id)
 
 
 # 仅获取第一个

@@ -63,7 +63,7 @@ def mycollection(request):
     dk_list = select.deck_all_of_user(cur_user)
     return render(request, 'Hs/mycollection.html', context={
         'tp_list': tp_list,
-        'pos': request.path,
+        'pos': request.get_full_path(),
         'dk_list': dk_list,
     })
 
@@ -85,23 +85,24 @@ def mycollection_comp(request):
         print(_own)
     return render(request, 'Hs/mycollection.html', context={
         'tp_list': _own_list,
-        'pos': request.path,
+        'pos': request.get_full_path(),
+        'dk_list': select.deck_all_of_user(cur_user)
     })
 
 
 def mycollection_deck(request):
     try:
-        cur_user = request.user
+        tp_list = select.user_card_all(request.user)
     except:
         return render(request, 'Hs/mycollection_deck.html', context={
             'pos': request.get_full_path(),
         })
+    cur_user = request.user
     dk_list = select.deck_all_of_user(cur_user)
     dk_card_list = []
     dk_sel_id = request.GET.get('dk_id', default='')
     if dk_sel_id != '':
         dk_sel = select.deck_match_id(dk_sel_id)
-        tp_list = select.deck_available_cards(request.user, dk_sel)
         dk_card_list = select.deck_card_list(dk_sel)
         for dk_card in dk_card_list:
             print(dk_card[0].name)
@@ -443,6 +444,35 @@ def dk_card_add(request):
     message = add.deck_append(dk_sel, cd_sel)
     return redirect('/mycollection_deck?dk_id=' + request.GET.get('dk_id'))
 
+
+def dk_new(request):
+    cur_user = request.user
+    dk_list = select.deck_all_of_user(cur_user)
+    sc_list = select.summonerclass_all()
+    sc_list = sc_list.exclude(name='中立')
+    print(sc_list)
+    return render(request, 'Hs/mycollection_new_deck.html', context={
+        'sc_list': sc_list,
+        'dk_list': dk_list,
+        'pos': request.get_full_path(),
+    })
+
+
+@csrf_exempt
+def dk_new_sb(request):
+    n_name = request.POST.get('n_name')
+    n_sc = request.POST.get('n_sc')
+    print(n_sc)
+    sc = select.summonerclass_match_id(n_sc)
+    add.deck_null(request.user, n_name, sc)
+    return redirect('/dk_new')
+
+
+def dk_del(request):
+    dk_id = request.GET.get('dk_id')
+    dk = select.deck_match_id(dk_id)
+    delete.deck(dk)
+    return redirect(request.GET.get('pos'))
 
 def test(request):
     obj = select.card_all()[0]
