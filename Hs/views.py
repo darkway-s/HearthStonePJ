@@ -260,8 +260,12 @@ def register(request):
 
 
 def manage(request):
+    sc_list = select.summonerclass_all()
     cd_list = select.card_all()
     return render(request, 'Hs/manage.html', context={
+        'sc_sel': '所有职业',
+        'sc_list': sc_list,
+        'cost_sel': -1,
         'cd_list': cd_list,
     })
 
