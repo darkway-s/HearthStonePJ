@@ -99,7 +99,7 @@ class Card(models.Model):
     collectible = models.BooleanField('是否可以合成', default=1)
 
     # 允许没有关键词, 这里隐含一个关系表
-    keyword = models.ManyToManyField(Keyword, verbose_name='关键词', null=True, blank=True)
+    keyword = models.ManyToManyField(Keyword, verbose_name='关键词', null=True, blank=True, related_name='card_keyword')
 
     # 身材三项
     cost = models.IntegerField('费用', default=1)

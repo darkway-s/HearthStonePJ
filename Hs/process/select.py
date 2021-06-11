@@ -46,6 +46,11 @@ def keyword(s_name='', *, sid=-1):
     return select1(Keyword, s_name, sid=sid)
 
 
+# 根据关键词模糊搜索
+def keyword_vague_name(s_name):
+    _keyword_list = Keyword.objects.filter(name__contains=s_name)
+
+
 def keyword_match(s_name):
     return match(Keyword, s_name)
 
@@ -148,8 +153,8 @@ def card_match_id(s_id):
 # 整体模糊搜索
 def card_vague_search(search_word):
     # 关键词模糊搜索
-    _keyword_list = keyword(s_name=search_word)
     list1 = []
+    _keyword_list = keyword(s_name=search_word)
     for _keyword in _keyword_list:
         # 含有该关键词的卡牌列表
         keyword_card_list = _keyword.card_keyword.all()
@@ -159,23 +164,25 @@ def card_vague_search(search_word):
 
     # 卡牌名模糊搜索
     list2 = card_vague_name(s_name=search_word)
+
     # 卡牌描述模糊搜索
     list3 = card_vague_description(s_description=search_word)
-
-    _list = list1 + list2 + list3
+    _list = list1
+    _list.extend(list2)
+    _list.extend(list3)
     _list = list(set(_list))
 
     return _list
 
 
 # 模糊名称搜索卡牌
-def card_vague_name(s_name=''):
-    _card_list = Card.objects.filter(name__contains=s_name)
+def card_vague_name(s_name='', card_list=card_all()):
+    _card_list = card_list.filter(name__contains=s_name)
     return _card_list
 
 
-def card_vague_description(s_description=''):
-    _card_list = Card.objects.filter(description__contains=s_description)
+def card_vague_description(s_description='', card_list=card_all()):
+    _card_list = card_list.filter(description__contains=s_description)
     return _card_list
 
 
@@ -286,13 +293,20 @@ def deck_count(s_deck):
     return cnt
 
 
-# 得到user的所有deck中所用到的所有卡牌的列表，形式为tuple,[0]card [1]amount
-def deck_used_card_list(obj_user: User):
-    _deck_list = deck_all_of_user(obj_user)
-    # 用set去重
-    S = set()
-    for _deck in _deck_list:
-        _tuple = deck_card_list(_deck)
-        S.add(_tuple)
+# 输入一个tuple(card, amount)，输出(card) 的list
+def tuple2card(obj_tuple):
+    return [val[0] for val in obj_tuple]
 
-    return S
+
+# 输入一个card_list, 输出用户拥有的这些卡牌的tuple(card, amount)
+def card_list2user_tuple_list(card_list, obj_user):
+    user_tuple = user_card_all(obj_user)
+    user_cards = tuple2card(user_tuple)
+
+    _tuple_list = []
+    for _card in card_list:
+        if _card in user_cards:
+            # 如果用户拥有这张牌，那么显示这张牌和数量
+            _obj = user_card_match(obj_user, _card)
+            _tuple = (_card, _obj.amount)
+            _tuple_list.append()
