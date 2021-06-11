@@ -21,34 +21,36 @@
 </ul>
 <div class="nav">
 		<span class="dropdown">
-			<a href="#">{{ class }}</a>
+			<a href="#">{{ sc_sel }}</a>
 			<span class="dropdown-content">
                 {% for sc in sc_list %}
-                    <p><a href="?sc_sel={{ sc.name }}&cost_sl={{ cost_sel }}">{{ sc.name }}</a></p>
+                    <p><a href="javascript:;" onclick="sc_edit('{{ sc.name }}');">{{ sc.name }}</a></p>
                 {% endfor %}
-                <p><a href="?sc_sel=&cost_sl={{ cost_sel }}">所有职业</a></p>
+                <p><a href="javascript:;" onclick="sc_edit('所有职业');">所有职业</a></p>
 		    </span>
 		</span>
     <span>
-			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=0">0</a>
-			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=1">1</a>
-			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=2">2</a>
-			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=3">3</a>
-			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=4">4</a>
-			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=5">5</a>
-			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=6">6</a>
-			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=7">7</a>
-			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=8">8</a>
-			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=9">9</a>
-			<a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=10">10+</a>
-            <a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=-1">all</a>
+        <a class="crys" href="javascript:;" onclick="cst_edit(0);">0</a>
+        <a class="crys" href="javascript:;" onclick="cst_edit(1);">1</a>
+        <a class="crys" href="javascript:;" onclick="cst_edit(2);">2</a>
+        <a class="crys" href="javascript:;" onclick="cst_edit(3);">3</a>
+        <a class="crys" href="javascript:;" onclick="cst_edit(4);">4</a>
+        <a class="crys" href="javascript:;" onclick="cst_edit(5);">5</a>
+        <a class="crys" href="javascript:;" onclick="cst_edit(6);">6</a>
+        <a class="crys" href="javascript:;" onclick="cst_edit(7);">7</a>
+        <a class="crys" href="javascript:;" onclick="cst_edit(8);">8</a>
+        <a class="crys" href="javascript:;" onclick="cst_edit(9);">9</a>
+        <a class="crys" href="javascript:;" onclick="cst_edit(10);">10+</a>
+        <a class="crys" href="javascript:;" onclick="cst_edit(-1);">all</a>
 		</span>
 </div>
 <div class="nav">
     <form action="{% url 'Hs:search_cards' %}?sc_sel={{ sc_sel }}&cost_sel={{ cost_sel }}" enctype="multipart/form-data"
-          method="post">
+          method="post" id="search_form">
         {% csrf_token %}
-        <input type="text" name="search_word">
+        <input type="text" name="search_word" value="{{ search_word }}">
+        <input type="hidden" name="cst" id="cst" value="{{ cost_sel }}">
+        <input type="hidden" name="sc" id="sc" value="{{ sc_sel }}">
         <input type="submit" value="搜索">
     </form>
 </div>
@@ -73,6 +75,16 @@
         no cards match
     {% endfor %}
 </div>
+<script type="text/javascript">
+    function sc_edit(sc) {
+        document.getElementById("sc").value = sc;
+        document.getElementById("search_form").submit();
+    }
 
+    function cst_edit(cost) {
+        document.getElementById("cst").value = cost;
+        document.getElementById("search_form").submit();
+    }
+</script>
 </body>
 </html>
