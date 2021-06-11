@@ -180,6 +180,101 @@ Card_id int：卡牌
 
 # 四、系统设计
 
+### 浏览，搜索所有卡牌
+
+在主页界面登录后，点击“浏览卡牌”超链接，便可查询所有卡牌。
+
+画面正中列出了数据库中的所有卡牌配图，将鼠标放在图片上，会弹出该卡牌的详细信息。![image-20210611215127925](C:\Users\postgres\AppData\Roaming\Typora\typora-user-images\image-20210611215127925.png)
+
+在整个网页的颈部，是我们提供的卡牌筛选与搜索功能：
+
+* 根据卡牌属性“职业(SummonerClass)”精确筛选
+  将鼠标放置在“所有职业”处，出现所有职业的下拉列表，点击一个职业来精确匹配该职业的卡牌。
+
+* 跟据卡牌属性“费用(Cost)”精确筛选
+
+  点击上方的法力水晶，精确筛选该法力水晶的卡牌
+
+* 关键词搜索
+  依次匹配卡牌描述、卡牌稀有度、卡牌关键词、卡牌名，模糊搜索，结果取并集。
+
+* 上几个搜索与筛选可以同时使用，最终返回的卡牌结果为交集
+
+前端界面维护一个html form，借由javascrfript脚本获取搜索匹配所用的三个参数：职业、费用、搜索词，借由POST request提交给后端（详见`templates/cards.html`)
+我们调用查询语句获得卡牌全体列表, 然后在其中限定各个属性复选，具体实现参照`Hs/views.py`
+
+```python
+# Hs/views.py 
+def search_cards(request):
+    cd_list = select.card_all()
+    search_word = request.POST.get('search_word')
+    sc_sel = request.POST.get('sc')
+    cost_sel = request.POST.get('cst')
+
+    if cost_sel != '-1':
+        cd_list = select.card_strict(_card_list=cd_list, s_cost=cost_sel)
+    if sc_sel != '所有职业':
+        cd_list = select.card_strict(_card_list=cd_list, s_class_name=sc_sel)
+
+    cd_list = select.card_vague_search(search_word, cd_list)
+    # ...
+```
+
+### 我的收藏与套牌
+
+以普通用户(玩家)身份登录, 可以在主页上看到"我的收藏"链接, 点击后进入"我的收藏"界面. 
+
+我的收藏展现的是用户和三者的关系——奥术之尘、卡牌、套牌。每个用户可以拥有若干张卡牌，每种卡牌最多2张，获得卡牌的方式是使用“奥术之尘”制作，也可以将卡牌分解获得”奥术之尘“。用户对战时需要携带一套牌，这时他可以从自己拥有的卡牌中选取一定数量加入”套牌“，一个用户可以组建多套套牌
+
+在界面右上角显示的是当前用户的奥术之尘数量, 调用查询语句及可获得
+
+![image-20210611222300348](C:\Users\postgres\AppData\Roaming\Typora\typora-user-images\image-20210611222300348.png)
+
+在界面左侧我们看到"我的收藏"界面可分为两个部分:
+
+ <img src="C:\Users\postgres\AppData\Roaming\Typora\typora-user-images\image-20210611222730071.png" alt="image-20210611222730071" style="zoom:50%;" />
+
+* 卡牌管理——展示用户拥有卡牌(Card)的关系，用户以“奥术之尘”为货币媒介，进行增删。
+* 套牌管理——展示用户和所用套牌(Deck)的关系，以及每一副套牌和它对应卡牌之间的关系，用户可以自由增删套牌，修改套牌内卡牌。
+
+#### 用户卡牌管理
+
+在左侧选择“我的卡牌”选项卡，画面正中显示用户拥有的所有卡牌，将鼠标放在一个卡牌上，可显示卡牌的信息。可以点击“制作”“分解”，将卡牌分解为奥术之尘，或用奥术之尘再制作一张卡牌。
+
+想要获得自己没有的卡牌，可以选择”卡牌制作“，画面正中会再额外显示用户没有的卡牌，同样可以分解制作。
+
+![image-20210611223502302](C:\Users\postgres\AppData\Roaming\Typora\typora-user-images\image-20210611223502302.png)
+
+卡牌的分解制作有以下规则：
+
+* 根据卡牌的稀有度不同，制作花费奥术之尘不同，普通40、稀有100、史诗400、传说1600
+* 根据卡牌的稀有度不同，分解获得奥术之尘不同，普通5，稀有20、史诗100、传说400
+* 每一张卡牌最多拥有2张，最少拥有0张不能为负数。
+* 用户的套牌构筑依赖于足够的卡牌，若分解后使一个套牌中卡牌
+
+卡牌的分解制作会先检查上述规则，违背后会拒绝，并给予用户提示。若满足规则，会正确修改卡牌数量和奥术之尘数量，且也会给予用户提示——
+
+<img src="C:\Users\postgres\AppData\Roaming\Typora\typora-user-images\image-20210611224756273.png" alt="image-20210611224756273" style="zoom: 50%;" /><img src="C:\Users\postgres\AppData\Roaming\Typora\typora-user-images\image-20210611224817942.png" alt="image-20210611224817942" style="zoom:50%;" />
+
+参照`Hs/views.py`中的`cd_comp`与`cd_decomp`方法，我们可以看到实现思路，这实际上对应SQL过程，加由触发器保证松树枝陈正确变化。
+
+#### 用户套牌管理
+
+点击左侧导航栏自己的一副套牌，进入套牌管理页面，若无套牌可以新建一套
+
+<img src="C:\Users\postgres\AppData\Roaming\Typora\typora-user-images\image-20210611225332876.png" alt="image-20210611225332876" style="zoom:67%;" />
+
+套牌有一个属性：职业。它限制了套牌中只能添加该职业的卡牌，以及中立卡牌，选择一个套牌，界面中央只会显示满足条件的卡牌![image-20210611225600351](C:\Users\postgres\AppData\Roaming\Typora\typora-user-images\image-20210611225600351.png)
+
+界面右侧是套牌中现在有的卡牌及数量，点击卡牌图片，可在套牌中添加卡牌，点击右侧套牌中的卡牌，可把卡牌从套牌中移除，套牌中的卡牌应该满足以下规则：
+
+* 有卡牌数量上限限制，为测试方便，我们设定为5张。若满在左侧导航栏显示”已完成“，若未满显示”未完成“
+* 每种卡牌数量不能超过用户拥有的数量。
+
+参照`Hs/views.py`中的`dk_card_rem`与`dk_card_add`方法，完成上述判断后，执行修改命令。
+
+### 管理界面
+
 ### 密码加密存储：
 
 Player1存储在数据库中的密码<img src="image-20210611203943669.png" alt="image-20210611203943669" style="zoom:50%;" /> 
