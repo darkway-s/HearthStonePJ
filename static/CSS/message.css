@@ -1,0 +1,17 @@
+div.msg{
+    text-align: center;
+    margin-top: 20px;
+}
+div.msg a{
+    background-color: #777777;
+    color: white;
+    margin: 5px;
+    padding:5px;
+    text-decoration: none;
+}
+div.msg a:visited{
+    color: white;
+}
+div.msg a:hover{
+    color: cornflowerblue;
+}

@@ -10,9 +10,10 @@
 <ul class="nav_hor">
     <li class="head"><a class="logo" href="{% url 'Hs:index' %}"><b>炉石传说卡牌库数据系统</b></a></li>
     <li class="head"><b>我的收藏</b></li>
-    <li><a href="news.asp">修改密码</a></li>
+
     {% if user.is_authenticated %}
         <li><a href="{% url 'logout' %}?next={{ request.path }}">注销</a></li>
+        <li><a href="{% url 'password_change' %}?next={{ request.path }}">修改密码</a></li>
         <li class="txt">欢迎，{{ user.username }}，奥术之尘：{{ user.arc_dust }}</li>
     {% else %}
         <li><a href="{% url 'login' %}?next={{ request.path }}">登录</a></li>
@@ -35,12 +36,12 @@
                 <li>
                     <a class="add active" href="#">套牌管理</a>
                 </li>
-                {% for dk in dk_list %}
+                {% for dktup in dktup_list %}
                     <li>
-                        <a class="main" href="{% url 'Hs:mycollection_deck' %}?dk_id={{ dk.id }}">{{ dk.name }}</a>
+                       <a class="main" href="{% url 'Hs:mycollection_deck' %}?dk_id={{ dktup.0.id }}">{{ dktup.0.name }}({{ dktup.1 }})</a>
                     </li>
                     <li>
-                        <a class="add" href="{% url 'Hs:dk_del' %}?dk_id={{ dk.id }}&pos={{ pos }}">删除</a>
+                        <a class="add" href="{% url 'Hs:dk_del' %}?dk_id={{ dktup.0.id }}&pos={{ pos }}">删除</a>
                     </li>
                 {% empty %}
                 {% endfor %}

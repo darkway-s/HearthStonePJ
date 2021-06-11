@@ -13,6 +13,7 @@
     <li class="head"><b>浏览所有卡牌</b></li>
     {% if user.is_authenticated %}
         <li><a href="{% url 'logout' %}?next={{ request.path }}">注销</a></li>
+        <li><a href="{% url 'password_change' %}?next={{ request.path }}">修改密码</a></li>
         <li class="txt">欢迎，{{ user.username }}</li>
     {% else %}
         <li><a href="{% url 'login' %}?next={{ request.path }}">登录</a></li>

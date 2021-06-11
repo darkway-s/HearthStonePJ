@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import RegisterForm, KeywordForm, SummonerClassForm
 from Hs import models
-from .models import SummonerClass, Card, UserCard
+from .models import SummonerClass, Card, UserCard, Deck
 from .process import add, update, select, delete
 from django.views.decorators.csrf import csrf_exempt
 
@@ -61,10 +61,17 @@ def mycollection(request):
         })
     cur_user = request.user
     dk_list = select.deck_all_of_user(cur_user)
+    dtup_l = []
+    for dk in dk_list:
+        if select.deck_count(dk) < Deck.MAX_CARDS_IN_DECK:
+            dtup_l.append((dk, '未完成'))
+        else:
+            dtup_l.append((dk, '已完成'))
     return render(request, 'Hs/mycollection.html', context={
         'tp_list': tp_list,
         'pos': request.get_full_path(),
-        'dk_list': dk_list,
+        'dktup_list': dtup_l,
+        'message': '',
     })
 
 
@@ -83,10 +90,18 @@ def mycollection_comp(request):
         _own = [card, amount]
         _own_list.append(_own)
         print(_own)
+    dtup_l = []
+    dk_list = select.deck_all_of_user(cur_user)
+    for dk in dk_list:
+        if select.deck_count(dk) < Deck.MAX_CARDS_IN_DECK:
+            dtup_l.append((dk, '未完成'))
+        else:
+            dtup_l.append((dk, '已完成'))
     return render(request, 'Hs/mycollection.html', context={
         'tp_list': _own_list,
         'pos': request.get_full_path(),
-        'dk_list': select.deck_all_of_user(cur_user)
+        'dktup_list': dtup_l,
+        'sc_list': select.summonerclass_all(),
     })
 
 
@@ -108,12 +123,20 @@ def mycollection_deck(request):
             dk_card_list = select.deck_card_list(dk_sel)
             for dk_card in dk_card_list:
                 print(dk_card[0].name)
+        dtup_l = []
+        for dk in dk_list:
+            if select.deck_count(dk) < Deck.MAX_CARDS_IN_DECK:
+                dtup_l.append((dk, '未完成'))
+            else:
+                dtup_l.append((dk, '已完成'))
         return render(request, 'Hs/mycollection_deck.html', context={
             'tp_list': tp_list,
             'pos': request.get_full_path(),
             'dk_list': dk_list,
+            'dktup_list': dtup_l,
             'dk_sel': select.deck_match_id(request.GET.get('dk_id')),
             'dk_card_list': dk_card_list,
+            'message': ''
         })
     except models.Deck.DoesNotExist:
         return redirect('/mycollection')
@@ -541,15 +564,18 @@ def cd_comp(request):
     ret = add.collection_one(cur_user, s_card)
     if ret == -1:
         # 奥术之尘不足
-        pass
+        message = '奥术之尘不足'
     elif ret == -2:
         # 当前卡牌数大于等于2张，无法合成
-        pass
+        message = '已拥有超过两张卡牌，无法继续合成'
     else:
         # 正常合成
         arc_cost = ret.card.compose_price()
-
-    return redirect(request.GET.get('pos'))
+        message = '合成成功，消耗了' + str(arc_cost) + '奥术之尘'
+    return render(request, 'Hs/message.html', context={
+        'pos': request.GET.get('pos'),
+        'message': message,
+    })
 
 
 # 卡牌分解
@@ -557,8 +583,15 @@ def cd_decomp(request):
     cur_user = request.user
     s_card_id = request.GET.get('c_id')
     s_card = select.card_match_id(s_card_id)
-    delete.collection_one(cur_user, s_card)
-    return redirect(request.GET.get('pos'))
+    del_ret = delete.collection_one(cur_user, s_card)
+    if del_ret == -1:
+        message = '分解后会使您的套牌卡牌数量不足，请从套牌中删除后再分解。'
+    else:
+        message = '分解成功，获得了' + str(del_ret) + '点奥术之尘'
+    return render(request, 'Hs/message.html', context={
+        'pos': request.GET.get('pos'),
+        'message': message,
+    })
 
 
 def dk_card_rem(request):
@@ -585,9 +618,16 @@ def dk_new(request):
     sc_list = select.summonerclass_all()
     sc_list = sc_list.exclude(name='中立')
     print(sc_list)
+    dtup_l = []
+    for dk in dk_list:
+        if select.deck_count(dk) < Deck.MAX_CARDS_IN_DECK:
+            dtup_l.append((dk, '未完成'))
+        else:
+            dtup_l.append((dk, '已完成'))
     return render(request, 'Hs/mycollection_new_deck.html', context={
         'sc_list': sc_list,
         'dk_list': dk_list,
+        'dktup_list': dtup_l,
         'pos': request.get_full_path(),
     })
 

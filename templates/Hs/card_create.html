@@ -13,10 +13,10 @@
 <ul class="nav_hor">
     <li class="head"><a class="logo" href="{% url 'Hs:index' %}"><b>炉石传说卡牌库数据系统</b></a></li>
     <li class="head"><b>管理界面</b></li>
-    <li class="head"><a href="{% url 'Hs:summonerclass_add' %}" target="_blank">添加职业</a></li>
-    <li><a href="news.asp">修改密码</a></li>
+
     {% if user.is_authenticated %}
         <li><a href="{% url 'logout' %}?next={{ request.path }}">注销</a></li>
+        <li><a href="{% url 'password_change' %}?next={{ request.path }}">修改密码</a></li>
         <li class="txt">欢迎，{{ user.username }}</li>
     {% else %}
         <li><a href="{% url 'login' %}?next={{ request.path }}">登录</a></li>
