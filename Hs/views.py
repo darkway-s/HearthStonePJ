@@ -36,6 +36,26 @@ def cards(request):
     })
 
 
+@csrf_exempt
+def search_cards(request):
+    sc_list = select.summonerclass_all()
+    search_word = request.POST.get('search_word')
+    cd_list = select.card_vague_name(search_word)
+    sc_sel = request.GET.get('sc_sel', default='')
+    cost_sel = request.GET.get('cost_sl', default='-1')
+    if cost_sel != '-1':
+        cd_list = select.card_strict(_card_list=cd_list, s_cost=cost_sel)
+    if sc_sel != '':
+        cd_list = select.card_strict(_card_list=cd_list, s_class_name=sc_sel)
+    return render(request, 'Hs/cards.html', context={
+        'class': '选择职业' if sc_sel == '' else sc_sel,
+        'sc_sel': sc_sel,
+        'sc_list': sc_list,
+        'cost_sel': cost_sel,
+        'cd_list': cd_list,
+    })
+
+
 def mycollection(request):
     try:
         tp_list = select.user_card_all(request.user)

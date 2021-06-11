@@ -44,6 +44,14 @@
             <a class="crys" href="?sc_sel={{ sc_sel }}&cost_sl=-1">all</a>
 		</span>
 </div>
+<div class="nav">
+    <form action="{% url 'Hs:search_cards' %}?sc_sel={{ sc_sel }}&cost_sel={{ cost_sel }}" enctype="multipart/form-data"
+          method="post">
+        {% csrf_token %}
+        <input type="text" name="search_word">
+        <input type="submit" value="搜索">
+    </form>
+</div>
 <div class="ShowCards">
     {% for cd in cd_list %}
         <div class="pic">
