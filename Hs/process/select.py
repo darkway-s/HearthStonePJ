@@ -152,6 +152,7 @@ def card_match_id(s_id):
 
 # 整体模糊搜索
 def card_vague_search(search_word, card_list=card_all()):
+    _set = Card.objects.none()
     """
     # 关键词模糊搜索
     list1 = []
@@ -169,9 +170,7 @@ def card_vague_search(search_word, card_list=card_all()):
     # 卡牌描述模糊搜索
     set3 = card_vague_description(s_description=search_word, card_list=card_list)
 
-    _set = set2
-
-    _set = _set.distinct().union(set3)
+    _set = _set.distinct().union(set2, set3)
 
     return _set
 
