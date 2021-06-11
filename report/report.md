@@ -184,7 +184,7 @@ Card_id int：卡牌
 
 在主页界面登录后，点击“浏览卡牌”超链接，便可查询所有卡牌。
 
-画面正中列出了数据库中的所有卡牌配图，将鼠标放在图片上，会弹出该卡牌的详细信息。![image-20210611215127925](C:\Users\postgres\AppData\Roaming\Typora\typora-user-images\image-20210611215127925.png)
+画面正中列出了数据库中的所有卡牌配图，将鼠标放在图片上，会弹出该卡牌的详细信息。![image-20210611215127925](image-20210611215127925.png)
 
 在整个网页的颈部，是我们提供的卡牌筛选与搜索功能：
 
@@ -228,11 +228,11 @@ def search_cards(request):
 
 在界面右上角显示的是当前用户的奥术之尘数量, 调用查询语句及可获得
 
-![image-20210611222300348](C:\Users\postgres\AppData\Roaming\Typora\typora-user-images\image-20210611222300348.png)
+![image-20210611222300348](image-20210611222300348.png)
 
 在界面左侧我们看到"我的收藏"界面可分为两个部分:
 
- <img src="C:\Users\postgres\AppData\Roaming\Typora\typora-user-images\image-20210611222730071.png" alt="image-20210611222730071" style="zoom:50%;" />
+ <img src="image-20210611222730071.png" alt="image-20210611222730071" style="zoom:50%;" />
 
 * 卡牌管理——展示用户拥有卡牌(Card)的关系，用户以“奥术之尘”为货币媒介，进行增删。
 * 套牌管理——展示用户和所用套牌(Deck)的关系，以及每一副套牌和它对应卡牌之间的关系，用户可以自由增删套牌，修改套牌内卡牌。
@@ -243,7 +243,7 @@ def search_cards(request):
 
 想要获得自己没有的卡牌，可以选择”卡牌制作“，画面正中会再额外显示用户没有的卡牌，同样可以分解制作。
 
-![image-20210611223502302](C:\Users\postgres\AppData\Roaming\Typora\typora-user-images\image-20210611223502302.png)
+![image-20210611223502302](image-20210611223502302.png)
 
 卡牌的分解制作有以下规则：
 
@@ -254,7 +254,7 @@ def search_cards(request):
 
 卡牌的分解制作会先检查上述规则，违背后会拒绝，并给予用户提示。若满足规则，会正确修改卡牌数量和奥术之尘数量，且也会给予用户提示——
 
-<img src="C:\Users\postgres\AppData\Roaming\Typora\typora-user-images\image-20210611224756273.png" alt="image-20210611224756273" style="zoom: 50%;" /><img src="C:\Users\postgres\AppData\Roaming\Typora\typora-user-images\image-20210611224817942.png" alt="image-20210611224817942" style="zoom:50%;" />
+<img src="image-20210611224756273.png" alt="image-20210611224756273" style="zoom: 50%;" /><img src="image-20210611224817942.png" alt="image-20210611224817942" style="zoom:50%;" />
 
 参照`Hs/views.py`中的`cd_comp`与`cd_decomp`方法，我们可以看到实现思路，这实际上对应SQL过程，加由触发器保证松树枝陈正确变化。
 
@@ -262,9 +262,9 @@ def search_cards(request):
 
 点击左侧导航栏自己的一副套牌，进入套牌管理页面，若无套牌可以新建一套
 
-<img src="C:\Users\postgres\AppData\Roaming\Typora\typora-user-images\image-20210611225332876.png" alt="image-20210611225332876" style="zoom:67%;" />
+<img src="image-20210611225332876.png" alt="image-20210611225332876" style="zoom:67%;" />
 
-套牌有一个属性：职业。它限制了套牌中只能添加该职业的卡牌，以及中立卡牌，选择一个套牌，界面中央只会显示满足条件的卡牌![image-20210611225600351](C:\Users\postgres\AppData\Roaming\Typora\typora-user-images\image-20210611225600351.png)
+套牌有一个属性：职业。它限制了套牌中只能添加该职业的卡牌，以及中立卡牌，选择一个套牌，界面中央只会显示满足条件的卡牌![image-20210611225600351](image-20210611225600351.png)
 
 界面右侧是套牌中现在有的卡牌及数量，点击卡牌图片，可在套牌中添加卡牌，点击右侧套牌中的卡牌，可把卡牌从套牌中移除，套牌中的卡牌应该满足以下规则：
 
