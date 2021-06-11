@@ -87,10 +87,7 @@ def summonerclass_one(s_name='', *, sid=-1):
     return select1_one(SummonerClass, s_name, sid=sid)
 
 
-# 严格筛选: 职业， 法力水晶， 费用， 卡牌id
-def card_strict_type(s_type):
-    _card_list = Card.objects.filter(type=s_type)
-    return _card_list
+# 严格筛选: 法力水晶， 费用， 卡牌id
 
 
 # 严格匹配一组关键词, 配合keyword使用
@@ -161,10 +158,26 @@ def card_vague_search(search_word, card_list=card_all()):
     # 卡牌描述模糊搜索
     set3 = card_vague_description(s_description=search_word, card_list=card_list)
 
-    # 种族模糊搜索
+    # 种族精确搜索
     set4 = card_strict_race(s_race_name=search_word, card_list=card_list)
 
-    _set = _set.distinct().union(set2, set3, set4)
+    # 类型精确搜索
+    s_type = type_match(search_word)
+    print(s_type)
+    print(s_type[1])
+    if search_word == s_type[1]:
+        print("二者相等")
+    else:
+        print("二者不等")
+
+    if s_type == -1:
+        print("没有找到对应的type")
+        set5 = Card.objects.none()
+    else:
+        set5 = card_strict_type(s_type=s_type[0], card_list=card_list)
+
+        print(set5)
+    _set = _set.distinct().union(set2, set3, set4, set5)
     return _set
 
 
@@ -188,6 +201,31 @@ def card_strict_race(s_race_name, card_list=card_all()):
         return card_list
     except RaceClass.DoesNotExist:
         return Card.objects.none()
+
+
+# 找到对应type的所有卡牌，记住，这里s_type输入的是TYPE_CHOICE中元组的首个元素
+def card_strict_type(s_type, card_list=card_all()):
+    _card_list = card_list.filter(type=s_type)
+    return _card_list
+
+
+"""
+TYPE_CHOICES = (
+        ('minion', '随从'),
+        ('weapon', '武器'),
+        ('spell', '法术')
+    )
+"""
+
+
+# 根据类型名字返回对应type
+# 若没找到对应type，则返回-1
+def type_match(s_name):
+    print("s_name = " + s_name)
+    for i in range(0, 3):
+        if s_name == Card.TYPE_CHOICES[i][1]:
+            return Card.TYPE_CHOICES[i]
+    return -1
 
 
 # 搜索是否有匹配的合集名
