@@ -85,10 +85,9 @@ def collection_one(cur_user, s_card):
 
     _object = select.user_card_match(cur_user, s_card)
     # TODO
-    """
-    
-    
+
     used_list = select.deck_used_card_list(cur_user)
+    """
     if _object in used_list or (_object[0], 1) in used_list:
         # 可能存在危险
         # 以下情况有危险:

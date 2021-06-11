@@ -97,22 +97,25 @@ def mycollection_deck(request):
         return render(request, 'Hs/mycollection_deck.html', context={
             'pos': request.get_full_path(),
         })
-    cur_user = request.user
-    dk_list = select.deck_all_of_user(cur_user)
-    dk_card_list = []
-    dk_sel_id = request.GET.get('dk_id', default='')
-    if dk_sel_id != '':
-        dk_sel = select.deck_match_id(dk_sel_id)
-        dk_card_list = select.deck_card_list(dk_sel)
-        for dk_card in dk_card_list:
-            print(dk_card[0].name)
-    return render(request, 'Hs/mycollection_deck.html', context={
-        'tp_list': tp_list,
-        'pos': request.get_full_path(),
-        'dk_list': dk_list,
-        'dk_sel': select.deck_match_id(request.GET.get('dk_id')),
-        'dk_card_list': dk_card_list,
-    })
+    try:
+        cur_user = request.user
+        dk_list = select.deck_all_of_user(cur_user)
+        dk_card_list = []
+        dk_sel_id = request.GET.get('dk_id', default='')
+        if dk_sel_id != '':
+            dk_sel = select.deck_match_id(dk_sel_id)
+            dk_card_list = select.deck_card_list(dk_sel)
+            for dk_card in dk_card_list:
+                print(dk_card[0].name)
+        return render(request, 'Hs/mycollection_deck.html', context={
+            'tp_list': tp_list,
+            'pos': request.get_full_path(),
+            'dk_list': dk_list,
+            'dk_sel': select.deck_match_id(request.GET.get('dk_id')),
+            'dk_card_list': dk_card_list,
+        })
+    except models.Deck.DoesNotExist:
+        return redirect('/mycollection')
 
 
 def keyword_list(request):
@@ -350,21 +353,21 @@ def card_edit_sub(request):
 
     n_img = request.FILES.get('n_img')
     update.card(request.GET.get('id'),
-             n_name,
-             n_type,
-             n_rarity,
-             n_set,
-             n_card_class,
-             n_collectible,
-             n_keyword,
-             n_cost,
-             n_attack,
-             n_health,
-             n_description,
-             n_background,
-             n_race,
-             n_img,
-             )
+                n_name,
+                n_type,
+                n_rarity,
+                n_set,
+                n_card_class,
+                n_collectible,
+                n_keyword,
+                n_cost,
+                n_attack,
+                n_health,
+                n_description,
+                n_background,
+                n_race,
+                n_img,
+                )
     return redirect('/manage')
 
 

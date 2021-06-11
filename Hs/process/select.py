@@ -108,7 +108,7 @@ def card_all():
 
 
 def card_user(user):
-    return user.collection
+    return user.collection.all()
 
 
 # card_list 传入，在此基础上筛选
