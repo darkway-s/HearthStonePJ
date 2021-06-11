@@ -145,6 +145,29 @@ def card_match_id(s_id):
     return match_id(Card, s_id)
 
 
+# 整体模糊搜索
+def card_vague_search(search_word):
+    # 关键词模糊搜索
+    _keyword_list = keyword(s_name=search_word)
+    list1 = []
+    for _keyword in _keyword_list:
+        # 含有该关键词的卡牌列表
+        keyword_card_list = _keyword.card_keyword.all()
+        list1.extend(keyword_card_list)
+    # 含有所有可能关键词的可能卡牌列表
+    list1 = list(set(list1))
+
+    # 卡牌名模糊搜索
+    list2 = card_vague_name(s_name=search_word)
+    # 卡牌描述模糊搜索
+    list3 = card_vague_description(s_description=search_word)
+
+    _list = list1 + list2 + list3
+    _list = list(set(_list))
+
+    return _list
+
+
 # 模糊名称搜索卡牌
 def card_vague_name(s_name=''):
     _card_list = Card.objects.filter(name__contains=s_name)
@@ -261,18 +284,6 @@ def deck_count(s_deck):
         # 加上每个amount
         cnt += obj[1]
     return cnt
-
-
-# 得到user的所有deck中所用到的所有卡牌的列表，形式为tuple,[0]card [1]amount
-def deck_used_card_list(obj_user: User):
-    _deck_list = deck_all_of_user(obj_user)
-    # 用set去重
-    S = set()
-    for _deck in _deck_list:
-        _tuple = deck_card_list(_deck)
-        S.add(_tuple)
-
-    return S
 
 
 # 得到user的所有deck中所用到的所有卡牌的列表，形式为tuple,[0]card [1]amount

@@ -18,21 +18,34 @@ def index(request):
 
 def cards(request):
     sc_list = select.summonerclass_all()
-    sc_sel = request.GET.get('sc_sel', default='')
-    cost_sel = request.GET.get('cost_sl', default='-1')
     cd_list = select.card_all()
-    print('cost_sel=' + cost_sel)
-    print('sc_sel=' + sc_sel)
+    return render(request, 'Hs/cards.html', context={
+        'sc_sel': '所有职业',
+        'sc_list': sc_list,
+        'cost_sel': -1,
+        'cd_list': cd_list,
+    })
+
+
+@csrf_exempt
+def search_cards(request):
+    sc_list = select.summonerclass_all()
+    search_word = request.POST.get('search_word')
+    cd_list = select.card_vague_search(search_word)
+    sc_sel = request.POST.get('sc')
+    cost_sel = request.POST.get('cst')
     if cost_sel != '-1':
         cd_list = select.card_strict(_card_list=cd_list, s_cost=cost_sel)
-    if sc_sel != '':
+    if sc_sel != '所有职业':
         cd_list = select.card_strict(_card_list=cd_list, s_class_name=sc_sel)
+
     return render(request, 'Hs/cards.html', context={
         'class': '选择职业' if sc_sel == '' else sc_sel,
         'sc_sel': sc_sel,
         'sc_list': sc_list,
         'cost_sel': cost_sel,
         'cd_list': cd_list,
+        'search_word': search_word,
     })
 
 

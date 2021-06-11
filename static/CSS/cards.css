@@ -11,14 +11,15 @@
     text-decoration: none;
 }
 
-.crys {
+a.crys {
     font-family: Arial;
     font-size: .8em;
     text-align: center;
     margin: 3px;
+    display: inline;
 }
 
-.crys:link, .crys:visited {
+a.crys:link, .crys:visited {
     color: white;
     background-image: url(../image/bcryst.jpg);
     background-size: 130%;
@@ -28,7 +29,7 @@
 
 }
 
-.crys:hover {
+a.crys:hover {
     color: red;
 }
 

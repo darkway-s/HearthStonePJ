@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('cards', views.cards, name='cards'),
+    path('search_cards', views.search_cards, name='search_cards'),
 
     path('mycollection', views.mycollection, name='mycollection'),
     path('mycollection_comp', views.mycollection_comp, name='mycollection_comp'),
@@ -21,7 +22,6 @@ urlpatterns = [
     path('manage/card/add', views.card_create, name='card_create'),
     path('test', views.test, name='test'),
 
-    path('test', views.test, name='test'),
     path('manage/card/add_sub', views.add_sub, name='add_sub'),
     path('manage/summonerclass_list', views.summonerclass_list, name='summonerclass_list'),
     path('manage/summonerclass_add', views.summonerclass_add, name='summonerclass_add'),
