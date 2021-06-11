@@ -1,5 +1,5 @@
 from Hs import forms
-from Hs.models import Card, SummonerClass, Keyword, RaceClass, SetClass
+from Hs.models import Card, SummonerClass, Keyword, RaceClass, SetClass, User
 
 
 # 更新卡牌的关键词
@@ -79,3 +79,10 @@ def raceclass(sid, name):
     _raceclass.name = name
     _raceclass.save()
     return _raceclass
+
+
+# 为对应用户增加相应的奥术之尘
+def arc_up(obj_user: User, number: int):
+    obj_user.arc_dust += number
+    obj_user.save()
+    return True

@@ -331,6 +331,19 @@ def deck_card_list(s_deck):
     return _card_list
 
 
+# 列出一个用户的所有套牌中用到的卡tuple
+def deck_used_card_list(cur_user):
+    used_card_list = []
+    # 列出一个用户的所有套牌
+    deck_list = deck_all_of_user(cur_user)
+    for _deck in deck_list:
+        _card_list = deck_card_list(_deck)
+        used_card_list.extend(_card_list)
+    # 去重复
+    used_card_list = list(set(used_card_list))
+    return used_card_list
+
+
 # 输入deck，user，返回这个deck可用职业的，并且在user卡牌收藏里的所有tuple
 def deck_available_cards(obj_user: User, obj_deck):
     _cards_list = user_card_all(obj_user)
@@ -376,3 +389,12 @@ def card_list2user_tuple_list(card_list, obj_user):
             _obj = user_card_match(obj_user, _card)
             _tuple = (_card, _obj.amount)
             _tuple_list.append()
+
+
+# 返回所有的用户
+def user_all():
+    return select_all(User)
+
+
+def user_match_id(s_id):
+    return match_id(User, s_id)
