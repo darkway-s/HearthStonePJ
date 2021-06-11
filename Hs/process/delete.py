@@ -84,26 +84,30 @@ def collection_one(cur_user, s_card):
         return price
 
     # TODO
-    """
-    _object = select.user_card_match(cur_user, s_card)
-    
-    
+
+    _object_user_card = select.user_card_match(cur_user, s_card)
+    # 对应tuple(card, amount)
+    _object = (s_card, _object_user_card.amount)
     used_list = select.deck_used_card_list(cur_user)
-    
-    if _object in used_list or (_object[0], 1) in used_list:
-        # 可能存在危险
-        # 以下情况有危险:
-        # 1. 删除一张只有一张的卡牌，但是used_list中要用
-        # 2. 删除一张有两张的卡牌，但是used_list中要用两张
+    print("下面是分解一张卡牌的used_list")
+    print(used_list)
+    print(_object)
+
+    # 可能存在危险
+    # 以下情况有危险:
+    # 1. 删除一张只有一张的卡牌，但是used_list中要用一张。处理：在deck中删除这张
+    # 2. 删除一张有两张的卡牌，但是used_list中要用两张。处理：在deck中使得这张的数量-1
+
+    if _object in used_list:
         if _object[1] == 1:
             print("删除该卡会导致部分套牌不可用!")
             return -1
         elif _object[1] == 2 and _object in used_list:
             print("删除该卡会导致部分套牌不可用!")
             return -1
-    """
+
     # 放心地删除
-    appreciate = decompose(_object, s_card, cur_user)
+    appreciate = decompose(_object_user_card, s_card, cur_user)
     print("正常分解")
     return appreciate
 
