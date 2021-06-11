@@ -7,10 +7,6 @@ urlpatterns = [
     path('cards', views.cards, name='cards'),
     path('search_cards', views.search_cards, name='search_cards'),
 
-    path('mycollection', views.mycollection, name='mycollection'),
-    path('mycollection_comp', views.mycollection_comp, name='mycollection_comp'),
-    path('mycollection_deck', views.mycollection_deck, name='mycollection_deck'),
-
     path('keyword_list', views.keyword_list, name='keyword_list'),
     path('keyword_add', views.keyword_add, name='keyword_add'),
     re_path(r'^keyword_edit', views.keyword_edit, name='keyword_edit'),
@@ -44,6 +40,10 @@ urlpatterns = [
     path('manage/user_add', views.user_add, name='user_add'),
     path('manage/user_add_sub', views.user_add_sub, name='user_add_sub'),
 
+    path('mycollection', views.mycollection, name='mycollection'),
+    path('mycollection_comp', views.mycollection_comp, name='mycollection_comp'),
+    path('mycollection_deck', views.mycollection_deck, name='mycollection_deck'),
+
     path('cd_comp', views.cd_comp, name='cd_comp'),
     path('cd_decomp', views.cd_decomp, name='cd_decomp'),
 
@@ -51,4 +51,5 @@ urlpatterns = [
     path('dk_card_add', views.dk_card_add, name='dk_card_add'),
     path('dk_new', views.dk_new, name='dk_new'),
     path('dk_new_sb', views.dk_new_sb, name='dk_new_sb'),
+    path('dk_del', views.dk_del, name='dk_del'),
 ]

@@ -34,12 +34,15 @@
                 </li>
                 {% for dk in dk_list %}
                     <li>
-                        <a class="add" href="{% url 'Hs:mycollection_deck' %}?dk_id={{ dk.id }}">{{ dk.name }}</a>
+                        <a class="main" href="{% url 'Hs:mycollection_deck' %}?dk_id={{ dk.id }}">{{ dk.name }}</a>
+                    </li>
+                    <li>
+                        <a class="add" href="{% url 'Hs:dk_del' %}?dk_id={{ dk.id }}&pos={{ pos }}">删除</a>
                     </li>
                 {% empty %}
                 {% endfor %}
                 <li>
-                    <a class="add" href="{% url 'Hs:dk_new' %}">新建套牌</a>
+                    <a class="main" href="{% url 'Hs:dk_new' %}">新建套牌</a>
                 </li>
             </ul>
         </div>

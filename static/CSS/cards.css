@@ -40,6 +40,7 @@ a.crys:hover {
     background-position: center;
     padding: 3px;
     color: black;
+    width: 80px;
 }
 
 .dropdown p {
@@ -49,6 +50,7 @@ a.crys:hover {
     color: black;
     margin: 0;
     border: 2px black;
+    width: 80px;
 }
 
 .dropdown a {

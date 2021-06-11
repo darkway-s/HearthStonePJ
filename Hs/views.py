@@ -60,7 +60,7 @@ def mycollection(request):
     dk_list = select.deck_all_of_user(cur_user)
     return render(request, 'Hs/mycollection.html', context={
         'tp_list': tp_list,
-        'pos': request.path,
+        'pos': request.get_full_path(),
         'dk_list': dk_list,
     })
 
@@ -82,7 +82,8 @@ def mycollection_comp(request):
         print(_own)
     return render(request, 'Hs/mycollection.html', context={
         'tp_list': _own_list,
-        'pos': request.path,
+        'pos': request.get_full_path(),
+        'dk_list': select.deck_all_of_user(cur_user)
     })
 
 
@@ -439,6 +440,7 @@ def dk_new(request):
     return render(request, 'Hs/mycollection_new_deck.html', context={
         'sc_list': sc_list,
         'dk_list': dk_list,
+        'pos': request.get_full_path(),
     })
 
 
@@ -451,6 +453,12 @@ def dk_new_sb(request):
     add.deck_null(request.user, n_name, sc)
     return redirect('/dk_new')
 
+
+def dk_del(request):
+    dk_id = request.GET.get('dk_id')
+    dk = select.deck_match_id(dk_id)
+    delete.deck(dk)
+    return redirect(request.GET.get('pos'))
 
 def test(request):
     obj = select.card_all()[0]
