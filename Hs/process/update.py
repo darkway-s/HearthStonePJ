@@ -34,7 +34,8 @@ def card(sid, n_name, n_type, n_rarity, n_set, n_card_class, n_collectible, n_ke
     _card.health = n_health
     _card.description = n_description
     _card.background = n_background
-    _card.img = n_img
+    if n_img is not None:
+        _card.img = n_img
 
     # 外键更新
     _card.set_id = n_set
@@ -42,6 +43,7 @@ def card(sid, n_name, n_type, n_rarity, n_set, n_card_class, n_collectible, n_ke
     # ManyToManyField更新
     _card.card_class.set(n_card_class)
     _card.keyword.set(n_keyword)
+    _card.save()
     return _card
 
 

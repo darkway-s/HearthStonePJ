@@ -163,21 +163,19 @@ def card_vague_search(search_word, card_list=card_all()):
 
     # 类型精确搜索
     s_type = type_match(search_word)
-    print(s_type)
-    print(s_type[1])
-    if search_word == s_type[1]:
-        print("二者相等")
-    else:
-        print("二者不等")
-
     if s_type == -1:
-        print("没有找到对应的type")
         set5 = Card.objects.none()
     else:
         set5 = card_strict_type(s_type=s_type[0], card_list=card_list)
 
-        print(set5)
-    _set = _set.distinct().union(set2, set3, set4, set5)
+    # 稀有度精确搜索
+    s_rarity = rarity_match(search_word)
+    if s_rarity == -1:
+        set6 = Card.objects.none()
+    else:
+        set6 = card_strict_rarity(s_rarity=s_rarity[0], card_list=card_list)
+
+    _set = _set.distinct().union(set2, set3, set4, set5, set6)
     return _set
 
 
@@ -225,6 +223,32 @@ def type_match(s_name):
     for i in range(0, 3):
         if s_name == Card.TYPE_CHOICES[i][1]:
             return Card.TYPE_CHOICES[i]
+    return -1
+
+
+def card_strict_rarity(s_rarity, card_list=card_all()):
+    _card_list = card_list.filter(rarity=s_rarity)
+    return _card_list
+
+
+"""
+RARITY_CHOICE = (
+        ('basic', '基本'),
+        ('common', '普通'),
+        ('rare', '稀有'),
+        ('epic', '史诗'),
+        ('legend', '传说')
+    )
+"""
+
+
+# 根据稀有度名字返回对应type
+# 若没找到对应type，则返回-1
+def rarity_match(s_name):
+    print("s_name = " + s_name)
+    for i in range(0, 5):
+        if s_name == Card.RARITY_CHOICE[i][1]:
+            return Card.RARITY_CHOICE[i]
     return -1
 
 
