@@ -65,7 +65,7 @@
                 <li class="build"><b>攻击力: </b>{{ cd.attack }}</li>
                 <li class="build"><b>生命值: </b>{{ cd.health }}</li>
                 <!-- 卡牌描述 -->
-                <li class="desc"><b>描述: </b>{{ cd.description }}</li>
+                <li class="desc"><b>描述: </b>{{ cd.description | safe }}</li>
                 <li class="desc"><b>背景故事: </b>{{ cd.background }}</li>
                 <!-- 种族 -->
                 <li class="race"><b>种族: </b>{{ cd.race }}</li>

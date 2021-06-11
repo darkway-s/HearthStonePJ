@@ -154,6 +154,7 @@ def card_match_id(s_id):
 # 整体模糊搜索
 def card_vague_search(search_word, card_list=card_all()):
     _set = Card.objects.none()
+    # 因为关键词在description中都有，所以就不对keyword进行select了
     """
     # 关键词模糊搜索
     list1 = []
