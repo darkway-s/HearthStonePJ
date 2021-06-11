@@ -104,6 +104,7 @@ def mycollection_deck(request):
         dk_sel_id = request.GET.get('dk_id', default='')
         if dk_sel_id != '':
             dk_sel = select.deck_match_id(dk_sel_id)
+            tp_list = select.deck_available_cards(cur_user, dk_sel)
             dk_card_list = select.deck_card_list(dk_sel)
             for dk_card in dk_card_list:
                 print(dk_card[0].name)
