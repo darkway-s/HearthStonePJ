@@ -151,7 +151,8 @@ def card_match_id(s_id):
 
 
 # 整体模糊搜索
-def card_vague_search(search_word):
+def card_vague_search(search_word, card_list=card_all()):
+    """
     # 关键词模糊搜索
     list1 = []
     _keyword_list = keyword(s_name=search_word)
@@ -161,18 +162,18 @@ def card_vague_search(search_word):
         list1.extend(keyword_card_list)
     # 含有所有可能关键词的可能卡牌列表
     list1 = list(set(list1))
-
+    """
     # 卡牌名模糊搜索
-    list2 = card_vague_name(s_name=search_word)
+    set2 = card_vague_name(s_name=search_word, card_list=card_list)
 
     # 卡牌描述模糊搜索
-    list3 = card_vague_description(s_description=search_word)
-    _list = list1
-    _list.extend(list2)
-    _list.extend(list3)
-    _list = list(set(_list))
+    set3 = card_vague_description(s_description=search_word, card_list=card_list)
 
-    return _list
+    _set = set2
+
+    _set = _set.distinct().union(set3)
+
+    return _set
 
 
 # 模糊名称搜索卡牌

@@ -29,15 +29,18 @@ def cards(request):
 
 @csrf_exempt
 def search_cards(request):
+    cd_list = select.card_all()
     sc_list = select.summonerclass_all()
     search_word = request.POST.get('search_word')
-    cd_list = select.card_vague_search(search_word)
     sc_sel = request.POST.get('sc')
     cost_sel = request.POST.get('cst')
+
     if cost_sel != '-1':
         cd_list = select.card_strict(_card_list=cd_list, s_cost=cost_sel)
     if sc_sel != '所有职业':
         cd_list = select.card_strict(_card_list=cd_list, s_class_name=sc_sel)
+
+    cd_list = select.card_vague_search(search_word, cd_list)
 
     return render(request, 'Hs/cards.html', context={
         'class': '选择职业' if sc_sel == '' else sc_sel,

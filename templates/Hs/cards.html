@@ -69,6 +69,12 @@
                 <li class="desc"><b>背景故事: </b>{{ cd.background }}</li>
                 <!-- 种族 -->
                 <li class="race"><b>种族: </b>{{ cd.race }}</li>
+                <li class="race"><b>职业: </b>
+                    {% for cls in cd.card_class.all %}
+                        {{ cls }},
+                    {% endfor %}
+                </li>
+
             </ul>
         </div>
     {% empty %}
