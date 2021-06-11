@@ -508,13 +508,17 @@ def setclass_drop(request):
 
 
 def user_list(request):
-    return render(request, 'Hs/card_create.html', context={
+    us_list = select.user_all()
+    return render(request, 'Hs/user_list.html', context={
+        'us_list': us_list
     })
 
 
 def user_add(request):
-    return render(request, 'Hs/card_create.html', context={
-    })
+    id = request.GET.get('id')
+    us_add = select.user_match_id(id)
+    update.arc_up(us_add, 1000)
+    return redirect('/user_list')
 
 
 def user_add_sub(request):

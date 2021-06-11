@@ -23,7 +23,7 @@
         <li><a href="{% url 'Hs:register' %}">注册</a></li>
     {% endif %}
 </ul>
-
+{% if user.is_staff %}
 <div class="row">
     <div class="column side">
         <ul class="nav_vert">
@@ -73,6 +73,9 @@
         </table>
     </div>
 </div>
+{% else %}
+    <h2>您应该先登录以使用我的收藏功能</h2>
+{% endif %}
 
 </body>
 </html>

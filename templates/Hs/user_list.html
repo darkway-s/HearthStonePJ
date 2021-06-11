@@ -6,7 +6,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="{% static 'CSS/manage.css' %}" type="text/css" rel="stylesheet">
-    <link href="{% static 'CSS/summonerclass_list.css' %}" type="text/css" rel="stylesheet">
 
 
 </head>
@@ -52,18 +51,33 @@
         </div>
 
         <div class="column body">
-            <h2>修改关键词</h2>
-            <form method="post" enctype="multipart/form-data" action="/keyword_edit/?id={{ id }}">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="OK"/>
+            <h2>
+                <th>用户列表</th>
+            </h2>
+            <table>
 
-
-            </form>
+                <tbody>
+                {% for us in us_list %}
+                    <tr>
+                        <td>{{ us.username }} </td>
+                        <td>奥术之尘：{{ us.arc_dust }}</td>
+                        <td>
+                        <td class="text-center">
+                            <a class="btn btn-info btn-sm" href="{% url 'Hs:user_add' %}?id={{ us.id }}"><i
+                                    class="fa fa-pencil fa-fw"
+                                    aria-hidden="true"></i>增加奥术之尘
+                            </a>
+                        </td>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% else %}
-    <h2>您没有此界面的访问权限</h2>
+    <h2>您应该先登录以使用我的收藏功能</h2>
 {% endif %}
+
 </body>
 </html>

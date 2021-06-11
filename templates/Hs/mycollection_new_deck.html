@@ -24,13 +24,16 @@
         <div class="column side">
             <ul class="nav_vert">
                 <li>
-                    <a class="main active" href="{% url 'Hs:mycollection' %}">我的卡牌</a>
+                    <a class="main active" href="#">卡牌管理</a>
+                </li>
+                <li>
+                    <a class="main" href="{% url 'Hs:mycollection' %}">我的卡牌</a>
                 </li>
                 <li>
                     <a class="main" href="{% url 'Hs:mycollection_comp' %}">卡牌制作</a>
                 </li>
                 <li>
-                    <a class="add" href="#">套牌管理</a>
+                    <a class="add active" href="#">套牌管理</a>
                 </li>
                 {% for dk in dk_list %}
                     <li>
@@ -42,7 +45,7 @@
                 {% empty %}
                 {% endfor %}
                 <li>
-                    <a class="main" href="{% url 'Hs:dk_new' %}">新建套牌</a>
+                    <a class="main active" href="{% url 'Hs:dk_new' %}">新建套牌</a>
                 </li>
             </ul>
         </div>

@@ -376,3 +376,11 @@ def card_list2user_tuple_list(card_list, obj_user):
             _obj = user_card_match(obj_user, _card)
             _tuple = (_card, _obj.amount)
             _tuple_list.append()
+
+
+def user_all():
+    return select_all(User)
+
+
+def user_match_id(s_id):
+    return match_id(User, s_id)
