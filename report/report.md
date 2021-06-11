@@ -28,7 +28,7 @@
 
 在`windows10`上进行开发，
 
-使用`django`自带的`admin`进行数据库管理(version==3.2.3)
+使用`django`自带的`admin`进行数据库管理(version==3.2.3)，Navitcat进行辅助
 
 数据库选用`SQLite`
 
@@ -37,6 +37,8 @@
 web开发环境
 
 # 三、数据库设计
+
+## 模型设计
 
 整个数据库共11个表，围绕Card表展开。
 
@@ -132,6 +134,8 @@ arc_dust BigInt：奥术之尘数量（卡牌合成与分解所用到的货币�
 
 ### Deck套牌
 
+> 类内部存在变量MAX_CARDS_IN_DECK，作为规定每张套牌的上限
+
 id int：主键，自增
 
 name char：名称
@@ -144,19 +148,7 @@ owner(user_id)：外键约束to User，串联删除与更新
 
 ### class_card卡牌所属职业
 
-> 这是一个多对一关系，因为多职业卡的存在，一张卡可能会对应多个职业。但是每张卡牌都必须有至少有一个职业
-
-id int：主键
-
-SummonerClass_id int：职业
-
-Card_id int：卡牌
-
-### class_card卡牌所属职业
-
-> 这是一个多对多关系，因为多职业卡的存在，一张卡可能会对应多个职业。但是每张卡牌都必须有至少有一个职业
-
-id int：主键
+> 这是一个多对一关系，因为多职业卡的存在，一张卡可能会对应多个职业。但是每张卡牌都必须有至少有一个职业。主键为这两个属性的并
 
 SummonerClass_id int：职业
 
@@ -164,17 +156,135 @@ Card_id int：卡牌
 
 ### keyword_card卡牌中包含的关键词
 
-> 这是一个多对多关系，因为多职业卡的存在，一张卡可能会对应多个职业。但是每张卡牌都必须有至少有一个职业
-
-id int：主键
+> 这是一个多对多关系，因为多职业卡的存在，一张卡可能会对应多个职业。一张卡不一定有一个关键词，主键为这两个属性的并
 
 Keywords_id int：职业
 
 Card_id int：卡牌
 
-![image-20210611205518209](image-20210611205518209.png)
 
 
+### UserCard用户拥有的卡牌
+
+> 这是一个多对多关系，主键为(User_id, Card_id)
+
+User_id：用户
+
+Card_id：卡牌
+
+amount：卡牌数量， check(amount >= 0) as collection_minimum
+
+
+
+### DeckCard套牌内的卡牌
+
+> 这是一个多对多关系，主键为(User_id, Card_id)
+
+Deck_id：套牌
+
+Card_id：卡牌
+
+amount：卡牌数量， check(amount >= 0) as collection_minimum
+
+
+
+下面是数据库的**E-R图**：
+
+
+
+![image-20210611213424122](image-20210611213424122.png)
+
+## 视图、触发器与过程
+
+> 由于django的性质，以上用python文件实现
+>
+> 在`Hs/process`下的`select.py,add.py,update.py,delete.py`中实现了很多，这里仅作举例
+
+视图举例：
+
+模糊搜索卡牌的相关属性，返回一个`<QuerySet>` （相关函数见源码`Hs/process/select.py`）
+
+```python
+# 整体模糊搜索
+def card_vague_search(search_word, card_list=card_all()):
+    _set = Card.objects.none()
+    # 因为关键词在description中都有，所以就不对keyword进行select了
+
+    # 卡牌名模糊搜索
+    set2 = card_vague_name(s_name=search_word, card_list=card_list)
+
+    # 卡牌描述模糊搜索
+    set3 = card_vague_description(s_description=search_word, card_list=card_list)
+
+    # 种族精确搜索
+    set4 = card_strict_race(s_race_name=search_word, card_list=card_list)
+
+    # 类型精确搜索
+    s_type = type_match(search_word)
+    if s_type == -1:
+        set5 = Card.objects.none()
+    else:
+        set5 = card_strict_type(s_type=s_type[0], card_list=card_list)
+
+    # 稀有度精确搜索
+    s_rarity = rarity_match(search_word)
+    if s_rarity == -1:
+        set6 = Card.objects.none()
+    else:
+        set6 = card_strict_rarity(s_rarity=s_rarity[0], card_list=card_list)
+
+    _set = _set.distinct().union(set2, set3, set4, set5, set6)
+    return _set
+
+```
+
+触发器与过程举例：
+
+```python
+# 分解卡牌, 输入user类，卡牌类
+# 无这张卡牌则直接退出，有这张卡牌才会分解
+# 分解后若已无这张卡牌，则会删除,
+# 返回分解所得的奥术之尘数量
+# 若分解后会导致用户套牌库中卡牌数量不足,则返回-1
+def collection_one(cur_user, s_card):
+    def decompose(user_card_obj, obj_card, obj_user):
+        price = obj_card.decompose_price()
+        user_card_obj.amount -= 1
+        user_card_obj.save()
+        obj_user.arc_dust += price
+        obj_user.save()
+        # 无卡牌收藏则删除
+        if user_card_obj.amount == 0:
+            user_card_obj.delete()
+        return price
+
+
+    _object_user_card = select.user_card_match(cur_user, s_card)
+    # 对应tuple(card, amount)
+    _object = (s_card, _object_user_card.amount)
+    used_list = select.deck_used_card_list(cur_user)
+    print("下面是分解一张卡牌的used_list")
+    print(used_list)
+    print(_object)
+
+    # 可能存在危险
+    # 以下情况有危险:
+    # 1. 删除一张只有一张的卡牌，但是used_list中要用一张。处理：在deck中删除这张
+    # 2. 删除一张有两张的卡牌，但是used_list中要用两张。处理：在deck中使得这张的数量-1
+
+    if _object in used_list:
+        if _object[1] == 1:
+            print("删除该卡会导致部分套牌不可用!")
+            return -1
+        elif _object[1] == 2 and _object in used_list:
+            print("删除该卡会导致部分套牌不可用!")
+            return -1
+
+    # 放心地删除
+    appreciate = decompose(_object_user_card, s_card, cur_user)
+    print("正常分解")
+    return appreciate
+```
 
 
 

@@ -83,8 +83,6 @@ def collection_one(cur_user, s_card):
             user_card_obj.delete()
         return price
 
-    # TODO
-
     _object_user_card = select.user_card_match(cur_user, s_card)
     # 对应tuple(card, amount)
     _object = (s_card, _object_user_card.amount)
