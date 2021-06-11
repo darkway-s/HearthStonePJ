@@ -518,7 +518,7 @@ def user_add(request):
     id = request.GET.get('id')
     us_add = select.user_match_id(id)
     update.arc_up(us_add, 1000)
-    return redirect('/user_list')
+    return redirect('/manage/user_list')
 
 
 def user_add_sub(request):
