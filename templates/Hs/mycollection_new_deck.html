@@ -44,39 +44,23 @@
             </ul>
         </div>
         <div class="column body">
-            {{ message }}
-            {% for tp in tp_list %}
-                <div class="pic">
-                    <img width="187" height="259" src="../../media/{{ tp.0.img }}">
-                    <ul class="detail">
-                        <li class="btn_left"><a class="btn"
-                                                href="{% url 'Hs:cd_comp' %}?c_id={{ tp.0.id }}&pos={{ pos }}">制作</a>
-                        </li>
-                        <li class="btn_right"><a class="btn"
-                                                 href="{% url 'Hs:cd_decomp' %}?c_id={{ tp.0.id }}&pos={{ pos }}">分解</a>
-                        </li>
-                        <li class="title">{{ tp.0.name }}</li>
-                        <!-- 数量 -->
-                        <li class="amount">{{ tp.1 }}张</li>
-                        <!-- 身材三项 -->
-                        <li class="build"><b>法力消耗: </b>{{ tp.0.cost }}</li>
-                        <li class="build"><b>攻击力: </b>{{ tp.0.attack }}</li>
-                        <li class="build"><b>生命值: </b>{{ tp.0.health }}</li>
-                        <!-- 卡牌描述 -->
-                        <li class="desc"><b>描述: {{ tp.0.description }}</b></li>
-                        <li class="desc"><b>背景故事: {{ tp.0.background }}</b></li>
-                        <!-- 种族 -->
-                        <li class="race"><b>种族: </b>{{ tp.0.race }}</li>
-                        <li class="race"><b>职业: </b>
-                            {% for cls in tp.0.card_class.all %}
-                                {{ cls }},
-                            {% endfor %}
-                        </li>
-                    </ul>
-                </div>
-            {% empty %}
-                no cards yet
-            {% endfor %}
+            <form action="{% url 'Hs:dk_new_sb' %}" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                <p>
+                    套牌名：<input type="text" name="n_name">
+                </p>
+                <p>
+                    <select name="n_sc">
+                        {% for sc in sc_list %}
+                            <option value="{{ sc.id }}" selected="true">{{ sc }}</option>
+                        {% empty %}
+                        {% endfor %}
+                    </select>
+                </p>
+                <p>
+                    <input type="submit" value="保存">
+                </p>
+            </form>
         </div>
         <div class="column right">
 

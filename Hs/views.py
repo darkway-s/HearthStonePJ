@@ -31,7 +31,7 @@ def cards(request):
 def search_cards(request):
     sc_list = select.summonerclass_all()
     search_word = request.POST.get('search_word')
-    cd_list = select.card_vague_search(search_word)
+    cd_list = select.card_vague_name(search_word)
     sc_sel = request.POST.get('sc')
     cost_sel = request.POST.get('cst')
     if cost_sel != '-1':
@@ -428,6 +428,28 @@ def dk_card_add(request):
     cd_sel = select.card_match_id(cd_sel_id)
     message = add.deck_append(dk_sel, cd_sel)
     return redirect('/mycollection_deck?dk_id=' + request.GET.get('dk_id'))
+
+
+def dk_new(request):
+    cur_user = request.user
+    dk_list = select.deck_all_of_user(cur_user)
+    sc_list = select.summonerclass_all()
+    sc_list = sc_list.exclude(name='中立')
+    print(sc_list)
+    return render(request, 'Hs/mycollection_new_deck.html', context={
+        'sc_list': sc_list,
+        'dk_list': dk_list,
+    })
+
+
+@csrf_exempt
+def dk_new_sb(request):
+    n_name = request.POST.get('n_name')
+    n_sc = request.POST.get('n_sc')
+    print(n_sc)
+    sc = select.summonerclass_match_id(n_sc)
+    add.deck_null(request.user, n_name, sc)
+    return redirect('/dk_new')
 
 
 def test(request):

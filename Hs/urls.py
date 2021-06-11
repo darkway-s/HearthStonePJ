@@ -49,4 +49,6 @@ urlpatterns = [
 
     path('dk_card_rem', views.dk_card_rem, name='dk_card_rem'),
     path('dk_card_add', views.dk_card_add, name='dk_card_add'),
+    path('dk_new', views.dk_new, name='dk_new'),
+    path('dk_new_sb', views.dk_new_sb, name='dk_new_sb'),
 ]
