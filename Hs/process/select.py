@@ -64,7 +64,6 @@ def keyword_one(s_name='', *, sid=-1):
     return select1_one(Keyword, s_name, sid=sid)
 
 
-
 # 获得整个职业列表
 def summonerclass_all():
     return select_all(SummonerClass)
@@ -155,25 +154,17 @@ def card_match_id(s_id):
 def card_vague_search(search_word, card_list=card_all()):
     _set = Card.objects.none()
     # 因为关键词在description中都有，所以就不对keyword进行select了
-    """
-    # 关键词模糊搜索
-    list1 = []
-    _keyword_list = keyword(s_name=search_word)
-    for _keyword in _keyword_list:
-        # 含有该关键词的卡牌列表
-        keyword_card_list = _keyword.card_keyword.all()
-        list1.extend(keyword_card_list)
-    # 含有所有可能关键词的可能卡牌列表
-    list1 = list(set(list1))
-    """
+
     # 卡牌名模糊搜索
     set2 = card_vague_name(s_name=search_word, card_list=card_list)
 
     # 卡牌描述模糊搜索
     set3 = card_vague_description(s_description=search_word, card_list=card_list)
 
-    _set = _set.distinct().union(set2, set3)
+    # 种族模糊搜索
+    set4 = card_strict_race(s_race_name=search_word, card_list=card_list)
 
+    _set = _set.distinct().union(set2, set3, set4)
     return _set
 
 
@@ -186,6 +177,17 @@ def card_vague_name(s_name='', card_list=card_all()):
 def card_vague_description(s_description='', card_list=card_all()):
     _card_list = card_list.filter(description__contains=s_description)
     return _card_list
+
+
+def card_strict_race(s_race_name, card_list=card_all()):
+    try:
+        s_race = race_match(s_race_name)
+        race_s_card_list = s_race.card_race.all()
+        card_list = card_list.intersection(race_s_card_list)
+
+        return card_list
+    except RaceClass.DoesNotExist:
+        return Card.objects.none()
 
 
 # 搜索是否有匹配的合集名

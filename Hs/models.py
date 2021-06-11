@@ -110,7 +110,8 @@ class Card(models.Model):
     description = models.CharField('描述', max_length=100, blank=True)
     background = models.CharField('背景故事', max_length=200, blank=True)
     # 种族
-    race = models.ForeignKey(RaceClass, verbose_name='种族', on_delete=models.SET_NULL, null=True, blank=True)
+    race = models.ForeignKey(RaceClass, verbose_name='种族', on_delete=models.SET_NULL, null=True, blank=True,
+                             related_name='card_race')
 
     # 图片
     img = models.ImageField('图片', upload_to='card_img', null=True, default='default.png')
